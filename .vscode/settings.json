@@ -1,0 +1,27 @@
+{
+    "files.exclude": {
+        //".vscode": true,
+        ".idea": true,
+        "assets": true,
+        //"commands": true,
+        //"migrations": true,
+        "mail": true,
+        "runtime": true,
+        "tests": true,
+        "vagrant": true,
+        "widgets": true,
+        //"vendor": true,
+        ".bowerrc": true,
+        "composer.lock": true,
+        "index.php": true,
+        "requirements.php": true,
+        "LICENSE.md": true,
+        "yii": true,
+        "yii.bat": true,
+        "web/assets": true,
+		".settings": true,
+        "codeception.yml": true,
+        "docker-compose.yml": true,
+        "Vagrantfile": true
+    }
+}
