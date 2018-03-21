@@ -24,6 +24,7 @@ class m180315_085347_init extends Migration
         $this->createF1ContractMove();
         $this->сreateF1Claim();
         $this->сreateF1ClaimMove();
+        $this->сreateGMessage();
     }
 
     /**
@@ -37,6 +38,8 @@ class m180315_085347_init extends Migration
 
         $this->dropTable('{{%f1_claim_move}}');
         $this->dropTable('{{%f1_claim}}');
+
+        $this->dropTable('{{%g_message}}');
 
     }
 
@@ -174,23 +177,16 @@ class m180315_085347_init extends Migration
             '{{%g_message}}',
             [
                 'id' => $this->primaryKey(11),
-  
-
                 'message_type_id' => $this->integer(11)->notNull()->comment('ID типа'),
                 'message_status_id' => $this->integer(1)->notNull()->defaultValue(0)->comment('ID статуса'),
                 'message_status_text' => $this->text()->notNull()->comment('Сообщение об отправке или ошибке'),
                 'subject' => $this->string(250)->notNull()->comment('Тема'),
                 'body' => $this->text()->notNull()->comment('Текст сообщения'),
                 'send_to' => $this->string(250)->notNull()->comment('Кому (через ","'),
+                'insert_date' => $this->datetime()->notNull()->defaultExpression("CURRENT_TIMESTAMP")->comment('Дата создания'),
+                'send_after' => $this->datetime()->notNull()->comment('Отправить после'),
+                'send_date' => $this->datetime()->comment('Дата отправки'),
 
-                'insert_date' =>$this->datetime()->notNull()->defaultExpression("CURRENT_TIMESTAMP")->comment('Дата создания'),
-                'send_after' =>$this->datetime()->notNull()->comment('Отправить после'),
-                'send_date' =>$this->datetime()->comment('Дата отправки'),
-
-
-
-
-                
             ],
             $this->tableOptions
         );
