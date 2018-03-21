@@ -59,13 +59,13 @@ class m180315_085347_init extends Migration
                 'ref' => $this->string(20)->notNull()->comment('№ договора'), //ref
                 'status_deal' => $this->integer(11)->notNull()->comment('Текущий статус'), //statusDeal
                 'id_cis' => $this->integer(11)->null()->defaultValue(null)->comment('ID КИС'),
- 
+
             ],
             $this->tableOptions
         );
 
         $this->addCommentOnTable('{{%f1_contract}}', 'Договоры страхования');
-        
+
         $this->createIndex('idx_unique', '{{%f1_contract}}', ['req_id', 'ref'], true);
         $this->createIndex('idx_code', '{{%f1_contract}}', ['tl_code'], false);
 
@@ -93,10 +93,10 @@ class m180315_085347_init extends Migration
                 'is_current' => $this->integer(1)->notNull()->defaultValue(0)->comment('Является текущим'),
 
                 'insert_date' => $this->datetime()->notNull()->defaultExpression("CURRENT_TIMESTAMP")->comment('Дата создания записи'),
-                
+
                 'send_cis_date' => $this->datetime()->null()->defaultValue(null)->comment('Дата успешной отправки в КИС'),
                 'send_cis_message' => $this->text()->notNull()->comment('Сообщение об отправке в КИС'),
-                'send_cis_status_id' => $this->integer(11)->notNull()->comment('Статус отправки в КИС')
+                'send_cis_status_id' => $this->integer(11)->notNull()->comment('Статус отправки в КИС'),
             ],
             $this->tableOptions
         );
@@ -165,6 +165,36 @@ class m180315_085347_init extends Migration
             '{{%f1_claim}}', 'id',
             'CASCADE', 'CASCADE'
         );
+    }
+
+    private function сreateGMessage()
+    {
+
+        $this->createTable(
+            '{{%g_message}}',
+            [
+                'id' => $this->primaryKey(11),
+  
+
+                'message_type_id' => $this->integer(11)->notNull()->comment('ID типа'),
+                'message_status_id' => $this->integer(1)->notNull()->defaultValue(0)->comment('ID статуса'),
+                'message_status_text' => $this->text()->notNull()->comment('Сообщение об отправке или ошибке'),
+                'subject' => $this->string(250)->notNull()->comment('Тема'),
+                'body' => $this->text()->notNull()->comment('Текст сообщения'),
+                'send_to' => $this->string(250)->notNull()->comment('Кому (через ","'),
+
+                'insert_date' =>$this->datetime()->notNull()->defaultExpression("CURRENT_TIMESTAMP")->comment('Дата создания'),
+                'send_after' =>$this->datetime()->notNull()->comment('Отправить после'),
+                'send_date' =>$this->datetime()->comment('Дата отправки'),
+
+
+
+
+                
+            ],
+            $this->tableOptions
+        );
+
     }
 
 }
