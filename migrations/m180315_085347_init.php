@@ -32,15 +32,11 @@ class m180315_085347_init extends Migration
      */
     public function safeDown()
     {
-
         $this->dropTable('{{%f1_contract_move}}');
         $this->dropTable('{{%f1_contract}}');
-
         $this->dropTable('{{%f1_claim_move}}');
         $this->dropTable('{{%f1_claim}}');
-
         $this->dropTable('{{%g_message}}');
-
     }
 
     /**
@@ -50,28 +46,22 @@ class m180315_085347_init extends Migration
      */
     private function сreateF1Contract()
     {
-
         $this->createTable(
             '{{%f1_contract}}',
             [
                 'id' => $this->primaryKey(11),
-
                 'reg_date' => $this->date()->notNull()->comment('Дата регистрации'), //reqDate
                 'tl_code' => $this->string(5)->notNull()->comment('Технология страхования'), //tlCode
                 'req_id' => $this->string(20)->notNull()->comment('ID договора'), //reqId
                 'ref' => $this->string(20)->notNull()->comment('№ договора'), //ref
                 'status_deal' => $this->integer(11)->notNull()->comment('Текущий статус'), //statusDeal
                 'id_cis' => $this->integer(11)->null()->defaultValue(null)->comment('ID КИС'),
-
             ],
             $this->tableOptions
         );
-
         $this->addCommentOnTable('{{%f1_contract}}', 'Договоры страхования');
-
         $this->createIndex('idx_unique', '{{%f1_contract}}', ['req_id', 'ref'], true);
         $this->createIndex('idx_code', '{{%f1_contract}}', ['tl_code'], false);
-
     }
 
     /**
@@ -81,31 +71,23 @@ class m180315_085347_init extends Migration
      */
     private function createF1ContractMove()
     {
-
         $this->createTable('
         {{%f1_contract_move}}',
             [
                 'id' => $this->primaryKey(11),
                 'contract_id' => $this->integer(11)->notNull()->comment('ID договора'),
-
                 'date_report' => $this->date()->notNull()->comment('Дата отчета'), //date
-
                 'data_json' => $this->text()->notNull()->comment('Данные JSON'),
-
                 'status_deal' => $this->integer(11)->notNull()->comment('Статус'), //statusDeal
                 'is_current' => $this->integer(1)->notNull()->defaultValue(0)->comment('Является текущим'),
-
                 'insert_date' => $this->datetime()->notNull()->defaultExpression("CURRENT_TIMESTAMP")->comment('Дата создания записи'),
-
                 'send_cis_date' => $this->datetime()->null()->defaultValue(null)->comment('Дата успешной отправки в КИС'),
                 'send_cis_message' => $this->text()->notNull()->comment('Сообщение об отправке в КИС'),
                 'send_cis_status_id' => $this->integer(11)->notNull()->comment('Статус отправки в КИС'),
             ],
             $this->tableOptions
         );
-
         $this->addCommentOnTable('{{%f1_contract_move}}', 'История статусов договоров страхования');
-
     }
 
     /**
@@ -131,9 +113,7 @@ class m180315_085347_init extends Migration
             ],
             $this->tableOptions
         );
-
         $this->addCommentOnTable('{{%f1_claim}}', 'Заявки на страховые случаи ПБ');
-
         $this->createIndex('unique', '{{%f1_claim}}', ['doc_type', 'doc_num_pb', 'claim_id_pb'], true);
     }
 
@@ -158,11 +138,8 @@ class m180315_085347_init extends Migration
             ],
             $this->tableOptions
         );
-
         $this->addCommentOnTable('{{%f1_claim_move}}', 'История статусов заявок на страховые случаи ПБ');
-
         $this->createIndex('claim_id', '{{%f1_claim_move}}', ['claim_id'], false);
-
         $this->addForeignKey('fk_f1_claim_move_claim_id',
             '{{%f1_claim_move}}', 'claim_id',
             '{{%f1_claim}}', 'id',
@@ -172,7 +149,6 @@ class m180315_085347_init extends Migration
 
     private function сreateGMessage()
     {
-
         $this->createTable(
             '{{%g_message}}',
             [
@@ -186,11 +162,8 @@ class m180315_085347_init extends Migration
                 'insert_date' => $this->datetime()->notNull()->defaultExpression("CURRENT_TIMESTAMP")->comment('Дата создания'),
                 'send_after' => $this->datetime()->notNull()->comment('Отправить после'),
                 'send_date' => $this->datetime()->comment('Дата отправки'),
-
             ],
             $this->tableOptions
         );
-
     }
-
 }
