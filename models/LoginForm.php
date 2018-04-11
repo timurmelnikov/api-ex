@@ -13,8 +13,26 @@ use yii\base\Model;
  */
 class LoginForm extends Model
 {
-    public $username;
+    /**
+     * Имя пользователя
+     *
+     * @var string
+     * FIXME: "= 'timur'" - Убрать!!!
+     */
+    public $username = 'timur';
+
+    /**
+     * Пароль
+     *
+     * @var string
+     */
     public $password;
+
+    /**
+     * Запомнить меня
+     *
+     * @var boolean
+     */
     public $rememberMe = true;
 
     private $_user = false;
