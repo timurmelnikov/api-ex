@@ -6,7 +6,6 @@ namespace app\models;
  * Класс пользователей
  * FIXME: Авторизацию и контроль доступа сделать на RBAC
  */
-
 class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
 {
     public $id;
