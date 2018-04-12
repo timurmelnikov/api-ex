@@ -83,7 +83,7 @@ AppAsset::register($this);
 
         <footer class="footer">
             <div class="container">
-                <p class="pull-left">&copy; VUSO
+                <p class="pull-left">&copy; Timur Melnikov
                     <?= date('Y') ?>
                 </p>
 

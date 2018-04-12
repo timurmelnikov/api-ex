@@ -29,7 +29,10 @@ class Controller extends \yii\web\Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['index', 'login', 'logout', 'error'],
+                        'actions' => [
+                            'index', 'login', 'logout', 'error',
+
+                        ],
                         'allow' => true,
                         'roles' => ['@'],
                     ],

@@ -6,12 +6,20 @@ $db = require __DIR__ . '/db.php';
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'name'=>'Шина обмена Между сервисами СК ВУСО',
+    'name'=>'Межсервисный обмен ВУСО - партнеры',
     'bootstrap' => ['log'],
     'language'=>'ru',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
+    ],
+    'modules' => [
+        'f1' => [
+            'class' => 'app\modules\f1\Flow1',
+        ],
+        'f2' => [
+            'class' => 'app\modules\f2\Flow2',
+        ],
     ],
     'components' => [
         'request' => [
