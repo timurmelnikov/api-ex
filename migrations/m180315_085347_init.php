@@ -147,6 +147,11 @@ class m180315_085347_init extends Migration
         );
     }
 
+    /**
+     * Создание таблицы g_message
+     *
+     * @return null
+     */
     private function сreateGMessage()
     {
         $this->createTable(
@@ -166,4 +171,5 @@ class m180315_085347_init extends Migration
             $this->tableOptions
         );
     }
+
 }
