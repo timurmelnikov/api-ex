@@ -47,9 +47,9 @@ AppAsset::register($this);
             ['label' => 'Обработчики заявок',
             'items' => [
 
-                ['label' => 'Поток 1 (Приват)', 'url' => ['#']],
+                ['label' => 'Поток 1 (Приват)', 'url' => ['/f1/claim']],
                 '<li class="divider"></li>',
-                ['label' => 'Поток 2 (Busfor)', 'url' => ['#']],
+                ['label' => 'Поток 2 (Busfor)', 'url' => ['/f2']],
 
             ],
             'visible' => !Yii::$app->user->isGuest,

@@ -2,7 +2,7 @@
 
 namespace app\modules\f2\controllers;
 
-use app\common\Controller;
+use yii\web\Controller;
 
 /**
  * Default controller for the `f2` module

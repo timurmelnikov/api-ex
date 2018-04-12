@@ -6,7 +6,7 @@ $db = require __DIR__ . '/db.php';
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'name'=>'Межсервисный обмен ВУСО - партнеры',
+    'name'=>'Межсервисный обмен "ВУСО-партнеры"',
     'bootstrap' => ['log'],
     'language'=>'ru',
     'aliases' => [
@@ -16,9 +16,27 @@ $config = [
     'modules' => [
         'f1' => [
             'class' => 'app\modules\f1\Flow1',
+            'as access' => [
+                'class' => 'yii\filters\AccessControl',
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@']
+                    ],
+                ]
+            ],
         ],
         'f2' => [
             'class' => 'app\modules\f2\Flow2',
+            'as access' => [
+                'class' => 'yii\filters\AccessControl',
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@']
+                    ],
+                ]
+            ],
         ],
     ],
     'components' => [

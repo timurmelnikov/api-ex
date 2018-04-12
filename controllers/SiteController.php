@@ -2,13 +2,55 @@
 
 namespace app\controllers;
 
-use app\common\Controller;
+use yii\web\Controller;
 use app\models\LoginForm;
 use Yii;
 use yii\web\Response;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 
 class SiteController extends Controller
 {
+
+
+
+        /**
+     * {@inheritdoc}
+     * FIXME: Авторизацию и контроль доступа сделать на RBAC
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login'],
+                        'allow' => true,
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'actions' => [
+                            'index', 'login', 'logout', 'error',
+                         ],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+
+                ],
+            ],
+
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['post'],
+                   
+                ],
+            ],
+        ];
+    }
+
+
     // /**
     //  * {@inheritdoc}
     //  */
