@@ -1,12 +1,13 @@
 <?php
 
-namespace app\modules\f1\components;
+namespace app\common\components;
 
 use yii\base\Component;
 
 /**
- * Компонент работы с API CIS для
- * отправки/получения документов и статусов
+ * Общий для всего приложения компонент
+ * работы с API CIS для отправки/получения
+ * документов и статусов
  */
 class CIS extends Component
 {

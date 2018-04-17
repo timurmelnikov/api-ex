@@ -24,6 +24,7 @@ class m180315_085347_init extends Migration
         $this->createF1ContractMove();
         $this->сreateF1Claim();
         $this->сreateF1ClaimMove();
+        $this->сreateF2Contract();
         $this->сreateGMessage();
     }
 
@@ -36,6 +37,7 @@ class m180315_085347_init extends Migration
         $this->dropTable('{{%f1_contract}}');
         $this->dropTable('{{%f1_claim_move}}');
         $this->dropTable('{{%f1_claim}}');
+        $this->dropTable('{{%f2_contract}}');
         $this->dropTable('{{%g_message}}');
     }
 
@@ -145,6 +147,39 @@ class m180315_085347_init extends Migration
             '{{%f1_claim}}', 'id',
             'CASCADE', 'CASCADE'
         );
+    }
+
+
+    /**
+     * Создание таблицы f2_contract
+     * TODO: Будущая таблица для Прямого импорта ПриватБанк
+     * @return null
+     */
+    private function сreateF2Contract()
+    {
+        $this->createTable(
+            '{{%f2_contract}}',
+            [
+                'id' => $this->primaryKey(11),
+                'insert_date' => $this->datetime()->notNull()->defaultExpression("CURRENT_TIMESTAMP")->comment('Дата создания записи'),
+               
+                'contract_id' => $this->string(30)->notNull()->comment('ID договора'), //contractId
+                'sagr' => $this->string(2)->notNull()->comment('Серия договора'), //sagr
+                'nagr' => $this->string(7)->notNull()->comment('№ договора'), //nagr
+
+                'data_json' => $this->text()->notNull()->comment('Данные JSON'),
+                
+                'send_cis_date' => $this->datetime()->null()->defaultValue(null)->comment('Дата успешной отправки в КИС'),
+                'send_cis_message' => $this->text()->notNull()->comment('Сообщение об отправке в КИС'),
+                'send_cis_status_id' => $this->integer(11)->notNull()->comment('Статус отправки в КИС'),
+                'id_cis' => $this->integer(11)->null()->defaultValue(null)->comment('ID КИС'),
+            ],
+            $this->tableOptions
+        );
+         $this->addCommentOnTable('{{%f2_contract}}', 'Договоры страхования');
+         $this->createIndex('idx_unique', '{{%f2_contract}}', ['contract_id'], true);
+         $this->createIndex('idx_sagr', '{{%f2_contract}}', ['sagr'], false);
+         $this->createIndex('idx_nagr', '{{%f2_contract}}', ['nagr'], false);
     }
 
     /**
