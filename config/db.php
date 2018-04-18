@@ -1,14 +1,35 @@
 <?php
 
-return [
-    'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=api_ex',
-    'username' => 'root',
-    'password' => '111',
-    'charset' => 'utf8',
+require 'env_switch.php';
+require 'params.php';
 
-    // Schema cache options (for production environment)
-    //'enableSchemaCache' => true,
-    //'schemaCacheDuration' => 60,
-    //'schemaCache' => 'cache',
-];
+if ($use_config == 'test') {
+    return [
+        'class' => 'yii\db\Connection',
+        'dsn' => 'mysql:host=' . $params['s']['app_db_test']['host'] . ';dbname=' . $params['s']['app_db_test']['dbname'],
+        'username' => $params['s']['app_db_test']['username'],
+        'password' => $params['s']['app_db_test']['password'],
+        'charset' => 'utf8',
+
+        // Schema cache options (for production environment)
+        //'enableSchemaCache' => true,
+        //'schemaCacheDuration' => 60,
+        //'schemaCache' => 'cache',
+    ];
+}
+
+if ($use_config == 'go!') {
+    return [
+        'class' => 'yii\db\Connection',
+        'dsn' => 'mysql:host=' . $params['s']['app_db']['host'] . ';dbname=' . $params['s']['app_db']['dbname'],
+        'username' => $params['s']['app_db']['username'],
+        'password' => $params['s']['app_db']['password'],
+        'charset' => 'utf8',
+
+        // Schema cache options (for production environment)
+        //'enableSchemaCache' => true,
+        //'schemaCacheDuration' => 60,
+        //'schemaCache' => 'cache',
+    ];
+
+}
