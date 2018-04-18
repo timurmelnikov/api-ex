@@ -4,8 +4,8 @@ namespace app\modules\f2;
 
 /**
  * Поток 2
- * Обмен с Busfor
- * Продукты - TODO: указать продукты
+ * Обмен с ПриватБанк
+ * Прямой импорт ОСАГО
  */
 class Flow2 extends \yii\base\Module
 {

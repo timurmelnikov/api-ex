@@ -12,7 +12,7 @@ class F1Controller extends Controller
 {
 
     /**
-     * Получает документы по API партнера Потока 1
+     * Получает документы по API партнера
      * Вызов:
      * .\yii.bat f1/document-getter
      * D:\xampp\htdocs\api-ex\yii.bat f1/document-getter
@@ -26,7 +26,7 @@ class F1Controller extends Controller
     }
 
     /**
-     * Отправляет документы по API в КИС Потока 1
+     * Отправляет документы по API в КИС
      * Вызов:
      * .\yii.bat f1/document-sender
      * D:\xampp\htdocs\api-ex\yii.bat f1/document-sender
@@ -41,7 +41,7 @@ class F1Controller extends Controller
 
     /**
      * Обрабатывает заявки на страховые случаи
-     * посредством обмена (партнер-КИС и КИС-партнер) Потока 1
+     * посредством обмена (партнер-КИС и КИС-партнер)
      * Вызов:
      * .\yii.bat f1/claim-processor
      * D:\xampp\htdocs\api-ex\yii.bat f1/claim-processor

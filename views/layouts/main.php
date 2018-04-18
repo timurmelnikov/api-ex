@@ -44,12 +44,26 @@ AppAsset::register($this);
         'items' => [
             ['label' => 'Главная', 'url' => ['/site/index'], 'visible' => !Yii::$app->user->isGuest,],
 
+
+
+            ['label' => 'Тестирование API',
+            'items' => [
+
+                ['label' => 'Поток 1 (ПриватБанк)', 'url' => ['/f1']],
+                '<li class="divider"></li>',
+                ['label' => 'Поток 2 (ПриватБанк ОСАГО)', 'url' => ['/f2']],
+
+            ],
+            'visible' => !Yii::$app->user->isGuest,
+            ],
+
+
             ['label' => 'Обработчики заявок',
             'items' => [
 
-                ['label' => 'Поток 1 (Приват)', 'url' => ['/f1/claim']],
-                '<li class="divider"></li>',
-                ['label' => 'Поток 2 (Busfor)', 'url' => ['/f2']],
+                ['label' => 'Поток 1 (ПриватБанк)', 'url' => ['/f1/claim']],
+                //'<li class="divider"></li>',
+                //['label' => 'Поток 2 (ПриватБанк ОСАГО)', 'url' => ['/f2']],
 
             ],
             'visible' => !Yii::$app->user->isGuest,

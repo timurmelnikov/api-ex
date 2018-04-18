@@ -1,6 +1,20 @@
 <?php
 
 return [
-    's' => require dirname( __FILE__, 2 ) . '/common/security/passwords.php', //Конфиг с паролями и токенами
-    'adminEmail' => 'melnikovt@gmail.com',
+    /**
+     * Подключение конфикга с паролями и токенами
+     * папка /common/security внесена в .gitignore
+     */
+    's' => require dirname( __FILE__, 2 ) . '/common/security/accounts.php', 
+    
+    /**
+     * Краткое имя приложения
+     */
+    'shortName' => 'API Exchange',
+    
+    /**
+     * Версия
+     */
+    'version' => '0.0.1-dev'
+
 ];
