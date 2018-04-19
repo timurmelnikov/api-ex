@@ -14,21 +14,19 @@ use yii\httpclient\Client;
 class PB extends Component
 {
 
-    public function init(){
-
-        Yii::warning('init');
-
-    }
-
     /**
-     * Получает договоры из ПриватБанк
-     *
+     * Получает договоры по API из ПриватБанк
+     * 
+     * @param string $dateFrom Дата с
+     * @param string $dateTo Дата по
+     * @param array $state Массив состояний
+     * 
      * @return mixed
      */
-    public function contractGetter()
+    public function contractGetter($dateFrom, $dateTo, $state = ["CONCLUDED"])
     {
 
-        set_time_limit(Yii::$app->params['time_limit']);
+        set_time_limit(Yii::$app->params['e']['time_limit']);
 
         $client = new Client();
         $response = $client->createRequest()
@@ -37,21 +35,17 @@ class PB extends Component
             ->setHeaders(['Authorization' => Yii::$app->params['s']['pb_2']['token']])
             ->setFormat(Client::FORMAT_JSON)
             ->setData([
-                'dateFrom' => "2018-04-17T00:00:00.000",
-                'dateTo' => "2018-04-18T00:00:00.000",
-                'state' => ["CONCLUDED"],
+                'dateFrom' => $dateFrom.'T00:00:00.000',
+                'dateTo' =>  $dateTo.'T00:00:00.000',
+                'state' => $state,
             ])
             ->send();
 
         if ($response->isOk) {
-            //return ['success' => 1, 'message' => $response->getStatusCode(), 'data' => $response->data];
-            
-          
             return $response->data;
 
         } else {
             Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode());
-            //return ['success' => 0, 'message' => $response->getStatusCode()];
             return null;
         }
 

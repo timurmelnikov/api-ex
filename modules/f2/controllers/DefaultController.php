@@ -17,11 +17,7 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $pb = new PB();
-      
-
-        $data = $pb->contractGetter();
-
-
+        $data = $pb->contractGetter(date('Y-m-d', strtotime('-'.\Yii::$app->params['e']['f2']['report_days'].' day')), date('Y-m-d'));
 
         return $this->render('index', ['data' => $data]);
     }
