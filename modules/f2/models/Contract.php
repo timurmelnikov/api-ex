@@ -2,6 +2,7 @@
 
 namespace app\modules\f2\models;
 
+use app\modules\f2\components\PB;
 use Yii;
 
 /**
@@ -34,35 +35,47 @@ class Contract extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['insert_date', 'send_cis_date'], 'safe'],
-            [['contract_id', 'sagr', 'nagr', 'data_json', 'send_cis_message', 'send_cis_status_id'], 'required'],
-            [['data_json', 'send_cis_message'], 'string'],
-            [['send_cis_status_id', 'id_cis'], 'integer'],
-            [['contract_id'], 'string', 'max' => 30],
-            [['sagr'], 'string', 'max' => 2],
-            [['nagr'], 'string', 'max' => 7],
             [['contract_id'], 'unique'],
+            [['contract_id', 'sagr', 'nagr'], 'trim'],
+            [['insert_date',
+                'contract_id',
+                'sagr',
+                'nagr',
+                'data_json',
+                'send_cis_date',
+                'send_cis_message',
+                'send_cis_status_id',
+                'id_cis'], 'safe'],
+
+            // [['insert_date', 'send_cis_date'], 'safe'],
+            // [['contract_id', 'sagr', 'nagr', 'data_json', 'send_cis_message', 'send_cis_status_id'], 'required'],
+            // [['data_json', 'send_cis_message'], 'string'],
+            // [['send_cis_status_id', 'id_cis'], 'integer'],
+            // [['contract_id'], 'string', 'max' => 30],
+            // [['sagr'], 'string', 'max' => 2],
+            // [['nagr'], 'string', 'max' => 7],
+            // [['contract_id'], 'unique'],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'insert_date' => 'Дата создания записи',
-            'contract_id' => 'ID договора',
-            'sagr' => 'Серия договора',
-            'nagr' => '№ договора',
-            'data_json' => 'Данные JSON',
-            'send_cis_date' => 'Дата успешной отправки в КИС',
-            'send_cis_message' => 'Сообщение об отправке в КИС',
-            'send_cis_status_id' => 'Статус отправки в КИС',
-            'id_cis' => 'ID КИС',
-        ];
-    }
+    // public function attributeLabels()
+    // {
+    //     return [
+    //         'id' => 'ID',
+    //         'insert_date' => 'Дата создания записи',
+    //         'contract_id' => 'ID договора',
+    //         'sagr' => 'Серия договора',
+    //         'nagr' => '№ договора',
+    //         'data_json' => 'Данные JSON',
+    //         'send_cis_date' => 'Дата успешной отправки в КИС',
+    //         'send_cis_message' => 'Сообщение об отправке в КИС',
+    //         'send_cis_status_id' => 'Статус отправки в КИС',
+    //         'id_cis' => 'ID КИС',
+    //     ];
+    // }
 
     /**
      * Получает документы из API источника
@@ -71,6 +84,15 @@ class Contract extends \yii\db\ActiveRecord
      */
     public function contractGetter()
     {
+
+        $pb = new PB();
+        $data = $pb->contractGetter(date('Y-m-d', strtotime('-' . \Yii::$app->params['e']['f2']['report_days'] . ' day')), date('Y-m-d'));
+
+        foreach ($data as $item) {
+
+            $this->contractInsert($item);
+
+        }
 
     }
 
@@ -94,6 +116,28 @@ class Contract extends \yii\db\ActiveRecord
      */
     public function contractSender()
     {
+
+    }
+
+    /**
+     * Добавление договора в таблицу.
+
+     * @param $data
+     * @return void
+     */
+    private function contractInsert($data)
+    {
+
+        $model = Self::findOne(['contract_id' => $data['contractId']]);
+
+        if (!$model) {
+            $contract = new Contract();
+            $contract->contract_id = $data['contractId'];
+            $contract->sagr = $data['sagr'];
+            $contract->nagr = $data['nagr'];
+            $contract->data_json = json_encode($data, JSON_UNESCAPED_UNICODE);
+            $contract->save();
+        }
 
     }
 

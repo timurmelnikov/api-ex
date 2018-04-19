@@ -3,6 +3,7 @@
 namespace app\commands;
 
 use yii\console\Controller;
+use app\modules\f2\models\Contract;
 
 /**
  * Консольные инициаторы Потока 2
@@ -22,7 +23,11 @@ class F2Controller extends Controller
      */
     public function actionDocumentGetter()
     {
-        echo 'Hello f2 DocumentGetter !!!';
+        
+        $contract = new Contract();
+        $contract->contractGetter();
+        
+        echo 'Готово.';
     }
 
     /**
