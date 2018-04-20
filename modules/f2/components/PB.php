@@ -44,7 +44,7 @@ class PB extends Component
             return $response->data;
 
         } else {
-            Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode());
+            Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode(). ' Не удалось выполнить запрос.');
             return null;
         }
 

@@ -17,8 +17,14 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $cis = new Cis();
-        $data = $cis->idBlankGetter();
+        //$cis = new Cis();
+        //$data = $cis->idBlankGetter('АК', '8131803');
+        //$data = $cis->idPlaceGetter(42);
+
+        $contract = new Contract();
+        $contract->contractPreSender();
+
+        $data = 1;
 
         return $this->render('index', ['data' => $data]);
     }

@@ -2,6 +2,7 @@
 
 namespace app\modules\f2\models;
 
+use app\modules\f2\components\Cis;
 use app\modules\f2\components\PB;
 use Yii;
 
@@ -42,6 +43,8 @@ class Contract extends \yii\db\ActiveRecord
                 'sagr',
                 'nagr',
                 'data_json',
+                'id_blank',
+                'id_place',
                 'send_cis_date',
                 'send_cis_message',
                 'send_cis_status_id',
@@ -101,12 +104,36 @@ class Contract extends \yii\db\ActiveRecord
      * В данном случае, получает по API КИС:
      * - Бланки
      * - Места регистрации
-     *
+     * FIXME: Метод в разработке!!!
      * @return void
      */
     public function contractPreSender()
     {
+        $data = Self::find()
+            ->asArray()
+            ->where("send_cis_status_id = 0")
+            ->all();
 
+        if (!empty($data)) {
+
+            $cis = new Cis();
+
+            foreach ($data as $item) {
+
+                $sagr = trim($item['sagr']);
+                if ($sagr == 'AK') {
+                    $sagr = 'АК';
+                }
+
+    
+                $contract = Self::findOne($item['id']);
+                $contract->id_blank = $cis->idBlankGetter($sagr, trim($item['nagr']));
+                $contract->id_place = $cis->idPlaceGetter(json_decode($item['data_json'])->c_city);
+
+                $contract->update();
+
+            }
+        }
     }
 
     /**

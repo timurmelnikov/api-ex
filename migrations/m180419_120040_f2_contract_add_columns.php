@@ -13,8 +13,9 @@ class m180419_120040_f2_contract_add_columns extends Migration
     public function safeUp()
     {
 
-        $this->addColumn('{{%f2_contract}}', 'id_blank', $this->integer(11)->null()->comment('ID бланка КИС')->after('data_json')); 
-        $this->addColumn('{{%f2_contract}}', 'place_name', $this->string(50)->null()->comment('Место регистрации')->after('data_json'));
+        $this->addColumn('{{%f2_contract}}', 'id_place', $this->integer(11)->null()->comment('ID места регистрации')->after('data_json'));
+        $this->addColumn('{{%f2_contract}}', 'id_blank', $this->integer(11)->null()->comment('ID бланка КИС')->after('data_json'));
+
     }
 
     /**
@@ -28,17 +29,17 @@ class m180419_120040_f2_contract_add_columns extends Migration
     }
 
     /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
+// Use up()/down() to run migration code without a transaction.
+public function up()
+{
 
-    }
+}
 
-    public function down()
-    {
-        echo "m180419_120040_f2_contract_add_columns cannot be reverted.\n";
+public function down()
+{
+echo "m180419_120040_f2_contract_add_columns cannot be reverted.\n";
 
-        return false;
-    }
-    */
+return false;
+}
+ */
 }

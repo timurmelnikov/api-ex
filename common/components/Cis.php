@@ -62,12 +62,13 @@ class Cis extends Component
 
         set_time_limit(Yii::$app->params['e']['time_limit']);
 
-        $client = new Client();
-
         $request_data = [
             'login' => \Yii::$app->params['s']['cis_privat_bank']['username'],
             'pass' => \Yii::$app->params['s']['cis_privat_bank']['password'],
         ];
+        
+        $client = new Client();
+
         $response = $client->createRequest()
             ->setMethod('post')
             ->setUrl($this->url . '/cis/auth/login')
@@ -77,7 +78,7 @@ class Cis extends Component
         if ($response->isOk) {
             $this->session = $response->headers->get('set-cookie');
         } else {
-            Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode());
+            Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode(). ' Не удалось авторизироваться.');
         }
 
     }
@@ -96,9 +97,7 @@ class Cis extends Component
         $response = $client->createRequest()
             ->setMethod('post')
             ->setUrl($this->url . '/cis/auth/logoff')
-            ->addHeaders([
-                'Cookie' => $this->session,
-            ])
+            ->addHeaders(['Cookie' => $this->session])
             ->send();
     }
 
@@ -136,12 +135,8 @@ class Cis extends Component
         $response = $client->createRequest()
             ->setMethod('post')
             ->setUrl($this->url . $path)
-            ->addHeaders([
-                'Cookie' => $this->session,
-            ])
-            ->addHeaders([
-                'Content-Type' => 'text/plain;charset=UTF-8',
-            ])
+            ->addHeaders(['Cookie' => $this->session])
+            ->addHeaders(['Content-Type' => 'text/plain;charset=UTF-8'])
             ->setContent($requestData)
             ->setOptions([])
             ->send();
@@ -149,7 +144,7 @@ class Cis extends Component
         if ($response->isOk) {
             return $response->data;
         } else {
-            Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode());
+            Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode(). ' Не удалось выполнить запрос к КИС-WEB');
             return false;
         }
 

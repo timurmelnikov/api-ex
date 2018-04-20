@@ -171,7 +171,7 @@ class m180315_085347_init extends Migration
                 
                 'send_cis_date' => $this->datetime()->null()->defaultValue(null)->comment('Дата успешной отправки в КИС'),
                 'send_cis_message' => $this->text()->notNull()->comment('Сообщение об отправке в КИС'),
-                'send_cis_status_id' => $this->integer(11)->notNull()->comment('Статус отправки в КИС'),
+                'send_cis_status_id' => $this->integer(11)->notNull()->defaultValue(0)->comment('Статус отправки в КИС'),
                 'id_cis' => $this->integer(11)->null()->defaultValue(null)->comment('ID КИС'),
             ],
             $this->tableOptions
