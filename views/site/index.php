@@ -8,6 +8,6 @@ $this->title = 'Главная';
 
   <?php
 
- //echo \Yii::$app->params['e']['f2']['how_many_days'];
+ //echo \Yii::$app->params['s']['cis_all_users']['url']
    ?>
 </div>

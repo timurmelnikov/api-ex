@@ -7,20 +7,19 @@ use yii\base\Component;
 use yii\httpclient\Client;
 
 /*
- * Класс работы с данными из ПриватБанк
- * Прямой импорт ОСАГО
+ * Класс работы с данными из ПриватБанк.
+ * Прямой импорт ОСАГО.
  */
-
 class PB extends Component
 {
 
     /**
-     * Получает договоры по API из ПриватБанк
-     * 
+     * Получает договоры по API из ПриватБанк.
+     *
      * @param string $dateFrom Дата с
      * @param string $dateTo Дата по
      * @param array $state Массив состояний
-     * 
+     *
      * @return mixed
      */
     public function contractGetter($dateFrom, $dateTo, $state = ["CONCLUDED"])
@@ -35,8 +34,8 @@ class PB extends Component
             ->setHeaders(['Authorization' => Yii::$app->params['s']['pb_2']['token']])
             ->setFormat(Client::FORMAT_JSON)
             ->setData([
-                'dateFrom' => $dateFrom.'T00:00:00.000',
-                'dateTo' =>  $dateTo.'T00:00:00.000',
+                'dateFrom' => $dateFrom . 'T00:00:00.000',
+                'dateTo' => $dateTo . 'T00:00:00.000',
                 'state' => $state,
             ])
             ->send();
