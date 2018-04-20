@@ -2,11 +2,12 @@
 
 namespace app\common\components;
 
+use Yii;
 use yii\base\Component;
 use yii\httpclient\Client;
 
 /**
- * Класс работы с данными из КИС
+ * Работа с КИС
  */
 class Cis extends Component
 {
@@ -41,32 +42,31 @@ class Cis extends Component
 
     public function __construct()
     {
-        //set_time_limit(300);
         $this->url = \Yii::$app->params['s']['cis_all_users']['url'];
-
-        //$this->client = new Client();
-        //$this->login();
-        //sleep(1);
+        $this->cisLogin();
+        sleep(1);
     }
 
     public function __destruct()
     {
-        $this->logout();
+        $this->cisLogout();
     }
 
     /**
      * Авторизация в КИС-WEB
      *
-     * @return mixed
+     * @return void
      */
-    private function CisLogin()
+    private function cisLogin()
     {
+
+        set_time_limit(Yii::$app->params['e']['time_limit']);
 
         $client = new Client();
 
         $request_data = [
-            'login' => \Yii::$app->params['sequrity']['CISPBDirectImport']['username'],
-            'pass' => \Yii::$app->params['sequrity']['CISPBDirectImport']['password'],
+            'login' => \Yii::$app->params['s']['cis_privat_bank']['username'],
+            'pass' => \Yii::$app->params['s']['cis_privat_bank']['password'],
         ];
         $response = $client->createRequest()
             ->setMethod('post')
@@ -76,13 +76,9 @@ class Cis extends Component
 
         if ($response->isOk) {
             $this->session = $response->headers->get('set-cookie');
-            $data = $response->data;
-
         } else {
-            $data = ['success' => 'false'];
+            Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode());
         }
-
-        return $data;
 
     }
 
@@ -91,10 +87,12 @@ class Cis extends Component
      *
      * @return void
      */
-    private function CisLogout()
+    private function cisLogout()
     {
+        set_time_limit(Yii::$app->params['e']['time_limit']);
 
         $client = new Client();
+
         $response = $client->createRequest()
             ->setMethod('post')
             ->setUrl($this->url . '/cis/auth/logoff')
@@ -116,7 +114,7 @@ class Cis extends Component
      *
      * @return mixed
      */
-    public function CisRequest($path, $requestData, $mode = 0)
+    public function cisRequest($path, $requestData, $mode = 0)
     {
 
         set_time_limit(Yii::$app->params['e']['time_limit']);
@@ -133,7 +131,9 @@ class Cis extends Component
                 break;
         }
 
-        $response = $this->client->createRequest()
+        $client = new Client();
+
+        $response = $client->createRequest()
             ->setMethod('post')
             ->setUrl($this->url . $path)
             ->addHeaders([
@@ -150,7 +150,7 @@ class Cis extends Component
             return $response->data;
         } else {
             Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode());
-            return null;
+            return false;
         }
 
     }
