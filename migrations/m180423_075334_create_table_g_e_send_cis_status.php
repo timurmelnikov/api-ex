@@ -14,76 +14,75 @@ class m180423_075334_create_table_g_e_send_cis_status extends Migration
     {
         $this->createTable('{{%g_e_send_cis_status}}', [
             'id' => $this->primaryKey(11),
-            'id_status' => $this->integer(11)->notNull()->comment('ID статуса отправки в КИС'),
             'name' => $this->string(50)->notNull()->comment('Наименование'),
             'note' => $this->string(100)->null()->comment('Примечание'),
         ], 'ENGINE=InnoDB');
 
-        $this->createIndex('idx_unique_id_status', '{{%g_e_send_cis_status}}', ['id_status'], true);
         $this->addCommentOnTable('{{%g_e_send_cis_status}}', 'Перечисление статусов отправки в КИС');
 
-        /**
-         * FIXME: перенести в документацию (скорее всего в модель для таблицы g_e_send_cis_status)!!!
-         * 0   - Статус по умолчанию
-         * 100 - успех попадания в КИС
-         * 200 - нет необходимости отправки в КИС (дубликат, "незаливабельный статус")
-         * 300 - ПреСендер
-         * 800 - невозможность попадания в КИС (ошибка)
-         * 900 - мои статусы (игнорировать)
+
+        
+
+
+         /**
+         * Убираем автоинкримент
          */
+        $sql = "ALTER TABLE {{%g_e_send_cis_status}} CHANGE `id` `id` INT(11) NOT NULL";
+        $this->execute($sql);
+
 
         $this->insert('{{%g_e_send_cis_status}}', [
-            'id_status' => 0,
+            'id' => 0,
             'name' => 'Не определен',
-            'note' => 'Статус по умолчанию',
+            'note' => 'STATUS_DAFAULT - Статус по умолчанию',
         ]);
 
         $this->insert('{{%g_e_send_cis_status}}', [
-            'id_status' => 100,
+            'id' => 100,
             'name' => 'Отправлен',
-            'note' => 'Успешно отправлен в КИС и подписан',
+            'note' => 'STATUS_SEND - Успешно отправлен в КИС и подписан',
         ]);
 
         $this->insert('{{%g_e_send_cis_status}}', [
-            'id_status' => 101,
+            'id' => 101,
             'name' => 'Отправлен (не подписан)',
-            'note' => 'Успешно отправлен в КИС, но не подписан',
+            'note' => 'STATUS_SEND_NO_SIGN - Успешно отправлен в КИС, но не подписан',
         ]);
 
         $this->insert('{{%g_e_send_cis_status}}', [
-            'id_status' => 200,
+            'id' => 200,
             'name' => 'Не нужен',
-            'note' => 'Нет необходимости в отправке в КИС',
+            'note' => 'STATUS_NOT_NEEDED - Нет необходимости в отправке в КИС',
         ]);
 
         $this->insert('{{%g_e_send_cis_status}}', [
-            'id_status' => 201,
+            'id' => 201,
             'name' => 'Дубликат',
-            'note' => 'Уже существует в КИС',
+            'note' => 'STATUS_DUPLICATE - Уже существует в КИС',
         ]);
 
         $this->insert('{{%g_e_send_cis_status}}', [
-            'id_status' => 300,
+            'id' => 300,
             'name' => 'Обработан ПреСендером',
-            'note' => 'Обработан ПреСендером и может заливаться в КИС',
+            'note' => 'STATUS_PROCESSED_PRESENDER - Обработан ПреСендером и может заливаться в КИС',
         ]);
 
         $this->insert('{{%g_e_send_cis_status}}', [
-            'id_status' => 800,
+            'id' => 800,
             'name' => 'Ошибка',
-            'note' => 'В КИС не создан по причине ошибки',
+            'note' => 'STATUS_ERROR - Не удалось отправить в КИС',
         ]);
 
         $this->insert('{{%g_e_send_cis_status}}', [
-            'id_status' => 801,
+            'id' => 801,
             'name' => 'Ошибка Пресендера',
-            'note' => 'Не удалось подготовить данные для отправки в КИС',
+            'note' => 'STATUS_ERROR_PRESENDER - Не удалось подготовить Пресендером данные для отправки в КИС',
         ]);
 
         $this->insert('{{%g_e_send_cis_status}}', [
-            'id_status' => 900,
+            'id' => 900,
             'name' => 'Игнорировать',
-            'note' => 'Игнорировать отправку в КИС',
+            'note' => 'STATUS_IGNORE - Игнорировать отправку в КИС',
         ]);
 
     }

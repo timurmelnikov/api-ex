@@ -5,6 +5,7 @@ namespace app\modules\f2\models;
 use app\modules\f2\components\Cis;
 use app\modules\f2\components\PB;
 use Yii;
+use app\models\SendCisStatus;
 
 /**
  * This is the model class for table "f2_contract".
@@ -125,11 +126,16 @@ class Contract extends \yii\db\ActiveRecord
                     $sagr = 'АК';
                 }
 
-    
                 $contract = Self::findOne($item['id']);
 
                 $contract->id_blank = $cis->idBlankGetter($sagr, trim($item['nagr']));
                 $contract->id_place = $cis->idPlaceGetter(json_decode($item['data_json'])->c_city);
+
+                if ($contract->id_blank === null || $contract->id_place === null) {
+                    $contract->send_cis_status_id = SendCisStatus::STATUS_ERROR_PRESENDER; //Ошибка Пресендера
+                } else {
+                    $contract->send_cis_status_id = SendCisStatus::STATUS_PROCESSED_PRESENDER; //Обработан ПреСендером
+                }
 
                 $contract->update();
 
