@@ -131,12 +131,21 @@ class Contract extends \yii\db\ActiveRecord
                 $contract->id_blank = $cis->idBlankGetter($sagr, trim($item['nagr']));
                 
                 
-                                
+                //Во вражеской стране                
                 if(json_decode($item['data_json'])->c_city==3345){
-                    $contract->id_place = 41949; //Во вражеской стране
+                    $contract->id_place = 41949; 
                 } else {
                     $contract->id_place = $cis->idPlaceGetter(json_decode($item['data_json'])->c_city);
                 }
+
+                //Гадяч
+                // if(json_decode($item['data_json'])->c_city==3603){
+                //     $contract->id_place = 33681; 
+                // } else {
+                //     $contract->id_place = $cis->idPlaceGetter(json_decode($item['data_json'])->c_city);
+                // }
+
+                
 
 
                 $send_cis_message = [];
