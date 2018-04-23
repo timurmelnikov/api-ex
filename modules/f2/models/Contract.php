@@ -2,10 +2,10 @@
 
 namespace app\modules\f2\models;
 
+use app\models\SendCisStatus;
 use app\modules\f2\components\Cis;
 use app\modules\f2\components\PB;
 use Yii;
-use app\models\SendCisStatus;
 
 /**
  * This is the model class for table "f2_contract".
@@ -129,7 +129,28 @@ class Contract extends \yii\db\ActiveRecord
                 $contract = Self::findOne($item['id']);
 
                 $contract->id_blank = $cis->idBlankGetter($sagr, trim($item['nagr']));
-                $contract->id_place = $cis->idPlaceGetter(json_decode($item['data_json'])->c_city);
+                
+                
+                                
+                if(json_decode($item['data_json'])->c_city==3345){
+                    $contract->id_place = 41949; //Во вражеской стране
+                } else {
+                    $contract->id_place = $cis->idPlaceGetter(json_decode($item['data_json'])->c_city);
+                }
+
+
+                $send_cis_message = [];
+
+                if ($contract->id_blank === null) {
+
+                    array_push($send_cis_message, 'Не найден бланк');
+                }
+                if ($contract->id_place === null) {
+                    array_push($send_cis_message, 'Не найдено место регистрации');
+
+                }
+
+                $contract->send_cis_message = implode('; ', $send_cis_message);
 
                 if ($contract->id_blank === null || $contract->id_place === null) {
                     $contract->send_cis_status_id = SendCisStatus::STATUS_ERROR_PRESENDER; //Ошибка Пресендера
