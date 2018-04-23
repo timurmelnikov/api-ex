@@ -66,7 +66,7 @@ class Cis extends Component
             'login' => \Yii::$app->params['s']['cis_privat_bank']['username'],
             'pass' => \Yii::$app->params['s']['cis_privat_bank']['password'],
         ];
-        
+
         $client = new Client();
 
         $response = $client->createRequest()
@@ -78,7 +78,7 @@ class Cis extends Component
         if ($response->isOk) {
             $this->session = $response->headers->get('set-cookie');
         } else {
-            Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode(). ' Не удалось авторизироваться.');
+            Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode() . ' Не удалось авторизироваться.');
         }
 
     }
@@ -144,8 +144,7 @@ class Cis extends Component
         if ($response->isOk) {
             return $response->data;
         } else {
-            Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode(). ' Не удалось выполнить запрос к КИС-WEB');
-            return false;
+            Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode() . ' Не удалось выполнить запрос к КИС-WEB');
         }
 
     }

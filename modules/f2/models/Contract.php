@@ -127,6 +127,7 @@ class Contract extends \yii\db\ActiveRecord
 
     
                 $contract = Self::findOne($item['id']);
+
                 $contract->id_blank = $cis->idBlankGetter($sagr, trim($item['nagr']));
                 $contract->id_place = $cis->idPlaceGetter(json_decode($item['data_json'])->c_city);
 

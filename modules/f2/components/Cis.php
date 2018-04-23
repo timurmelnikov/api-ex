@@ -20,8 +20,6 @@ class Cis extends \app\common\components\Cis
 
         if (isset($data[0]['id_blank'])) {
             return $data[0]['id_blank'];
-        } else {
-            return false;
         }
     }
 
@@ -36,8 +34,6 @@ class Cis extends \app\common\components\Cis
 
         if (isset($data[0]['id_place'])) {
             return $data[0]['id_place'];
-        } else {
-            return false;
         }
 
     }
