@@ -6,6 +6,7 @@ use app\models\SendCisStatus;
 use app\modules\f2\components\Cis;
 use app\modules\f2\components\PB;
 use Yii;
+use app\modules\f2\helpers\Map;
 
 /**
  * This is the model class for table "f2_contract".
@@ -78,7 +79,7 @@ class Contract extends \yii\db\ActiveRecord
      * В данном случае, получает по API КИС:
      * - Бланки
      * - Места регистрации
-     * FIXME: Метод в разработке!!!
+     * 
      * @return void
      */
     public function contractPreSender()
@@ -92,16 +93,6 @@ class Contract extends \yii\db\ActiveRecord
             foreach ($data as $item) {
 
                 /**
-                 * Преобразование серии с латиницы в кириллицу
-                 * FIXME: Вынести в класс хелперов Map::blankSeries()!!!
-                 */
-                if (trim($item['sagr']) == 'AK') {
-                    $series = 'АК';
-                } else {
-                    $series = trim($item['sagr']);
-                }
-
-                /**
                  * Ищем договор в буферной таблице
                  */
                 $contract = Self::findOne($item['id']);
@@ -109,8 +100,8 @@ class Contract extends \yii\db\ActiveRecord
                 /**
                  * Заполняем поля
                  */
-                $contract->sagr = $series; //Преобразованная серия полиса
-                $contract->id_blank = $cis->idBlankGetter($series, trim($item['nagr']));
+                $contract->sagr = Map::blankSeries(trim($item['sagr'])); //Преобразованная серия полиса
+                $contract->id_blank = $cis->idBlankGetter(Map::blankSeries(trim($item['sagr'])), trim($item['nagr']));
                 $contract->id_place = $cis->idPlaceGetter(json_decode($item['data_json'])->c_city);
 
                 /**

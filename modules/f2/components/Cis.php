@@ -44,15 +44,9 @@ class Cis extends \app\common\components\Cis
 
             /**
              * В случае, если метод КИС "cis/utils/reg_place_by_id_mtsbu"
-             * не нашел ничего, заполняем $id_place "вручную"
-             * FIXME: Вынести в класс хелперов Map::idPlace()!!!
+             * не нашел ничего, заполняем $id_place "вручную", через Map::idPlace()
              */
-            if ($id_place_mtsbu == 3345) {
-                $id_place = 41949; //ТЗ зареестровані в iнших краiнах
-            }
-            if ($id_place_mtsbu == 3603) {
-                $id_place = 33681; //Гадяч
-            }
+            $id_place = Map::idPlace($id_place_mtsbu);
 
         }
 
@@ -68,15 +62,9 @@ class Cis extends \app\common\components\Cis
     public function contractSender($data)
     {
 
-
-
         $contract_data = json_decode($data['data_json'], true);
 
-
         //$contract_data['XXX']
-
-
-
 
         $requestData = ['InsuranceKind' => ['ID' => '51'], //Константа
             'SalePoint' => ['ID' => '7122'], //Константа
@@ -87,7 +75,7 @@ class Cis extends \app\common\components\Cis
             'Calculator.InsuranceParam.Contract.BonusMalus' => Map::bonusMalus($contract_data['b_m']), //Бонус\Малус //b_m
             'Calculator.InsuranceParam.Contract.ContractNumberIsChanged' => 1, //Константа
             'Calculator.InsuranceParam.Contract.ContractNumber' => $data['contract_id'], //Внутренний номер договора внешней системы //contractId
-            'Calculator.InsuranceParam.Contract.Blank' => ['DisplayName' => $data['sagr'].' '.$data['nagr'], 'ID' => $data['id_blank']], //Серия и Номер полиса + ИД бланка в КИС
+            'Calculator.InsuranceParam.Contract.Blank' => ['DisplayName' => $data['sagr'] . ' ' . $data['nagr'], 'ID' => $data['id_blank']], //Серия и Номер полиса + ИД бланка в КИС
             'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.Code' => $contract_data['numb_ins'], //ИНН //numb_ins
             'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.LastName' => $contract_data['f_name'], //Фамилия //f_name
             'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.FirstName' => $contract_data['s_name'], //Имя //s_name
