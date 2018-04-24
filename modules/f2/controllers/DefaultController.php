@@ -21,8 +21,11 @@ class DefaultController extends Controller
         //$data = $cis->idBlankGetter('АК', '8131803');
         //$data = $cis->idPlaceGetter(42);
 
+        // $contract = new Contract();
+        // $contract->contractPreSender();
+
         $contract = new Contract();
-        $contract->contractPreSender();
+        $contract->contractSender();
 
         $data = 1;
 

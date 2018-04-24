@@ -13,6 +13,18 @@ class Cis extends Component
 {
 
     /**
+     * Константа для метода cisRequest()
+     * URL-кодированная строка - 'series=%D0%90%D0%9A&number=8131803'
+     */
+    const MODE_URL_CODE = 0;
+
+    /**
+     * Константа для метода cisRequest()
+     * Договор (HI, NBR  и т.п.). Тело запроса - 'CreateContract=1&formData='+ДАННЫЕ ЗАПРОСА+'&is_load_json=1'
+     */
+    const MODE_CONTRACT = 1;
+
+    /**
      * URL КИС-WEB.
      *
      * @var string
@@ -80,7 +92,6 @@ class Cis extends Component
         } else {
             Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode() . ' Не удалось авторизироваться.');
         }
-
     }
 
     /**
@@ -104,8 +115,10 @@ class Cis extends Component
     /**
      * Вызов API КИС-WEB
      * Значения режимов ($mode):
-     * 0 - URL-кодированная строка - 'series=%D0%90%D0%9A&number=8131803'
-     * 1 - Договор (HI, NBR  и т.п.). Тело запроса - 'CreateContract=1&formData='+ДАННЫЕ ЗАПРОСА+'&is_load_json=1'
+     * 0 - MODE_URL_CODE - URL-кодированная строка - 'series=%D0%90%D0%9A&number=8131803'
+     * 1 - MODE_CONTRACT - Договор (HI, NBR  и т.п.). Тело запроса - 'CreateContract=1&formData='+ДАННЫЕ ЗАПРОСА+'&is_load_json=1'
+     *
+     * Важно!!! При добавлении нового режима, добавить константу!!!
      *
      * @param string $path Метод
      * @param array $requestData Данные запроса
@@ -126,7 +139,7 @@ class Cis extends Component
                 $requestData = http_build_query($requestData);
                 break;
             case 1:
-                $requestData = 'CreateContract=1&formData=' . rawurlencode(json_encode($request_data, JSON_UNESCAPED_UNICODE)) . '&is_load_json=1';
+                $requestData = 'CreateContract=1&formData=' . rawurlencode(json_encode($requestData, JSON_UNESCAPED_UNICODE)) . '&is_load_json=1';
                 break;
         }
 

@@ -119,10 +119,25 @@ class Contract extends \yii\db\ActiveRecord
             foreach ($data as $item) {
 
                 /**
-                 * Ищем бланк
+                 * Преобразование серии с латиницы в кириллицу
+                 * TODO: Стоит подумать про отдельный метод для этого
+                 */
+                if (trim($item['sagr']) == 'AK') {
+                    $series = 'АК';
+                } else {
+                    $series = trim($item['sagr']);
+                }
+
+                /**
+                 * Ищем договор в буферной таблице
                  */
                 $contract = Self::findOne($item['id']);
-                $contract->id_blank = $cis->idBlankGetter(trim($item['sagr']), trim($item['nagr']));
+
+                /**
+                 * Заполняем поля
+                 */
+                $contract->sagr = $series; //Преобразованная серия полиса
+                $contract->id_blank = $cis->idBlankGetter($series, trim($item['nagr']));
                 $contract->id_place = $cis->idPlaceGetter(json_decode($item['data_json'])->c_city);
 
                 /**
@@ -131,7 +146,7 @@ class Contract extends \yii\db\ActiveRecord
                  */
                 $send_cis_message = [];
                 if ($contract->id_blank === null) {
-                    array_push($send_cis_message, 'Не найден бланк');
+                    array_push($send_cis_message, 'Не найден бланк (возможно, серия на латинице)');
                 }
                 if ($contract->id_place === null) {
                     array_push($send_cis_message, 'Не найдено место регистрации');
@@ -161,6 +176,18 @@ class Contract extends \yii\db\ActiveRecord
      */
     public function contractSender()
     {
+        //$data = Self::find()->asArray()->where("send_cis_status_id = 300")->all(); //Только те, что обработал ПреЛоадер
+        $data = Self::find()->asArray()->where("send_cis_status_id = 300 and id = 1")->all(); //FIXME: Для разработки!!!
+
+        if (!empty($data)) {
+
+            $cis = new Cis();
+            foreach ($data as $item) {
+
+                $cis->contractSender($item);
+
+            }
+        }
 
     }
 
@@ -185,7 +212,5 @@ class Contract extends \yii\db\ActiveRecord
         }
 
     }
-
-   
 
 }
