@@ -110,10 +110,7 @@ class Contract extends \yii\db\ActiveRecord
      */
     public function contractPreSender()
     {
-        $data = Self::find()
-            ->asArray()
-            ->where("send_cis_status_id = 0")
-            ->all();
+        $data = Self::find()->asArray()->where("send_cis_status_id = 0")->all();
 
         if (!empty($data)) {
 
@@ -121,46 +118,30 @@ class Contract extends \yii\db\ActiveRecord
 
             foreach ($data as $item) {
 
-                $sagr = trim($item['sagr']);
-                if ($sagr == 'AK') {
-                    $sagr = 'АК';
-                }
-
+                /**
+                 * Ищем бланк
+                 */
                 $contract = Self::findOne($item['id']);
+                $contract->id_blank = $cis->idBlankGetter(trim($item['sagr']), trim($item['nagr']));
+                $contract->id_place = $cis->idPlaceGetter(json_decode($item['data_json'])->c_city);
 
-                $contract->id_blank = $cis->idBlankGetter($sagr, trim($item['nagr']));
-                
-                
-                //Во вражеской стране                
-                if(json_decode($item['data_json'])->c_city==3345){
-                    $contract->id_place = 41949; 
-                } else {
-                    $contract->id_place = $cis->idPlaceGetter(json_decode($item['data_json'])->c_city);
-                }
-
-                //Гадяч
-                // if(json_decode($item['data_json'])->c_city==3603){
-                //     $contract->id_place = 33681; 
-                // } else {
-                //     $contract->id_place = $cis->idPlaceGetter(json_decode($item['data_json'])->c_city);
-                // }
-
-                
-
-
+                /**
+                 * Готовим сообщение
+                 * TODO: Стоит подумать про отдельный метод для этого
+                 */
                 $send_cis_message = [];
-
                 if ($contract->id_blank === null) {
-
                     array_push($send_cis_message, 'Не найден бланк');
                 }
                 if ($contract->id_place === null) {
                     array_push($send_cis_message, 'Не найдено место регистрации');
-
                 }
-
                 $contract->send_cis_message = implode('; ', $send_cis_message);
 
+                /**
+                 * Устанавливаем статус send_cis_status_id
+                 * TODO: Стоит подумать про отдельный метод для этого
+                 */
                 if ($contract->id_blank === null || $contract->id_place === null) {
                     $contract->send_cis_status_id = SendCisStatus::STATUS_ERROR_PRESENDER; //Ошибка Пресендера
                 } else {
@@ -204,5 +185,7 @@ class Contract extends \yii\db\ActiveRecord
         }
 
     }
+
+   
 
 }
