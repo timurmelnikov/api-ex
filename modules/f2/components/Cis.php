@@ -66,33 +66,38 @@ class Cis extends \app\common\components\Cis
     public function contractSender($data)
     {
 
+
+
+        $contract_data = json_decode($data['data_json']);
+
+
         $requestData = ['InsuranceKind' => ['ID' => '51'], //Константа
             'SalePoint' => ['ID' => '7122'], //Константа
             'Department' => ['ID' => '6158'], //Константа
             'InsurancePackage' => ['ID' => '45'], //Константа
             'InsuranceTariff' => ['ID' => '1746'], //Константа
-            'OnDate' => '24.04.2018', //Дата оформления договора
-            'Calculator.InsuranceParam.Contract.BonusMalus' => 0.9, //Бонус\Малус
+            'OnDate' => '24.04.2018', //Дата оформления договора //d_distr
+            'Calculator.InsuranceParam.Contract.BonusMalus' => 0.9, //Бонус\Малус //b_m
             'Calculator.InsuranceParam.Contract.ContractNumberIsChanged' => 1, //Константа
-            'Calculator.InsuranceParam.Contract.ContractNumber' => '59c3a86a376e2e52ca746caf', //Внутренний номер договора внешней системы
-            'Calculator.InsuranceParam.Contract.Blank' => ['DisplayName' => 'АК 8934422', 'ID' => '8725989'], //Серия и Номер полиса + ИД бланка в КИС
-            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.Code' => '2628217532', //ИНН
-            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.LastName' => 'Позняк', //Фамилия
-            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.FirstName' => 'Роман', //Имя
-            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.MiddleName' => 'Владиславович', //Отчество
-            'Calculator.InsuranceParam.Contract.InureDate' => '25.04.2018', //Дата начала действия
-            'Calculator.InsuranceParam.Contract.EndDate' => '24.04.2019', //Дата окончания действия
-            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.Address.AddressString' => 'Киев, Регенараторная,4 кв. 7-163', //Адрес проживания
-            'Calculator.InsuranceParam.Contract.PrivilegeDocument.DocumentType' => ['ID' => '14'], //ИД берется из справочника типов документов
-            'Calculator.InsuranceParam.Contract.PrivilegeDocument.Date' => '26.07.2000', //Дата выдачи документа
-            'Calculator.InsuranceParam.Contract.PrivilegeDocument.DocumentLastName' => 'Позняк',
-            'Calculator.InsuranceParam.Contract.PrivilegeDocument.DocumentFirstName' => 'Роман',
-            'Calculator.InsuranceParam.Contract.PrivilegeDocument.DocumentMiddleName' => 'Владиславович',
-            'Calculator.InsuranceParam.Contract.PrivilegeDocument.Series' => 'СМ', //Серия документа
-            'Calculator.InsuranceParam.Contract.PrivilegeDocument.Number' => '565495', //Номер документа
-            'Calculator.InsuranceParam.Contract.PrivilegeDocument.IssuedByUkr' => 'Славутичским МВГУ ВМС', //Кем выдан документ
-            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.ContactTelephone.PhoneCountry' => '+380', //Константа
-            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.ContactTelephone.PhoneNumber' => '994537772', //Номер телефона
+            'Calculator.InsuranceParam.Contract.ContractNumber' => $data['contract_id'], //Внутренний номер договора внешней системы //contractId
+            'Calculator.InsuranceParam.Contract.Blank' => ['DisplayName' => $data['sagr'].' '.$data['nagr'], 'ID' => $data['id_blank']], //Серия и Номер полиса + ИД бланка в КИС
+            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.Code' => '2628217532', //ИНН //numb_ins
+            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.LastName' => 'Позняк', //Фамилия //f_name
+            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.FirstName' => 'Роман', //Имя //s_name
+            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.MiddleName' => 'Владиславович', //Отчество //p_name
+            'Calculator.InsuranceParam.Contract.InureDate' => '25.04.2018', //Дата начала действия //d_beg
+            'Calculator.InsuranceParam.Contract.EndDate' => '24.04.2019', //Дата окончания действия //d_end
+            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.Address.AddressString' => 'Киев, Регенараторная,4 кв. 7-163', //Адрес проживания //address_e
+            //'Calculator.InsuranceParam.Contract.PrivilegeDocument.DocumentType' => ['ID' => '14'], //ИД берется из справочника типов документов
+            //'Calculator.InsuranceParam.Contract.PrivilegeDocument.Date' => '26.07.2000', //Дата выдачи документа
+            //'Calculator.InsuranceParam.Contract.PrivilegeDocument.DocumentLastName' => 'Позняк',
+            //'Calculator.InsuranceParam.Contract.PrivilegeDocument.DocumentFirstName' => 'Роман',
+            //'Calculator.InsuranceParam.Contract.PrivilegeDocument.DocumentMiddleName' => 'Владиславович',
+            //'Calculator.InsuranceParam.Contract.PrivilegeDocument.Series' => 'СМ', //Серия документа
+            //'Calculator.InsuranceParam.Contract.PrivilegeDocument.Number' => '565495', //Номер документа
+            //'Calculator.InsuranceParam.Contract.PrivilegeDocument.IssuedByUkr' => 'Славутичским МВГУ ВМС', //Кем выдан документ
+            //'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.ContactTelephone.PhoneCountry' => '+380', //Константа
+            //'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.ContactTelephone.PhoneNumber' => '994537772', //Номер телефона
             'Calculator.InsuranceParam.Contract.ContractCustomerNative.Signer' => ['ID' => '96221'], //Константа
             'Calculator.InsuranceParam.Contract.ContractCustomerNative.SignerAll' => '1', //Константа
             'Calculator.InsuranceParam.Contract.ContractCustomerNative.IsContractCustomer' => '0', //Константа
@@ -101,7 +106,7 @@ class Cis extends \app\common\components\Cis
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.ManufactureYear' => 2014, //Год выпуска ТС
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.VIN' => 'LB37624S3DL029247', //ВИН код ТС
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.CurrentAutoCertificate.RegistrationPlace.Country' => ['ID' => '1'], //Константа
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.CurrentAutoCertificate.RegistrationPlace' => ['ID' => '41892'], //ID города регистрации ТС в КИС
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.CurrentAutoCertificate.RegistrationPlace' => ['ID' => $data['id_place']], //ID города регистрации ТС в КИС
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.CurrentAutoCertificate.StateNumber' => 'АА1234ВВ', //Гос. номер ТС
             'Calculator.InsuranceParam.Contract.InsuranceParam0.FranchiseCurrency' => '1000', //Франшиза
             'Calculator.InsuranceParam.Contract.InsuranceParam0.Loading' => 25, //Нагрузка
@@ -131,6 +136,8 @@ class Cis extends \app\common\components\Cis
         ];
 
         $data = $this->cisRequest('cis/calc/form', $requestData, Cis::MODE_CONTRACT);
+
+        return $data;
 
     }
 

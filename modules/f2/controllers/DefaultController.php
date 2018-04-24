@@ -23,11 +23,13 @@ class DefaultController extends Controller
 
         // $contract = new Contract();
         // $contract->contractPreSender();
+        //$data = 1;
 
         $contract = new Contract();
-        $contract->contractSender();
+        $data = $contract->contractSender();
 
-        $data = 1;
+
+
 
         return $this->render('index', ['data' => $data]);
     }
