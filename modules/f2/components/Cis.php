@@ -2,7 +2,7 @@
 
 namespace app\modules\f2\components;
 
-use app\common\helpers\Map;
+use app\modules\f2\helpers\Map;
 
 /*
  * Класс работы с API КИС-WEB.
@@ -45,7 +45,7 @@ class Cis extends \app\common\components\Cis
             /**
              * В случае, если метод КИС "cis/utils/reg_place_by_id_mtsbu"
              * не нашел ничего, заполняем $id_place "вручную"
-             * TODO: Стоит подумать про отдельный метод для этого
+             * FIXME: Вынести в класс хелперов Map::idPlace()!!!
              */
             if ($id_place_mtsbu == 3345) {
                 $id_place = 41949; //ТЗ зареестровані в iнших краiнах
@@ -83,8 +83,8 @@ class Cis extends \app\common\components\Cis
             'Department' => ['ID' => '6158'], //Константа
             'InsurancePackage' => ['ID' => '45'], //Константа
             'InsuranceTariff' => ['ID' => '1746'], //Константа
-            'OnDate' => '24.04.2018', //Дата оформления договора //d_distr
-            'Calculator.InsuranceParam.Contract.BonusMalus' => Map::bonusMalus1($contract_data['b_m']), //Бонус\Малус //b_m
+            'OnDate' => date('d.m.Y', strtotime($contract_data['d_distr'])), //Дата оформления договора //d_distr
+            'Calculator.InsuranceParam.Contract.BonusMalus' => Map::bonusMalus($contract_data['b_m']), //Бонус\Малус //b_m
             'Calculator.InsuranceParam.Contract.ContractNumberIsChanged' => 1, //Константа
             'Calculator.InsuranceParam.Contract.ContractNumber' => $data['contract_id'], //Внутренний номер договора внешней системы //contractId
             'Calculator.InsuranceParam.Contract.Blank' => ['DisplayName' => $data['sagr'].' '.$data['nagr'], 'ID' => $data['id_blank']], //Серия и Номер полиса + ИД бланка в КИС
@@ -92,8 +92,8 @@ class Cis extends \app\common\components\Cis
             'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.LastName' => $contract_data['f_name'], //Фамилия //f_name
             'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.FirstName' => $contract_data['s_name'], //Имя //s_name
             'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.MiddleName' => $contract_data['p_name'], //Отчество //p_name
-            'Calculator.InsuranceParam.Contract.InureDate' => '25.04.2018', //Дата начала действия //d_beg
-            'Calculator.InsuranceParam.Contract.EndDate' => '24.04.2019', //Дата окончания действия //d_end
+            'Calculator.InsuranceParam.Contract.InureDate' => date('d.m.Y', strtotime($contract_data['d_beg'])), //Дата начала действия //d_beg
+            'Calculator.InsuranceParam.Contract.EndDate' => date('d.m.Y', strtotime($contract_data['d_end'])), //Дата окончания действия //d_end
             'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.Address.AddressString' => $contract_data['address_e'], //Адрес проживания //address_e
             //'Calculator.InsuranceParam.Contract.PrivilegeDocument.DocumentType' => ['ID' => '14'], //ИД берется из справочника типов документов
             //'Calculator.InsuranceParam.Contract.PrivilegeDocument.Date' => '26.07.2000', //Дата выдачи документа
@@ -127,19 +127,19 @@ class Cis extends \app\common\components\Cis
             'Calculator.InsuranceParam.Contract.InsuranceParam0.K5' => $contract_data['k5'], //k5
             'Calculator.InsuranceParam.Contract.InsuranceParam0.K6' => $contract_data['k6'], //k6
             'Calculator.InsuranceParam.Contract.InsuranceParam0.K7' => $contract_data['k7'], //k7
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.K8' => Map::bonusMalus1($contract_data['b_m']), //К(бонус-малус)
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths1' => false, //is_active1
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths2' => false, //is_active2
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths3' => false, //is_active3
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths4' => false, //is_active4
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths5' => false, //is_active5
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths6' => false, //is_active6
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths7' => false, //is_active7
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths8' => false, //is_active8
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths9' => false, //is_active9
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths10' => false, //is_active10
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths11' => false, //is_active11
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths12' => false, //is_active12
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.K8' => Map::bonusMalus($contract_data['b_m']), //К(бонус-малус)
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths1' => Map::isActive($contract_data['is_active1']), //is_active1
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths2' => Map::isActive($contract_data['is_active2']), //is_active2
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths3' => Map::isActive($contract_data['is_active3']), //is_active3
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths4' => Map::isActive($contract_data['is_active4']), //is_active4
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths5' => Map::isActive($contract_data['is_active5']), //is_active5
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths6' => Map::isActive($contract_data['is_active6']), //is_active6
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths7' => Map::isActive($contract_data['is_active7']), //is_active7
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths8' => Map::isActive($contract_data['is_active8']), //is_active8
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths9' => Map::isActive($contract_data['is_active9']), //is_active9
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths10' => Map::isActive($contract_data['is_active10']), //is_active10
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths11' => Map::isActive($contract_data['is_active11']), //is_active11
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths12' => Map::isActive($contract_data['is_active12']), //is_active12
         ];
 
         $data = $this->cisRequest('cis/calc/form', $requestData, Cis::MODE_CONTRACT);

@@ -51,35 +51,8 @@ class Contract extends \yii\db\ActiveRecord
                 'send_cis_status_id',
                 'id_cis'], 'safe'],
 
-            // [['insert_date', 'send_cis_date'], 'safe'],
-            // [['contract_id', 'sagr', 'nagr', 'data_json', 'send_cis_message', 'send_cis_status_id'], 'required'],
-            // [['data_json', 'send_cis_message'], 'string'],
-            // [['send_cis_status_id', 'id_cis'], 'integer'],
-            // [['contract_id'], 'string', 'max' => 30],
-            // [['sagr'], 'string', 'max' => 2],
-            // [['nagr'], 'string', 'max' => 7],
-            // [['contract_id'], 'unique'],
-        ];
+         ];
     }
-
-    /**
-     * @inheritdoc
-     */
-    // public function attributeLabels()
-    // {
-    //     return [
-    //         'id' => 'ID',
-    //         'insert_date' => 'Дата создания записи',
-    //         'contract_id' => 'ID договора',
-    //         'sagr' => 'Серия договора',
-    //         'nagr' => '№ договора',
-    //         'data_json' => 'Данные JSON',
-    //         'send_cis_date' => 'Дата успешной отправки в КИС',
-    //         'send_cis_message' => 'Сообщение об отправке в КИС',
-    //         'send_cis_status_id' => 'Статус отправки в КИС',
-    //         'id_cis' => 'ID КИС',
-    //     ];
-    // }
 
     /**
      * Получает документы из API источника
@@ -120,7 +93,7 @@ class Contract extends \yii\db\ActiveRecord
 
                 /**
                  * Преобразование серии с латиницы в кириллицу
-                 * TODO: Стоит подумать про отдельный метод для этого
+                 * FIXME: Вынести в класс хелперов Map::blankSeries()!!!
                  */
                 if (trim($item['sagr']) == 'AK') {
                     $series = 'АК';
@@ -177,7 +150,7 @@ class Contract extends \yii\db\ActiveRecord
     public function contractSender()
     {
         //$data = Self::find()->asArray()->where("send_cis_status_id = 300")->all(); //Только те, что обработал ПреЛоадер
-        $data = Self::find()->asArray()->where("send_cis_status_id = 300 and id = 5")->all(); //FIXME: Для разработки!!!
+        $data = Self::find()->asArray()->where("send_cis_status_id = 300 and id = 6")->all(); //FIXME: Для разработки!!!
 
         if (!empty($data)) {
 
@@ -185,7 +158,7 @@ class Contract extends \yii\db\ActiveRecord
             foreach ($data as $item) {
 
                 $a = $cis->contractSender($item);
-                $a = json_decode($item['data_json']);
+                //$a = json_decode($item['data_json']);
                 
                 return $a;
 
