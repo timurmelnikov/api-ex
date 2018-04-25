@@ -105,7 +105,7 @@ class Cis extends \app\common\components\Cis
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.CurrentAutoCertificate.RegistrationPlace' => ['ID' => $data['id_place']], //ID города регистрации ТС в КИС
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.CurrentAutoCertificate.StateNumber' => $contract_data['reg_no'], //Гос. номер ТС  //reg_no
             'Calculator.InsuranceParam.Contract.InsuranceParam0.FranchiseCurrency' => $contract_data['franchise'], //Франшиза //franchise
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.Loading' => 25, //Нагрузка
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.Loading' => 30, //Нагрузка
             'Calculator.InsuranceParam.Contract.InsuranceParam0.BaseTariff' => 180, //Константа
             'Calculator.InsuranceParam.Contract.InsuranceParam0.FirstTariff' => $contract_data['payment'], //Страховой платеж  //payment
             'Calculator.InsuranceParam.Contract.InsuranceParam0.FirstPayment' => $contract_data['payment'], //Страховой платеж  //payment
