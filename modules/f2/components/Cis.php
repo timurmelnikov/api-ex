@@ -94,7 +94,7 @@ class Cis extends \app\common\components\Cis
             //'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.ContactTelephone.PhoneCountry' => '+380', //Константа
             //'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.ContactTelephone.PhoneNumber' => '994537772', //Номер телефона
 
-            'Calculator.InsuranceParam.Contract.ContractCustomerNative.Signer' => ['ID' => '96221'], //Константа
+            'Calculator.InsuranceParam.Contract.ContractCustomerNative.Signer' => ['ID' => '106422'], //Константа TODO: Проверить работоспособность (было )!!!
             'Calculator.InsuranceParam.Contract.ContractCustomerNative.SignerAll' => '1', //Константа
             'Calculator.InsuranceParam.Contract.ContractCustomerNative.IsContractCustomer' => '0', //Константа
             //'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.AutoCategory' => ['ID' => '4'], //ИД берется из справочника Категорий ТС //FIXME: Будет использован хелпер Map::idAutoCategory()
@@ -105,7 +105,7 @@ class Cis extends \app\common\components\Cis
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.CurrentAutoCertificate.RegistrationPlace' => ['ID' => $data['id_place']], //ID города регистрации ТС в КИС
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.CurrentAutoCertificate.StateNumber' => $contract_data['reg_no'], //Гос. номер ТС  //reg_no
             'Calculator.InsuranceParam.Contract.InsuranceParam0.FranchiseCurrency' => $contract_data['franchise'], //Франшиза //franchise
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.Loading' => 30, //Нагрузка
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.Loading' => 30, //Нагрузка TODO: Проверить работоспособность (было 25)!!!
             'Calculator.InsuranceParam.Contract.InsuranceParam0.BaseTariff' => 180, //Константа
             'Calculator.InsuranceParam.Contract.InsuranceParam0.FirstTariff' => $contract_data['payment'], //Страховой платеж  //payment
             'Calculator.InsuranceParam.Contract.InsuranceParam0.FirstPayment' => $contract_data['payment'], //Страховой платеж  //payment
