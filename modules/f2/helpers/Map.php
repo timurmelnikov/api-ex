@@ -95,4 +95,47 @@ class Map
         }
     }
 
+    /**
+     * Возвращает ID типа документа - удостоверения личности.
+     * Таблица КИС - C_INI_DOC_TYPES
+     *
+     * @param int $value
+     * @return int
+     */
+    public static function idDocType($value)
+    {
+
+        switch ($value) {
+            case 'Паспорт':return 11;
+                break;
+            case 'Посвідчення водія':return 14;
+                break;
+            default:return 11; //По умолчанию - паспорт
+
+        }
+    }
+
+    /**
+     * Возвращает ID Категории авто.
+     * Таблица КИС - O_INI_AUTO_CATEGORIES
+     * FIXME: Метод не готов! Не знаю соответствия данных,
+     * что приходят в поле "c_type" категориям в таблице O_INI_AUTO_CATEGORIES
+     * 
+     * @param int $value
+     * @return mixed
+     */
+    public static function idAutoCategory($value)
+    {
+
+        switch ($value) {
+            case 1:return 11;
+                break;
+            case 2:return 14;
+                break;
+            default:return null;
+
+        }
+
+    }
+
 }

@@ -19,13 +19,13 @@ class DefaultController extends Controller
     {
 
 
-        $contract = new Contract();
-        $contract->contractPreSender();
-        $data = 1;
+        // $contract = new Contract();
+        // $contract->contractPreSender();
+        // $data = 1;
 
         //Вставка договора в КИС
-        //$contract = new Contract();
-        //$data = $contract->contractSender();
+        $contract = new Contract();
+        $data = $contract->contractSender();
 
         return $this->render('index', ['data' => $data]);
     }

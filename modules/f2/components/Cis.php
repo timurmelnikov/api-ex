@@ -64,8 +64,6 @@ class Cis extends \app\common\components\Cis
 
         $contract_data = json_decode($data['data_json'], true);
 
-        //$contract_data['XXX']
-
         $requestData = ['InsuranceKind' => ['ID' => '51'], //Константа
             'SalePoint' => ['ID' => '7122'], //Константа
             'Department' => ['ID' => '6158'], //Константа
@@ -83,20 +81,23 @@ class Cis extends \app\common\components\Cis
             'Calculator.InsuranceParam.Contract.InureDate' => date('d.m.Y', strtotime($contract_data['d_beg'])), //Дата начала действия //d_beg
             'Calculator.InsuranceParam.Contract.EndDate' => date('d.m.Y', strtotime($contract_data['d_end'])), //Дата окончания действия //d_end
             'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.Address.AddressString' => $contract_data['address_e'], //Адрес проживания //address_e
-            //'Calculator.InsuranceParam.Contract.PrivilegeDocument.DocumentType' => ['ID' => '14'], //ИД берется из справочника типов документов
+
+            'Calculator.InsuranceParam.Contract.PrivilegeDocument.DocumentType' => ['ID' => Map::idDocType($contract_data['doc_name'])], //ИД берется из справочника типов документов
             //'Calculator.InsuranceParam.Contract.PrivilegeDocument.Date' => '26.07.2000', //Дата выдачи документа
-            //'Calculator.InsuranceParam.Contract.PrivilegeDocument.DocumentLastName' => 'Позняк',
-            //'Calculator.InsuranceParam.Contract.PrivilegeDocument.DocumentFirstName' => 'Роман',
-            //'Calculator.InsuranceParam.Contract.PrivilegeDocument.DocumentMiddleName' => 'Владиславович',
-            //'Calculator.InsuranceParam.Contract.PrivilegeDocument.Series' => 'СМ', //Серия документа
-            //'Calculator.InsuranceParam.Contract.PrivilegeDocument.Number' => '565495', //Номер документа
+            'Calculator.InsuranceParam.Contract.PrivilegeDocument.DocumentLastName' => $contract_data['f_name'], //Фамилия
+            'Calculator.InsuranceParam.Contract.PrivilegeDocument.DocumentFirstName' => $contract_data['s_name'], //Имя
+            'Calculator.InsuranceParam.Contract.PrivilegeDocument.DocumentMiddleName' => $contract_data['p_name'], //Отчество
+            'Calculator.InsuranceParam.Contract.PrivilegeDocument.Series' => $contract_data['doc_series'], //Серия документа
+            'Calculator.InsuranceParam.Contract.PrivilegeDocument.Number' => $contract_data['doc_no'], //Номер документа
             //'Calculator.InsuranceParam.Contract.PrivilegeDocument.IssuedByUkr' => 'Славутичским МВГУ ВМС', //Кем выдан документ
+            
             //'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.ContactTelephone.PhoneCountry' => '+380', //Константа
             //'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.ContactTelephone.PhoneNumber' => '994537772', //Номер телефона
+
             'Calculator.InsuranceParam.Contract.ContractCustomerNative.Signer' => ['ID' => '96221'], //Константа
             'Calculator.InsuranceParam.Contract.ContractCustomerNative.SignerAll' => '1', //Константа
             'Calculator.InsuranceParam.Contract.ContractCustomerNative.IsContractCustomer' => '0', //Константа
-            //'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.AutoCategory' => ['ID' => '4'], //ИД берется из справочника Категорий ТС
+            //'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.AutoCategory' => ['ID' => '4'], //ИД берется из справочника Категорий ТС //FIXME: Будет использован хелпер Map::idAutoCategory()
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.AutoModelString' => $contract_data['auto'], //Автомобиль строкой //auto
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.ManufactureYear' => $contract_data['prod_year'], //Год выпуска ТС //prod_year
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.VIN' => $contract_data['vin'], //ВИН код ТС  //vin
