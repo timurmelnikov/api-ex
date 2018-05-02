@@ -141,7 +141,7 @@ class Contract extends \yii\db\ActiveRecord
     public function contractSender()
     {
         //$data = Self::find()->asArray()->where("send_cis_status_id = 300")->all(); //Только те, что обработал ПреЛоадер
-        $data = Self::find()->asArray()->where("send_cis_status_id = 300 and id = 5")->all(); //FIXME: Для разработки!!!
+        $data = Self::find()->asArray()->where("send_cis_status_id = 300 and id in (161)")->all(); //FIXME: Для разработки!!!
 
         if (!empty($data)) {
 
@@ -151,9 +151,13 @@ class Contract extends \yii\db\ActiveRecord
                 $a = $cis->contractSender($item);
                 //$a = json_decode($item['data_json']);
                 
-                return $a;
+                
 
             }
+
+
+            return $a;
+
         }
 
     }

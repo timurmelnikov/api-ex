@@ -19,9 +19,9 @@ class DefaultController extends Controller
     {
 
 
-        // $contract = new Contract();
-        // $contract->contractPreSender();
-        // $data = 1;
+        //  $contract = new Contract();
+        //  $contract->contractPreSender();
+        //  $data = 1;
 
         //Вставка договора в КИС
         $contract = new Contract();
