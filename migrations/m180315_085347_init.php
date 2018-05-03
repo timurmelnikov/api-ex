@@ -152,7 +152,6 @@ class m180315_085347_init extends Migration
 
     /**
      * Создание таблицы f2_contract
-     * TODO: Будущая таблица для Прямого импорта ПриватБанк
      * @return null
      */
     private function сreateF2Contract()
