@@ -96,6 +96,24 @@ class Map
     }
 
     /**
+     * Мапер ТВП от франшизы
+     *
+     * @param int $value
+     * @return boolean
+     */
+    public static function tvp($value)
+    {
+
+        switch ($value) {
+            case 1000:return 51.43;
+                break;
+            case 0:return 44;
+                break;
+
+        }
+    }
+
+    /**
      * Возвращает ID типа документа - удостоверения личности.
      * Таблица КИС - C_INI_DOC_TYPES
      *
@@ -120,7 +138,7 @@ class Map
      * Таблица КИС - O_INI_AUTO_CATEGORIES
      * FIXME: Метод не готов! Не знаю соответствия данных,
      * что приходят в поле "c_type" категориям в таблице O_INI_AUTO_CATEGORIES
-     * 
+     *
      * @param int $value
      * @return mixed
      */
