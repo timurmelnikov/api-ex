@@ -5,8 +5,8 @@ namespace app\modules\f2\models;
 use app\models\SendCisStatus;
 use app\modules\f2\components\Cis;
 use app\modules\f2\components\PB;
-use Yii;
 use app\modules\f2\helpers\Map;
+use Yii;
 
 /**
  * This is the model class for table "f2_contract".
@@ -52,7 +52,7 @@ class Contract extends \yii\db\ActiveRecord
                 'send_cis_status_id',
                 'id_cis'], 'safe'],
 
-         ];
+        ];
     }
 
     /**
@@ -79,7 +79,7 @@ class Contract extends \yii\db\ActiveRecord
      * В данном случае, получает по API КИС:
      * - Бланки
      * - Места регистрации
-     * 
+     *
      * @return void
      */
     public function contractPreSender()
@@ -135,28 +135,38 @@ class Contract extends \yii\db\ActiveRecord
 
     /**
      * Отправляет документы в API приемника
+     * FIXME: Метод в разработке
      *
      * @return void
      */
     public function contractSender()
     {
         //$data = Self::find()->asArray()->where("send_cis_status_id = 300")->all(); //Только те, что обработал ПреЛоадер
-        $data = Self::find()->asArray()->where("send_cis_status_id = 300 and id in (161)")->all(); //FIXME: Для разработки!!!
+        $data = Self::find()->asArray()->where("send_cis_status_id = 300 and id in (162)")->all(); //FIXME: Для разработки!!!
 
         if (!empty($data)) {
 
             $cis = new Cis();
             foreach ($data as $item) {
 
-                $a = $cis->contractSender($item);
-                //$a = json_decode($item['data_json']);
-                
-                
+                /**
+                 * Ищем договор в буферной таблице
+                 */
+                $contract = Self::findOne($item['id']);
 
+                $data = $cis->contractSender($item);
+                //$a = json_decode($item['data_json']);
+
+                /**
+                 * Заполняем поля
+                 */
+                $contract->send_cis_date = date('Y-m-d H:i:s', time());
+                $contract->send_cis_message = json_encode($data, JSON_UNESCAPED_UNICODE);; //Преобразованная серия полиса
+                $contract->id_cis = 11;
+                $contract->update();
             }
 
-
-            return $a;
+            return $data;
 
         }
 
