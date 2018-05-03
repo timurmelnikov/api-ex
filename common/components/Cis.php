@@ -81,16 +81,21 @@ class Cis extends Component
 
         $client = new Client();
 
-        $response = $client->createRequest()
-            ->setMethod('post')
-            ->setUrl($this->url . '/cis/auth/login')
-            ->setData($request_data)
-            ->send();
+        try {
+            $response = $client->createRequest()
+                ->setMethod('post')
+                ->setUrl($this->url . '/cis/auth/login')
+                ->setData($request_data)
+                ->send();
 
-        if ($response->isOk) {
-            $this->session = $response->headers->get('set-cookie');
-        } else {
-            Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode() . ' Не удалось авторизироваться.');
+            if ($response->isOk) {
+                $this->session = $response->headers->get('set-cookie');
+            } else {
+                Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode() . ' Не удалось авторизироваться.');
+            }
+
+        } catch (\Exception $e) {
+            Yii::error(__METHOD__ . ': Ошибка - ' . $e->getMessage() . ' Не удалось авторизироваться (Исключение HTTP клиента).');
         }
     }
 
@@ -145,19 +150,25 @@ class Cis extends Component
 
         $client = new Client();
 
-        $response = $client->createRequest()
-            ->setMethod('post')
-            ->setUrl($this->url . $path)
-            ->addHeaders(['Cookie' => $this->session])
-            ->addHeaders(['Content-Type' => 'text/plain;charset=UTF-8'])
-            ->setContent($requestData)
-            ->setOptions([])
-            ->send();
+        try {
 
-        if ($response->isOk) {
-            return $response->data;
-        } else {
-            Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode() . ' Не удалось выполнить запрос к КИС-WEB');
+            $response = $client->createRequest()
+                ->setMethod('post')
+                ->setUrl($this->url . $path)
+                ->addHeaders(['Cookie' => $this->session])
+                ->addHeaders(['Content-Type' => 'text/plain;charset=UTF-8'])
+                ->setContent($requestData)
+                ->setOptions([])
+                ->send();
+
+            if ($response->isOk) {
+                return $response->data;
+            } else {
+                Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode() . ' Не удалось выполнить запрос к КИС-WEB.');
+            }
+
+        } catch (\Exception $e) {
+            Yii::error(__METHOD__ . ': Ошибка - ' . $e->getMessage() . ' Не удалось выполнить запрос к КИС-WEB (Исключение HTTP клиента).');
         }
 
     }
