@@ -165,10 +165,12 @@ class Cis extends Component
                 return $response->data;
             } else {
                 Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode() . ' Не удалось выполнить запрос к КИС-WEB.');
+                return 'Ошибка - ' . $response->getStatusCode() . ' Не удалось выполнить запрос к КИС-WEB.';
             }
 
         } catch (\Exception $e) {
             Yii::error(__METHOD__ . ': Ошибка - ' . $e->getMessage() . ' Не удалось выполнить запрос к КИС-WEB (Исключение HTTP клиента).');
+            return ' Ошибка - ' . $e->getMessage() . ' Не удалось выполнить запрос к КИС-WEB (Исключение HTTP клиента).';
         }
 
     }

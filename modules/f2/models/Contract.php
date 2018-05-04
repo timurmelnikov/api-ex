@@ -2,6 +2,7 @@
 
 namespace app\modules\f2\models;
 
+use app\common\models\SendCis;
 use app\models\SendCisStatus;
 use app\modules\f2\components\Cis;
 use app\modules\f2\components\PB;
@@ -17,12 +18,13 @@ use Yii;
  * @property string $sagr Серия договора
  * @property string $nagr № договора
  * @property string $data_json Данные JSON
+
  * @property string $send_cis_date Дата успешной отправки в КИС
  * @property string $send_cis_message Сообщение об отправке в КИС
  * @property int $send_cis_status_id Статус отправки в КИС
- * @property int $id_cis ID КИС
+ * @property int $send_cis_id_cis ID КИС
  */
-class Contract extends \yii\db\ActiveRecord
+class Contract extends SendCis
 {
     /**
      * @inheritdoc
@@ -50,7 +52,7 @@ class Contract extends \yii\db\ActiveRecord
                 'send_cis_date',
                 'send_cis_message',
                 'send_cis_status_id',
-                'id_cis'], 'safe'],
+                'send_cis_id_cis'], 'safe'],
 
         ];
     }
@@ -122,6 +124,7 @@ class Contract extends \yii\db\ActiveRecord
                  * TODO: Стоит подумать про отдельный метод для этого
                  */
                 if ($contract->id_blank === null || $contract->id_place === null) {
+
                     $contract->send_cis_status_id = SendCisStatus::STATUS_ERROR_PRESENDER; //Ошибка Пресендера
                 } else {
                     $contract->send_cis_status_id = SendCisStatus::STATUS_PROCESSED_PRESENDER; //Обработан ПреСендером
@@ -142,28 +145,38 @@ class Contract extends \yii\db\ActiveRecord
     public function contractSender()
     {
         //$data = Self::find()->asArray()->where("send_cis_status_id = 300")->all(); //Только те, что обработал ПреЛоадер
-        $data = Self::find()->asArray()->where("send_cis_status_id = 300 and id in (162, 163, 164, 165)")->all(); //FIXME: Для разработки!!!
+        $data = Self::find()->asArray()->where("send_cis_status_id = 300 and id in (160, 161, 162, 163, 164, 165)")->all(); //FIXME: Для разработки!!!
 
         if (!empty($data)) {
 
             $cis = new Cis();
             foreach ($data as $item) {
 
-                /**
-                 * Ищем договор в буферной таблице
-                 */
-                $contract = Self::findOne($item['id']);
-
                 $data = $cis->contractSender($item);
-                //$a = json_decode($item['data_json']);
+
+                if (isset($data['id_contract']) && isset($data['sign'])) { //Договор сохранился в КИС
+
+                    if ($data['sign'] == true) { //Договор подписан
+
+                    } else { //Договор не подписан
+
+                    }
+
+                } else if (strpos($data['message'], 'Дублирование регистрационного номера') != false) { //Дубликат
+
+                } else { //Все остальные ошибки и непонятки
+
+                }
+
+                $message = $data['message'];
+                $id_contract = $data['id_contract'];
+                $sign = $data['sign'];
 
                 /**
-                 * Заполняем поля
+                 * Заполняем служебные поля
                  */
-                $contract->send_cis_date = date('Y-m-d H:i:s', time());
-                $contract->send_cis_message = json_encode($data, JSON_UNESCAPED_UNICODE);; //Преобразованная серия полиса
-                $contract->id_cis = 11;
-                $contract->update();
+                $this->updateStatus($item['id'], 300, json_encode($data, JSON_UNESCAPED_UNICODE), 55);
+
             }
 
             return $data;
@@ -184,12 +197,14 @@ class Contract extends \yii\db\ActiveRecord
         $model = Self::findOne(['contract_id' => $data['contractId']]);
 
         if (!$model) {
+
             $contract = new Contract();
             $contract->contract_id = $data['contractId'];
             $contract->sagr = $data['sagr'];
             $contract->nagr = $data['nagr'];
             $contract->data_json = json_encode($data, JSON_UNESCAPED_UNICODE);
             $contract->save();
+
         }
 
     }
