@@ -86,7 +86,7 @@ class Contract extends SendCis
      */
     public function contractPreSender()
     {
-        $data = Self::find()->asArray()->where("send_cis_status_id = 0")->all();
+        $data = Self::find()->asArray()->where("send_cis_status_id in (0, 801)")->all();
 
         if (!empty($data)) {
 
@@ -117,7 +117,7 @@ class Contract extends SendCis
                 if ($contract->id_place === null) {
                     array_push($send_cis_message, 'Не найдено место регистрации');
                 }
-                $contract->send_cis_message = implode('; ', $send_cis_message);
+                //$contract->send_cis_message = implode('; ', $send_cis_message);
 
                 /**
                  * Устанавливаем статус send_cis_status_id
@@ -125,9 +125,12 @@ class Contract extends SendCis
                  */
                 if ($contract->id_blank === null || $contract->id_place === null) {
 
-                    $contract->send_cis_status_id = SendCisStatus::STATUS_ERROR_PRESENDER; //Ошибка Пресендера
+                    //$contract->send_cis_status_id = SendCisStatus::STATUS_ERROR_PRESENDER; //Ошибка Пресендера
+                    $this->updateStatus($item['id'], SendCisStatus::STATUS_ERROR_PRESENDER, implode('; ', $send_cis_message));
                 } else {
-                    $contract->send_cis_status_id = SendCisStatus::STATUS_PROCESSED_PRESENDER; //Обработан ПреСендером
+                    
+                    $this->updateStatus($item['id'], SendCisStatus::STATUS_PROCESSED_PRESENDER, 'OK PRESENDER');
+                    //$contract->send_cis_status_id = SendCisStatus::STATUS_PROCESSED_PRESENDER; //Обработан ПреСендером
                 }
 
                 $contract->update();
@@ -144,8 +147,8 @@ class Contract extends SendCis
      */
     public function contractSender()
     {
-        //$data = Self::find()->asArray()->where("send_cis_status_id = 300")->all(); //Только те, что обработал ПреЛоадер
-        $data = Self::find()->asArray()->where("send_cis_status_id = 300 and id in (160, 161, 162, 163, 164, 165)")->all(); //FIXME: Для разработки!!!
+        $data = Self::find()->asArray()->where("send_cis_status_id in (300, 800)")->all(); //Только те, что обработал ПреЛоадер
+        //$data = Self::find()->asArray()->where("send_cis_status_id in (300, 800) and id in (160, 161, 162, 163, 164, 165)")->all(); //FIXME: Для разработки!!!
 
         if (!empty($data)) {
 
@@ -154,28 +157,35 @@ class Contract extends SendCis
 
                 $data = $cis->contractSender($item);
 
+
+$a = strpos($data['message'], 'Дублирование регистрационного номера');
+
+
                 if (isset($data['id_contract']) && isset($data['sign'])) { //Договор сохранился в КИС
 
                     if ($data['sign'] == true) { //Договор подписан
 
-                    } else { //Договор не подписан
+                        $this->updateStatus($item['id'], SendCisStatus::STATUS_SEND, 'OK', $data['id_contract']);
 
+                    } else { //Договор не подписан
+                        $this->updateStatus($item['id'], SendCisStatus::STATUS_SEND_NO_SIGN, $data['message'],/*json_encode($data, JSON_UNESCAPED_UNICODE)*/ $data['id_contract']);
                     }
 
                 } else if (strpos($data['message'], 'Дублирование регистрационного номера') != false) { //Дубликат
 
+                    $this->updateStatus($item['id'], SendCisStatus::STATUS_DUPLICATE, 'Дубликат');
                 } else { //Все остальные ошибки и непонятки
-
+                    $this->updateStatus($item['id'], SendCisStatus::STATUS_ERROR, json_encode($data, JSON_UNESCAPED_UNICODE));
                 }
 
-                $message = $data['message'];
-                $id_contract = $data['id_contract'];
-                $sign = $data['sign'];
+                //$message = $data['message'];
+                //$id_contract = $data['id_contract'];
+                //$sign = $data['sign'];
 
                 /**
                  * Заполняем служебные поля
                  */
-                $this->updateStatus($item['id'], 300, json_encode($data, JSON_UNESCAPED_UNICODE), 55);
+                //$this->updateStatus($item['id'], 300, json_encode($data, JSON_UNESCAPED_UNICODE), 55);
 
             }
 

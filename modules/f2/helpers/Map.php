@@ -10,7 +10,7 @@ class Map
 
     /**
      * Замена ID Места регистрации МТСБУ на ID КИС
-     * Для тех, что не находит API КИС
+     * Для тех, что не находит API КИС (таблица - B_ADDR_PLACES_KOATUU)
      *
      * @param int $value
      * @return int
@@ -22,6 +22,8 @@ class Map
             case 3345:return 41949; //ТЗ зареестровані в iнших краiнах
                 break;
             case 3603:return 33681; //Гадяч
+                break;
+            case 189:return 4837; //Кременець
                 break;
             default:return null;
         }
