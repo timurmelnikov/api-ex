@@ -128,7 +128,7 @@ class Contract extends SendCis
                     //$contract->send_cis_status_id = SendCisStatus::STATUS_ERROR_PRESENDER; //Ошибка Пресендера
                     $this->updateStatus($item['id'], SendCisStatus::STATUS_ERROR_PRESENDER, implode('; ', $send_cis_message));
                 } else {
-                    
+
                     $this->updateStatus($item['id'], SendCisStatus::STATUS_PROCESSED_PRESENDER, 'OK PRESENDER');
                     //$contract->send_cis_status_id = SendCisStatus::STATUS_PROCESSED_PRESENDER; //Обработан ПреСендером
                 }
@@ -157,9 +157,7 @@ class Contract extends SendCis
 
                 $data = $cis->contractSender($item);
 
-
-$a = strpos($data['message'], 'Дублирование регистрационного номера');
-
+                //$a = strpos($data['message'], 'Дублирование регистрационного номера');
 
                 if (isset($data['id_contract']) && isset($data['sign'])) { //Договор сохранился в КИС
 
@@ -168,7 +166,7 @@ $a = strpos($data['message'], 'Дублирование регистрацион
                         $this->updateStatus($item['id'], SendCisStatus::STATUS_SEND, 'OK', $data['id_contract']);
 
                     } else { //Договор не подписан
-                        $this->updateStatus($item['id'], SendCisStatus::STATUS_SEND_NO_SIGN, $data['message'],/*json_encode($data, JSON_UNESCAPED_UNICODE)*/ $data['id_contract']);
+                        $this->updateStatus($item['id'], SendCisStatus::STATUS_SEND_NO_SIGN, $data['message'], /*json_encode($data, JSON_UNESCAPED_UNICODE)*/ $data['id_contract']);
                     }
 
                 } else if (strpos($data['message'], 'Дублирование регистрационного номера') != false) { //Дубликат
