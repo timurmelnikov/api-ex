@@ -147,8 +147,8 @@ class Contract extends SendCis
      */
     public function contractSender()
     {
-        $data = Self::find()->asArray()->where("send_cis_status_id in (300, 800)")->all(); //Только те, что обработал ПреЛоадер
-        //$data = Self::find()->asArray()->where("send_cis_status_id in (300, 800) and id in (160, 161, 162, 163, 164, 165)")->all(); //FIXME: Для разработки!!!
+        $data = Self::find()->asArray()->where("send_cis_status_id in (300, 800)")->all(); //Только те, что обработал ПреЛоадер FIXME: использовать константы!!!
+        //$data = Self::find()->asArray()->where("send_cis_status_id in (300, 800) and id in (860)")->all(); //FIXME: Для разработки!!!
 
         if (!empty($data)) {
 
@@ -156,8 +156,6 @@ class Contract extends SendCis
             foreach ($data as $item) {
 
                 $data = $cis->contractSender($item);
-
-                //$a = strpos($data['message'], 'Дублирование регистрационного номера');
 
                 if (isset($data['id_contract']) && isset($data['sign'])) { //Договор сохранился в КИС
 
@@ -175,15 +173,6 @@ class Contract extends SendCis
                 } else { //Все остальные ошибки и непонятки
                     $this->updateStatus($item['id'], SendCisStatus::STATUS_ERROR, json_encode($data, JSON_UNESCAPED_UNICODE));
                 }
-
-                //$message = $data['message'];
-                //$id_contract = $data['id_contract'];
-                //$sign = $data['sign'];
-
-                /**
-                 * Заполняем служебные поля
-                 */
-                //$this->updateStatus($item['id'], 300, json_encode($data, JSON_UNESCAPED_UNICODE), 55);
 
             }
 

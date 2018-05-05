@@ -101,7 +101,7 @@ class Map
      * Мапер ТВП от франшизы
      *
      * @param int $value
-     * @return boolean
+     * @return float
      */
     public static function tvp($value)
     {
@@ -109,7 +109,7 @@ class Map
         switch ($value) {
             case 1000:return 51.43;
                 break;
-            case 0:return 44;
+            case 0:return 44.00;
                 break;
 
         }
@@ -138,7 +138,8 @@ class Map
     /**
      * Возвращает ID Категории авто.
      * Таблица КИС - O_INI_AUTO_CATEGORIES
-     * FIXME: Метод не готов! Не знаю соответствия данных,
+     * FIXME: Метод не готов! Не знаю соответствия данных.
+     * TODO: Метод не используется.
      * что приходят в поле "c_type" категориям в таблице O_INI_AUTO_CATEGORIES
      *
      * @param int $value
@@ -152,6 +153,32 @@ class Map
                 break;
             case 2:return 14;
                 break;
+
+            // case 1:return 11;
+            // break;
+            // case 2:return 11;
+            // break;
+            // case 3:return 11;
+            // break;
+            // case 4:return 11;
+            // break;
+            // case 5:return 11;
+            // break;
+            // case 6:return 11;
+            // break;
+            // case 7:return 11;
+            // break;
+            // case 8:return 11;
+            // break;
+            // case 9:return 11;
+            // break;
+            // case 10:return 11;
+            // break;
+            // case 11:return 11;
+            // break;
+            // case 12:return 11;
+            // break;
+
             default:return null;
 
         }

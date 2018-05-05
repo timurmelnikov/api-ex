@@ -44,7 +44,16 @@ class F2Controller extends Controller
     public function actionDocumentSender()
     {
         echo \Yii::$app->params['use_config']."\n";
-        echo 'Hello f2 DocumentSender !!!';
+
+        //Обработка ПреСендером
+        $contract = new Contract();
+        $contract->contractPreSender();
+   
+        //Вставка договора в КИС
+        $contract = new Contract();
+        $data = $contract->contractSender();
+
+        echo 'Готово.';
     }
 
    

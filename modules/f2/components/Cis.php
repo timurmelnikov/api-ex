@@ -81,7 +81,6 @@ class Cis extends \app\common\components\Cis
             'Calculator.InsuranceParam.Contract.InureDate' => date('d.m.Y', strtotime($contract_data['d_beg'])), //Дата начала действия //d_beg
             'Calculator.InsuranceParam.Contract.EndDate' => date('d.m.Y', strtotime($contract_data['d_end'])), //Дата окончания действия //d_end
             'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.Address.AddressString' => $contract_data['address_e'], //Адрес проживания //address_e
-
             'Calculator.InsuranceParam.Contract.PrivilegeDocument.DocumentType' => ['ID' => Map::idDocType($contract_data['doc_name'])], //ИД берется из справочника типов документов
             //'Calculator.InsuranceParam.Contract.PrivilegeDocument.Date' => '26.07.2000', //Дата выдачи документа
             'Calculator.InsuranceParam.Contract.PrivilegeDocument.DocumentLastName' => $contract_data['f_name'], //Фамилия
@@ -95,7 +94,7 @@ class Cis extends \app\common\components\Cis
             'Calculator.InsuranceParam.Contract.ContractCustomerNative.Signer' => ['ID' => '106422'], //Константа
             'Calculator.InsuranceParam.Contract.ContractCustomerNative.SignerAll' => '1', //Константа
             'Calculator.InsuranceParam.Contract.ContractCustomerNative.IsContractCustomer' => '0', //Константа
-            //'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.AutoCategory' => ['ID' => '4'], //ИД берется из справочника Категорий ТС //FIXME: Будет использован хелпер Map::idAutoCategory()
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.AutoCategory' => ['ID' => $contract_data['c_type']], //ИД берется из справочника Категорий ТС //FIXME: Будет использован хелпер Map::idAutoCategory()
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.AutoModelString' => $contract_data['auto'], //Автомобиль строкой //auto
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.ManufactureYear' => $contract_data['prod_year'], //Год выпуска ТС //prod_year
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.VIN' => $contract_data['vin'], //ВИН код ТС  //vin
@@ -103,7 +102,7 @@ class Cis extends \app\common\components\Cis
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.CurrentAutoCertificate.RegistrationPlace' => ['ID' => $data['id_place']], //ID города регистрации ТС в КИС
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.CurrentAutoCertificate.StateNumber' => $contract_data['reg_no'], //Гос. номер ТС  //reg_no
             'Calculator.InsuranceParam.Contract.InsuranceParam0.FranchiseCurrency' => $contract_data['franchise'], //Франшиза //franchise
-            //'Calculator.InsuranceParam.Contract.InsuranceParam0.FirstInternalReinsuranceTariff' => Map::tvp($contract_data['franchise']), //ТВП,% FIXME: В пятницу 04.05.2018 Рома запустит
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.FirstInternalReinsuranceTariff' => Map::tvp($contract_data['franchise']), //ТВП,% FIXME: В пятницу 04.05.2018 Рома запустит
             'Calculator.InsuranceParam.Contract.InsuranceParam0.Loading' => 30, //Нагрузка
             'Calculator.InsuranceParam.Contract.InsuranceParam0.BaseTariff' => 180, //Константа
             'Calculator.InsuranceParam.Contract.InsuranceParam0.FirstTariff' => $contract_data['payment'], //Страховой платеж  //payment
