@@ -38,6 +38,18 @@ $config = [
                 ]
             ],
         ],
+        'f3' => [
+            'class' => 'app\modules\f3\Flow3',
+            'as access' => [
+                'class' => 'yii\filters\AccessControl',
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@']
+                    ],
+                ]
+            ],
+        ],
     ],
     'components' => [
         'request' => [

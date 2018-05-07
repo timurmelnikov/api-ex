@@ -52,6 +52,8 @@ AppAsset::register($this);
                 ['label' => 'Поток 1 (ПриватБанк)', 'url' => ['/f1']],
                 '<li class="divider"></li>',
                 ['label' => 'Поток 2 (ПриватБанк ОСАГО)', 'url' => ['/f2']],
+                '<li class="divider"></li>',
+                ['label' => 'Поток 3 (Busfor)', 'url' => ['/f3']],
 
             ],
             'visible' => !Yii::$app->user->isGuest,
