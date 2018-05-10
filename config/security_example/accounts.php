@@ -118,6 +118,8 @@ if ($use_config == 'go!') {
          */
         'busfor_1' => [
             'token' => 'xxx',
+            'url' => 'https://xxx.xx',
+            'path' => '/xxx/xxx',
         ],
     ];
 
@@ -200,6 +202,8 @@ if ($use_config == 'test') {
          */
         'busfor_1' => [
             'token' => 'xxx',
+            'url' => 'https://xxx.xx',
+            'path' => '/xxx/xxx',
         ],
     ];
 }

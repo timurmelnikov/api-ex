@@ -27,7 +27,7 @@ class Claim extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'f1_claim';
+        return '{{%f1_claim}}';
     }
 
     /**

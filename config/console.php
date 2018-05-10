@@ -22,6 +22,11 @@ $config = [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'logFile' => '@runtime/logs/http-request.log',
+                    'categories' => ['yii\httpclient\*'],
+                ],
             ],
         ],
         'db' => $db,

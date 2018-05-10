@@ -22,21 +22,21 @@ class Busfor extends Component
      *
      * @return mixed
      */
-    public function contractGetter($dateFrom, $dateTo, $state = ["CONCLUDED"])
+    public function contractGetter($dateFrom, $dateTo)
     {
 
         set_time_limit(Yii::$app->params['e']['time_limit']);
 
         $client = new Client();
         $response = $client->createRequest()
-            ->setMethod('post')
-            ->setUrl(Yii::$app->params['s']['pb_2']['url'] . Yii::$app->params['s']['pb_2']['path'])
-            ->setHeaders(['Authorization' => Yii::$app->params['s']['pb_2']['token']])
-            ->setFormat(Client::FORMAT_JSON)
+            ->setMethod('get')
+            ->setUrl(Yii::$app->params['s']['busfor_1']['url'] . Yii::$app->params['s']['busfor_1']['path'])
+            ->setHeaders(['Auth-Token' => Yii::$app->params['s']['busfor_1']['token']])
+            ->setFormat(Client::FORMAT_RAW_URLENCODED)
             ->setData([
-                'dateFrom' => $dateFrom . 'T00:00:00.000',
-                'dateTo' => $dateTo . 'T00:00:00.000',
-                'state' => $state,
+                'from' => $dateFrom . 'T00:00:00.000',
+                'to' => $dateTo . 'T00:00:00.000',
+                
             ])
             ->send();
 

@@ -18,7 +18,8 @@ use Yii;
  * @property string $sagr Серия договора
  * @property string $nagr № договора
  * @property string $data_json Данные JSON
-
+ * @property string $id_blank ID бланка КИС
+ * @property string $id_place ID места регистрации
  * @property string $send_cis_date Дата успешной отправки в КИС
  * @property string $send_cis_message Сообщение об отправке в КИС
  * @property int $send_cis_status_id Статус отправки в КИС
@@ -31,7 +32,7 @@ class Contract extends SendCis
      */
     public static function tableName()
     {
-        return 'f2_contract';
+        return '{{%f2_contract}}';
     }
 
     /**
