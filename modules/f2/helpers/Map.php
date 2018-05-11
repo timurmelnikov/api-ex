@@ -138,8 +138,6 @@ class Map
     /**
      * Возвращает ID Категории авто.
      * Таблица КИС - O_INI_AUTO_CATEGORIES
-     * FIXME: Метод не готов! Не знаю соответствия данных.
-     * TODO: Метод не используется.
      * что приходят в поле "c_type" категориям в таблице O_INI_AUTO_CATEGORIES
      *
      * @param int $value
@@ -149,36 +147,30 @@ class Map
     {
 
         switch ($value) {
-            case 1:return 11;
+            case 5:return 1;
                 break;
-            case 2:return 14;
+            case 6:return 2;
                 break;
-
-            // case 1:return 11;
-            // break;
-            // case 2:return 11;
-            // break;
-            // case 3:return 11;
-            // break;
-            // case 4:return 11;
-            // break;
-            // case 5:return 11;
-            // break;
-            // case 6:return 11;
-            // break;
-            // case 7:return 11;
-            // break;
-            // case 8:return 11;
-            // break;
-            // case 9:return 11;
-            // break;
-            // case 10:return 11;
-            // break;
-            // case 11:return 11;
-            // break;
-            // case 12:return 11;
-            // break;
-
+            case 1:return 3;
+                break;
+            case 2:return 4;
+                break;
+            case 3:return 5;
+                break;
+            case 4:return 6;
+                break;
+            case 7:return 7;
+                break;
+            case 8:return 8;
+                break;
+            case 9:return 9;
+                break;
+            case 10:return 10;
+                break;
+            case 12:return 11;
+                break;
+            case 11:return 12;
+                break;
             default:return null;
 
         }
