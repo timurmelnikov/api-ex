@@ -94,7 +94,7 @@ class Cis extends \app\common\components\Cis
             'Calculator.InsuranceParam.Contract.ContractCustomerNative.Signer' => ['ID' => '106422'], //Константа
             'Calculator.InsuranceParam.Contract.ContractCustomerNative.SignerAll' => '1', //Константа
             'Calculator.InsuranceParam.Contract.ContractCustomerNative.IsContractCustomer' => '0', //Константа
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.AutoCategory' => ['ID' => Map::idAutoCategory($contract_data['c_type']), //ИД берется из справочника Категорий ТС //FIXME: Проверить!!! хелпер Map::idAutoCategory() уже написан!!!
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.AutoCategory' => ['ID' => Map::idAutoCategory($contract_data['c_type'])], //ИД берется из справочника Категорий ТС //FIXME: Проверить!!! хелпер Map::idAutoCategory() уже написан!!!
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.AutoModelString' => $contract_data['auto'], //Автомобиль строкой //auto
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.ManufactureYear' => $contract_data['prod_year'], //Год выпуска ТС //prod_year
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.VIN' => $contract_data['vin'], //ВИН код ТС  //vin
