@@ -3,7 +3,7 @@
 namespace app\modules\f3;
 
 /**
- * f3 module definition class
+ * Поток 3 Busfor
  */
 class Flow3 extends \yii\base\Module
 {

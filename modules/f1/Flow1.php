@@ -3,9 +3,7 @@
 namespace app\modules\f1;
 
 /**
- * Поток 1
- * Обмен с ПриватБанк
- * Продукты - RT, HI, SKM, NBR
+ * Поток 1 ПриватБанк (продукты - RT, HI, SKM, NBR)
  */
 class Flow1 extends \yii\base\Module
 {

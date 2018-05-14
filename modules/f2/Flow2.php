@@ -3,9 +3,7 @@
 namespace app\modules\f2;
 
 /**
- * Поток 2
- * Обмен с ПриватБанк
- * Прямой импорт ОСАГО
+ * Поток 2 ПриватБанк ОСАГО
  */
 class Flow2 extends \yii\base\Module
 {

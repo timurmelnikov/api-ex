@@ -49,11 +49,13 @@ class F2Controller extends Controller
         $contract = new Contract();
         $contract->contractPreSender();
    
+        echo 'Готово "PreSender".';
+
         //Вставка договора в КИС
         $contract = new Contract();
         $data = $contract->contractSender();
 
-        echo 'Готово.';
+        echo 'Готово "Sender".';
     }
 
    
