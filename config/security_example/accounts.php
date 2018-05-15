@@ -94,6 +94,15 @@ if ($use_config == 'go!') {
         ],
 
         /**
+         * Пользователь КИС "xxx"
+         */
+        'cis_busfor' => [
+            'description' => 'Пользователь КИС "xxx"',
+            'username' => 'xxx',
+            'password' => 'xxx',
+        ],
+
+        /**
          * Настройки аккаунта КИС для всех пользователей
          */
         'cis_all_users' => [
@@ -172,6 +181,15 @@ if ($use_config == 'test') {
          * Пользователь КИС "xxx"
          */
         'cis_privat_bank' => [
+            'description' => 'Пользователь КИС "xxx"',
+            'username' => 'xxx',
+            'password' => 'xxx',
+        ],
+
+        /**
+         * Пользователь КИС "xxx"
+         */
+        'cis_busfor' => [
             'description' => 'Пользователь КИС "xxx"',
             'username' => 'xxx',
             'password' => 'xxx',

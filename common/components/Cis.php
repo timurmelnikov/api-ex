@@ -52,6 +52,9 @@ class Cis extends Component
      */
     protected $session;
 
+    /**
+     * Конструктор
+     */
     public function __construct()
     {
         $this->url = \Yii::$app->params['s']['cis_all_users']['url'];
@@ -59,6 +62,9 @@ class Cis extends Component
         sleep(1);
     }
 
+    /**
+     * Деструктор
+     */
     public function __destruct()
     {
         $this->cisLogout();
@@ -75,8 +81,8 @@ class Cis extends Component
         set_time_limit(Yii::$app->params['e']['time_limit']);
 
         $request_data = [
-            'login' => \Yii::$app->params['s']['cis_privat_bank']['username'],
-            'pass' => \Yii::$app->params['s']['cis_privat_bank']['password'],
+            'login' => $this->username, //\Yii::$app->params['s']['cis_privat_bank']['username'],
+            'pass' => $this->password, //\Yii::$app->params['s']['cis_privat_bank']['password'],
         ];
 
         $client = new Client();

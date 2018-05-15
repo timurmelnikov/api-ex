@@ -10,6 +10,17 @@ class Cis extends \app\common\components\Cis
 {
 
     /**
+     * Конструктор
+     */
+    public function __construct()
+    {
+        $this->username = \Yii::$app->params['s']['cis_busfor']['username'];
+        $this->password = \Yii::$app->params['s']['cis_busfor']['password'];
+        parent::__construct();
+
+    }
+
+    /**
      * Отправляет договор в КИС
      * FIXME: Метод в разработке!
      *
@@ -21,11 +32,11 @@ class Cis extends \app\common\components\Cis
         $contract_data = json_decode($data['data_json'], true);
 
         $requestData = [
-            'SalePoint' => ['ID' => '7122'], // Точка продаж (тут будет другой ид!)
+            'SalePoint' => ['ID' => '14923'], // Точка продаж
             'InsurancePackage' => ['ID' => '349'], // Продукт
             'InsuranceTariff' => ['ID' => '1748'], // Тарифная сетка (тут будет другой ид!)
             'OnDate' => '26.04.2018', // Дата заключения договора
-            'Department' => ['ID' => '6158'], // Подразделение (тут будет другой ид!)
+            'Department' => ['ID' => '6159'], // Подразделение
             // -------------------------------------------------------------------------------------------------------------------------------------- Договор
             'Calculator.InsuranceParam.Contract.ContractNumber' => 'DNH0NBR-16BT09K', // Номер билета (id)
             'Calculator.InsuranceParam.Contract.ContractNumberIsChanged' => '1', // Признак, что NUM_DOC отличается от REG_NUM (не трогать)

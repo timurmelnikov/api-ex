@@ -12,6 +12,17 @@ class Cis extends \app\common\components\Cis
 {
 
     /**
+     * Конструктор
+     */
+    public function __construct()
+    {
+        $this->username = \Yii::$app->params['s']['cis_privat_bank']['username'];
+        $this->password = \Yii::$app->params['s']['cis_privat_bank']['password'];
+        parent::__construct();
+    
+    }
+
+    /**
      * Получает ID Бланка.
      *
      * @return mixed
