@@ -2,6 +2,8 @@
 
 namespace app\modules\f3\components;
 
+use app\common\helpers\Parser;
+
 /*
  * Класс работы с API КИС-WEB.
  * Busfor.
@@ -36,7 +38,7 @@ class Cis extends \app\common\components\Cis
             'InsurancePackage' => ['ID' => '349'], // Продукт
             'InsuranceTariff' => ['ID' => '1748'], // Тарифная сетка (тут будет другой ид!)
             'OnDate' => '26.04.2018', // Дата заключения договора
-            'Department' => ['ID' => '6159'], // Подразделение
+            'Department' => ['ID' => '6165'], // Подразделение
             // -------------------------------------------------------------------------------------------------------------------------------------- Договор
             'Calculator.InsuranceParam.Contract.ContractNumber' => 'DNH0NBR-16BT09K', // Номер билета (id)
             'Calculator.InsuranceParam.Contract.ContractNumberIsChanged' => '1', // Признак, что NUM_DOC отличается от REG_NUM (не трогать)
@@ -46,9 +48,9 @@ class Cis extends \app\common\components\Cis
             'Calculator.InsuranceParam.Contract.ContractCustomerNative.Signer' => ['ID' => '106422'], // Подписант (Артюхов)
             // --------------------------------------------------------------------------------------------------------------------------------------
             // -------------------------------------------------------------------------------------------------------------------------------------- Страхователь
-            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.LastName' => 'Statham', // Фамилия страхователя (passenger_nameр)
-            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.FirstName' => 'Jason', // Имя страхователя (passenger_name)
-            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.MiddleName' => 'Yurievich', // Отчество страхователя (passenger_name)
+            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.LastName' => Parser::fio($passenger_name, Parser::FIO_FIRST_NAME),//'Statham', // Фамилия страхователя (passenger_nameр)
+            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.FirstName' => Parser::fio($passenger_name, Parser::FIO_LAST_NAME),//'Jason', // Имя страхователя (passenger_name)
+            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.MiddleName' => Parser::fio($passenger_name, Parser::FIO_PATRONIMIC_NAME),//'Yurievich', // Отчество страхователя (passenger_name)
             'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.ContactTelephone.PhoneCountry' => '+380', // Телефонный код страны
             'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.ContactTelephone.PhoneNumber' => '501111111', // Телефонный номер страхователя (passenger_phone)
             // --------------------------------------------------------------------------------------------------------------------------------------
@@ -59,9 +61,9 @@ class Cis extends \app\common\components\Cis
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.TrainNumber' => '12', // Номер рейса (trip_number)
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DispatchPlace' => 'Киев', // Место отправления (trip_from_city)
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.ArrivalPlace' => 'Харьков', // Место прибытия (trip_to_city)
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateStartTravel' => '27.04.2018 09=>15', // Время и дата отправки (trip_start_at)
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateInureDoc' => '27.04.2018 09=>15', // Время и дата начала действия договора = trip_start_at
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateEndDoc' => '27.04.2018 12=>15', // Время и дата прекращения действия договора = trip_start_at + 3 часа.
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateStartTravel' => '27.04.2018 09:15', // Время и дата отправки (trip_start_at)
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateInureDoc' => '27.04.2018 09:15', // Время и дата начала действия договора = trip_start_at
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateEndDoc' => '27.04.2018 12:15', // Время и дата прекращения действия договора = trip_start_at + 3 часа.
             // --------------------------------------------------------------------------------------------------------------------------------------
 
         ];
