@@ -33,7 +33,7 @@ AppAsset::register($this);
         <div class="wrap">
             <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
+        'brandLabel' => Yii::$app->name. ' ('.Yii::$app->params['use_config'].')',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -46,13 +46,13 @@ AppAsset::register($this);
 
 
 
-            ['label' => 'Тестирование API',
+            ['label' => 'Вызовы API',
             'items' => [
 
+                ['label' => 'Сообщения (e-mail)', 'url' => ['/message']],
+                '<li class="divider"></li>',
                 ['label' => 'Поток 1 (ПриватБанк)', 'url' => ['/f1']],
-                '<li class="divider"></li>',
                 ['label' => 'Поток 2 (ПриватБанк ОСАГО)', 'url' => ['/f2']],
-                '<li class="divider"></li>',
                 ['label' => 'Поток 3 (Busfor)', 'url' => ['/f3']],
 
             ],
@@ -90,9 +90,26 @@ AppAsset::register($this);
 
                 <div class="container">
                     <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
+                        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                    ]) ?>
                         <?= Alert::widget() ?>
+
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?php if (\Yii::$app->params['use_config'] == 'go!'): ?>
+                                    <div class="alert alert-danger alert-slim" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong>Внимание!!!: </strong> Используются боевые настройки ($use_config = 'go!').
+                                    </div>
+                                    <?php endIf; ?>
+                                </div>
+
+                            </div>
+
                             <?= $content ?>
                 </div>
         </div>

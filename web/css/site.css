@@ -113,3 +113,11 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+/* Мои классы */
+.alert-slim {
+    margin-bottom: 1px;
+    height: 30px;
+    line-height:30px;
+    padding:0px 15px;
+  }
