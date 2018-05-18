@@ -106,7 +106,7 @@ if ($use_config == 'go!') {
          * Настройки аккаунта КИС для всех пользователей
          */
         'cis_all_users' => [
-            'url' => 'https://xxx/',
+            'url' => 'https://xxx',
         ],
 
         /**
@@ -199,7 +199,7 @@ if ($use_config == 'test') {
          * Настройки аккаунта КИС для всех пользователей
          */
         'cis_all_users' => [
-            'url' => 'https://xxx/',
+            'url' => 'https://xxx',
         ],
 
         /**

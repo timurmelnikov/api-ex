@@ -30,7 +30,7 @@ class Cis extends \app\common\components\Cis
     public function idBlankGetter($series, $number)
     {
 
-        $data = $this->cisRequest('cis/utils/blanks_by_series_number', ['series' => $series, 'number' => $number]);
+        $data = $this->cisRequest('/cis/utils/blanks_by_series_number', ['series' => $series, 'number' => $number]);
 
         if (isset($data[0]['id_blank'])) {
             return $data[0]['id_blank'];
@@ -45,7 +45,7 @@ class Cis extends \app\common\components\Cis
     public function idPlaceGetter($id_place_mtsbu)
     {
 
-        $data = $this->cisRequest('cis/utils/reg_place_by_id_mtsbu', ['id_place_mtsbu' => $id_place_mtsbu]);
+        $data = $this->cisRequest('/cis/utils/reg_place_by_id_mtsbu', ['id_place_mtsbu' => $id_place_mtsbu]);
 
         $id_place = null;
 
@@ -140,7 +140,7 @@ class Cis extends \app\common\components\Cis
             'Calculator.InsuranceParam.Contract.InsuranceParam0.AutoUsageMonths12' => Map::isActive($contract_data['is_active12']), //is_active12
         ];
 
-        $data = $this->cisRequest('cis/calc/form', $requestData, Cis::MODE_CONTRACT);
+        $data = $this->cisRequest('/cis/calc/form', $requestData, Cis::MODE_CONTRACT);
 
         return $data;
 

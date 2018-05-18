@@ -62,7 +62,7 @@ class Contract extends SendCis
 
         $pb = new Busfor();
         //$data = $pb->contractGetter(date('Y-m-d', strtotime('-' . \Yii::$app->params['e']['f3']['report_days'] . ' day')), date('Y-m-d'));
-        $data = $pb->contractGetter('2018-04-28', '2018-04-29');  //FIXME: Только для разработки!!!
+        $data = $pb->contractGetter('2018-04-28', '2018-05-17');  //FIXME: Только для разработки!!!
         foreach ($data as $item) {
 
             $this->contractInsert($item);

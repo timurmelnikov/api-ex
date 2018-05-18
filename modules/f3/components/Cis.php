@@ -68,7 +68,7 @@ class Cis extends \app\common\components\Cis
 
         ];
 
-        $data = $this->cisRequest('cis/calc/form', $requestData, Cis::MODE_CONTRACT);
+        $data = $this->cisRequest('/cis/calc/form', $requestData, Cis::MODE_CONTRACT);
 
         return $data;
 

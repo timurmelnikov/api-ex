@@ -25,11 +25,11 @@ class DefaultController extends Controller
 
 
         //Получение договоров в таблицу CONTRACTS
-        //$contract = new Contract();
-        //$data = $contract->contractGetter();
+        $contract = new Contract();
+        $data = $contract->contractGetter();
 
 
-        $data = Parse::fio('Мельников11111111111111119123456789   Тимур  Викторович')[1];
+        //$data = Parse::fio('Мельников11111111111111119123456789   Тимур  Викторович')[1];
         //$data = Parse::inn('2741708592');
 
         //Вставка договора в КИС
