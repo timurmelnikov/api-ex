@@ -22,6 +22,20 @@ $config = [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
+
+                /**
+                 * Логирование приложения
+                 * Логирование ошибок, например, выглядит так:
+                 * Yii::error('Текст сообщения', 'app')
+                 * Данные лога, будут сваливаться в файл app-api-ex.log
+                 */
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error', 'warning', 'info'],
+                    'logFile' => '@runtime/logs/app-api-ex.log',
+                    'categories' => ['app'],
+                    'logVars' => [],
+                ],                
                 [
                     'class' => 'yii\log\FileTarget',
                     'logFile' => '@runtime/logs/http-request.log',

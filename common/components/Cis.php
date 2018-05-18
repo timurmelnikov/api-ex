@@ -97,11 +97,11 @@ class Cis extends Component
             if ($response->isOk) {
                 $this->session = $response->headers->get('set-cookie');
             } else {
-                Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode() . ' Не удалось авторизироваться.');
+                Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode() . ' Не удалось авторизироваться.', 'app');
             }
 
         } catch (\Exception $e) {
-            Yii::error(__METHOD__ . ': Ошибка - ' . $e->getMessage() . ' Не удалось авторизироваться (Исключение HTTP клиента).');
+            Yii::error(__METHOD__ . ': Ошибка - ' . $e->getMessage() . ' Не удалось авторизироваться (Исключение HTTP клиента).', 'app');
         }
     }
 
@@ -170,12 +170,12 @@ class Cis extends Component
             if ($response->isOk) {
                 return $response->data;
             } else {
-                Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode() . ' Не удалось выполнить запрос к КИС-WEB.');
+                Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode() . ' Не удалось выполнить запрос к КИС-WEB.', 'app');
                 return 'Ошибка - ' . $response->getStatusCode() . ' Не удалось выполнить запрос к КИС-WEB.';
             }
 
         } catch (\Exception $e) {
-            Yii::error(__METHOD__ . ': Ошибка - ' . $e->getMessage() . ' Не удалось выполнить запрос к КИС-WEB (Исключение HTTP клиента).');
+            Yii::error(__METHOD__ . ': Ошибка - ' . $e->getMessage() . ' Не удалось выполнить запрос к КИС-WEB (Исключение HTTP клиента).', 'app');
             return ' Ошибка - ' . $e->getMessage() . ' Не удалось выполнить запрос к КИС-WEB (Исключение HTTP клиента).';
         }
 

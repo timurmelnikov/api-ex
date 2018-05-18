@@ -14,6 +14,13 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     public $authKey;
     public $accessToken;
 
+    /**
+     * Массив пользователей
+     * TODO: Авторизацию и контроль доступа сделать на RBAC.
+     * Сейчас, это ни на что не влияет - пользователького интерфейса как такового нет.
+     * Работать с системой, могут только те, кто вошел на сервер "integrity".
+     * Ничего страшного, что эти пароли в открытом доступе - НЕТ.
+     */
     private static $users = [
         '100' => [
             'id' => '100',
@@ -38,8 +45,6 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
         ],
 
     ];
-
-  
 
     /**
      * {@inheritdoc}

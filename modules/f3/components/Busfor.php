@@ -44,7 +44,7 @@ class Busfor extends Component
             return $response->data;
 
         } else {
-            Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode(). ' Не удалось выполнить запрос.');
+            Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode(). ' Не удалось выполнить запрос.', 'app');
             return null;
         }
 
