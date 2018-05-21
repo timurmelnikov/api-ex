@@ -2,9 +2,9 @@
 namespace app\modules\f2\helpers;
 
 /**
- * Глобальные хелперы мапинга(замены) Потока 2.
+ * Хелперы мапинга(замены) Потока 2.
  */
-class Map
+class Map extends \app\common\helpers\Map
 {
 
     /**

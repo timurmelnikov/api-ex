@@ -23,13 +23,13 @@ class Parse
 
         if ($spaces != 2) {
             if (strlen($fio) == 0) {
-                $fio_array[0] = '-';
+                $fio_array[0] = '';
             }
             if (!isset($fio_array[1])) {
-                $fio_array[1] = '-';
+                $fio_array[1] = '';
             }
             if (!isset($fio_array[2])) {
-                $fio_array[2] = '-';
+                $fio_array[2] = '';
             }
         }
 

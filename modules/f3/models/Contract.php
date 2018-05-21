@@ -62,7 +62,7 @@ class Contract extends SendCis
 
         $pb = new Busfor();
         //$data = $pb->contractGetter(date('Y-m-d', strtotime('-' . \Yii::$app->params['e']['f3']['report_days'] . ' day')), date('Y-m-d'));
-        $data = $pb->contractGetter('2018-04-28', '2018-05-22');  //FIXME: Только для разработки!!!
+        $data = $pb->contractGetter('2018-05-15', '2018-05-22');  //FIXME: Только для разработки!!!
         foreach ($data as $item) {
 
             $this->contractInsert($item);
@@ -83,7 +83,7 @@ class Contract extends SendCis
     {
         
         //$data = Self::find()->asArray()->where(['in', 'send_cis_status_id',  [SendCisStatus::STATUS_DAFAULT, SendCisStatus::STATUS_ERROR]])->andWhere("insurance_state = 'confirmed'")->all(); //Только новые и ошибки (0, 800)
-        $data = Self::find()->asArray()->where("send_cis_status_id in (0, 800) and id in (19, 18) and insurance_state = 'confirmed'")->all(); //FIXME: Для разработки!!!
+        $data = Self::find()->asArray()->where("send_cis_status_id in (0, 800) and id in (31, 28) and insurance_state = 'confirmed'")->all(); //FIXME: Для разработки!!!
         if (!empty($data)) {
             $cis = new Cis();
             foreach ($data as $item) {
