@@ -18,7 +18,7 @@ class m180516_084839_create_table_g_e_message_status extends Migration
             'note' => $this->string(100)->null()->comment('Примечание'),
         ], 'ENGINE=InnoDB');
 
-        $this->addCommentOnTable('{{%g_e_message_status}}', 'Перечисление типов сообщений');
+        $this->addCommentOnTable('{{%g_e_message_status}}', 'Перечисление статусов сообщений');
 
         /**
          * Убираем автоинкримент

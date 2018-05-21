@@ -3,12 +3,13 @@
 namespace app\commands;
 
 use yii\console\Controller;
+use app\modules\f3\models\Contract;
 
 /**
  * Консольные инициаторы Потока 3.
  * @author Timur Melnikov <melnikovt@gmail.com>
  */
-class F2Controller extends Controller
+class F3Controller extends Controller
 {
 
     /**
@@ -25,8 +26,9 @@ class F2Controller extends Controller
 
         echo \Yii::$app->params['use_config'] . "\n";
 
-        //$contract = new Contract();
-        //$contract->contractGetter();
+        
+        $contract = new Contract();
+        $contract->contractGetter();
 
         echo 'Готово.';
     }
@@ -49,8 +51,8 @@ class F2Controller extends Controller
         //$contract->contractPreSender();
 
         //Вставка договора в КИС
-        //$contract = new Contract();
-        //$data = $contract->contractSender();
+        $contract = new Contract();
+        $data = $contract->contractSender();
 
         echo 'Готово.';
     }

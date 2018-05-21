@@ -87,12 +87,11 @@ class Contract extends SendCis
      */
     public function contractPreSender()
     {
-        $data = Self::find()->asArray()->where("send_cis_status_id in (0, 801)")->all();
+        //$data = Self::find()->asArray()->where("send_cis_status_id in (0, 801)")->all();
+        $data = Self::find()->asArray()->where(['in', 'send_cis_status_id', [SendCisStatus::STATUS_DAFAULT, SendCisStatus::STATUS_ERROR_PRESENDER]])->all(); //Выборка новых и ошибки ПреСендера 0 и 801
 
         if (!empty($data)) {
-
             $cis = new Cis();
-
             foreach ($data as $item) {
 
                 /**
@@ -125,7 +124,6 @@ class Contract extends SendCis
                  * TODO: Стоит подумать про отдельный метод для этого
                  */
                 if ($contract->id_blank === null || $contract->id_place === null) {
-
                     //$contract->send_cis_status_id = SendCisStatus::STATUS_ERROR_PRESENDER; //Ошибка Пресендера
                     $this->updateStatus($item['id'], SendCisStatus::STATUS_ERROR_PRESENDER, implode('; ', $send_cis_message));
                 } else {
@@ -141,46 +139,33 @@ class Contract extends SendCis
     }
 
     /**
-     * Отправляет документы в API приемника
-     * FIXME: Метод в разработке
+     * Отправляет документы в API приемника (CIS)
      *
      * @return void
      */
     public function contractSender()
     {
-        $data = Self::find()->asArray()->where("send_cis_status_id in (300, 800)")->all(); //Только те, что обработал ПреЛоадер FIXME: использовать константы!!!
-        //$data = Self::find()->asArray()->where("send_cis_status_id in (300, 800) and id in (860)")->all(); //FIXME: Для разработки!!!
-
+        //$data = Self::find()->asArray()->where("send_cis_status_id in (300, 800)")->all(); ////Только те, что обработал ПреЛоадер (300, 800) (старая версия без констант)
+        $data = Self::find()->asArray()->where(['in', 'send_cis_status_id',  [SendCisStatus::STATUS_PROCESSED_PRESENDER, SendCisStatus::STATUS_ERROR]])->all(); //Только те, что обработал ПреЛоадер (300, 800)
+        //$data = Self::find()->asArray()->where("send_cis_status_id in (300, 800) and id in (860)")->all(); //Для разработки!!!
         if (!empty($data)) {
-
             $cis = new Cis();
             foreach ($data as $item) {
-
                 $data = $cis->contractSender($item);
-
                 if (isset($data['id_contract']) && isset($data['sign'])) { //Договор сохранился в КИС
-
                     if ($data['sign'] == true) { //Договор подписан
-
                         $this->updateStatus($item['id'], SendCisStatus::STATUS_SEND, 'OK', $data['id_contract']);
-
                     } else { //Договор не подписан
                         $this->updateStatus($item['id'], SendCisStatus::STATUS_SEND_NO_SIGN, $data['message'], /*json_encode($data, JSON_UNESCAPED_UNICODE)*/ $data['id_contract']);
                     }
-
                 } else if (strpos($data['message'], 'Дублирование регистрационного номера') != false) { //Дубликат
-
                     $this->updateStatus($item['id'], SendCisStatus::STATUS_DUPLICATE, 'Дубликат');
                 } else { //Все остальные ошибки и непонятки
                     $this->updateStatus($item['id'], SendCisStatus::STATUS_ERROR, json_encode($data, JSON_UNESCAPED_UNICODE));
                 }
-
             }
-
             return $data;
-
         }
-
     }
 
     /**

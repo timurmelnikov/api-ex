@@ -137,7 +137,7 @@ class Cis extends Component
      *
      * @return mixed
      */
-    public function cisRequest($path, $requestData, $mode = 0)
+    public function cisRequest($path, $requestData, $mode = self::MODE_URL_CODE)
     {
 
         set_time_limit(Yii::$app->params['e']['time_limit']);
@@ -146,10 +146,10 @@ class Cis extends Component
          * Подготовка данных запроса
          */
         switch ($mode) {
-            case 0:
+            case self::MODE_URL_CODE:
                 $requestData = http_build_query($requestData);
                 break;
-            case 1:
+            case self::MODE_CONTRACT:
                 $requestData = 'CreateContract=1&formData=' . rawurlencode(json_encode($requestData, JSON_UNESCAPED_UNICODE)) . '&is_load_json=1';
                 break;
         }
