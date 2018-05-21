@@ -66,9 +66,9 @@ class Cis extends \app\common\components\Cis
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.TrainNumber' =>  $contract_data['trip_number'], //'12', // Номер рейса (trip_number)
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DispatchPlace' => $contract_data['trip_from_city'], //'Киев', // Место отправления (trip_from_city)
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.ArrivalPlace' => $contract_data['trip_to_city'], //'Харьков', // Место прибытия (trip_to_city)
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateStartTravel' => date('d.m.Y', strtotime($contract_data['trip_start_at'])), // '21.05.2018 09:15', // Время и дата отправки (trip_start_at)
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateInureDoc' => date('d.m.Y', strtotime($contract_data['trip_start_at'])), //'21.05.2018 09:15', // Время и дата начала действия договора = trip_start_at
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateEndDoc' => date('d.m.Y', strtotime($contract_data['trip_start_at']) + 1080), //'21.05.2018 12:15', // Время и дата прекращения действия договора = trip_start_at + 3 часа.
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateStartTravel' => date('d.m.Y H:i', strtotime($contract_data['trip_start_at'])), // '21.05.2018 09:15', // Время и дата отправки (trip_start_at)
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateInureDoc' => date('d.m.Y H:i', strtotime($contract_data['trip_start_at'])), //'21.05.2018 09:15', // Время и дата начала действия договора = trip_start_at
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateEndDoc' => date('d.m.Y H:i', strtotime($contract_data['trip_start_at']) + 10800), //'21.05.2018 12:15', // Время и дата прекращения действия договора = trip_start_at + 3 часа.
             // --------------------------------------------------------------------------------------------------------------------------------------
 
         ];
