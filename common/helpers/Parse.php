@@ -11,7 +11,7 @@ class Parse
      * Разбор ФИО на части
      * 0-первая часть ФИО, 1-вторая, 2-третья
      * Пример: Parse::fio('Мельников Тимур  Викторович')[1] вернет 'Тимур'
-     * 
+     *
      * @param string $fio
      * @return array
      */
@@ -58,6 +58,27 @@ class Parse
         //list($result['day'], $result['month'], $result['year']) = explode('.', $date);
         $result['birthday'] = date('d.m.Y', strtotime('01.01.1900 + ' . $number . ' days - 1 days'));
         return $result;
+    }
+
+    /**
+     * Приведение даты к формату, что принимает API CIS
+     *
+     * @param string $date Строка с датой
+     * @param string $format Форматы возврщаемой даты: 's' (short) - '01.01.2000', 'f' (full) - '01.01.2000 01:01'
+     * @param int $offset Смещение (в часах). Может быть как положительным так и отрицательным
+     * @return string
+     */
+    public static function dateCis($date, $format = 's', $offset = 0)
+    {
+
+        if ($format == 's') {
+            return date('d.m.Y', strtotime($date) + ($offset * 3600));
+        }
+
+        if ($format == 'f') {
+            return date('d.m.Y H:i', strtotime($date) + ($offset * 3600));
+        }
+
     }
 
 }

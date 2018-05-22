@@ -3,6 +3,9 @@
 <h1>Поток 3 Busfor</h1>
 
 <?php
+
+use app\common\helpers\Parse;
+
 debug($data);
 ?>
 
@@ -21,4 +24,18 @@ debug($data);
         <li>D:\xampp\htdocs\api-ex\yii.bat f3/document-sender</li>
         <li>C:\xampp\htdocs\api-ex\yii.bat f3/document-sender</li>
     </ul>
+
+
+
+
+<?php
+
+echo Parse::dateCis('21.05.2018 09:15', 'full', 24);
+
+
+
+?>
+
+
+
 </div>
