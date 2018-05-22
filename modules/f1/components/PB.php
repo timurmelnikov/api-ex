@@ -39,7 +39,7 @@ class PB extends Component
      *
      * @param [type] $type
      * @param [type] $jsonParametr
-     * @return void TODO: Определиться с возвращаемім типом!!!
+     * @return mixed
      */
     public function sendRequest($type = self::TYPE_GET_DATA, $jsonParametr)
     {

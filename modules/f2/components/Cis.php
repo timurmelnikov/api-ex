@@ -105,7 +105,7 @@ class Cis extends \app\common\components\Cis
             'Calculator.InsuranceParam.Contract.ContractCustomerNative.Signer' => ['ID' => '106422'], //Константа
             'Calculator.InsuranceParam.Contract.ContractCustomerNative.SignerAll' => '1', //Константа
             'Calculator.InsuranceParam.Contract.ContractCustomerNative.IsContractCustomer' => '0', //Константа
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.AutoCategory' => ['ID' => Map::idAutoCategory($contract_data['c_type'])], //ИД берется из справочника Категорий ТС //FIXME: Проверить!!! хелпер Map::idAutoCategory() уже написан!!!
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.AutoCategory' => ['ID' => Map::idAutoCategory($contract_data['c_type'])], //ИД берется из справочника Категорий ТС
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.AutoModelString' => $contract_data['auto'], //Автомобиль строкой //auto
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.ManufactureYear' => $contract_data['prod_year'], //Год выпуска ТС //prod_year
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.VIN' => $contract_data['vin'], //ВИН код ТС  //vin
@@ -113,7 +113,7 @@ class Cis extends \app\common\components\Cis
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.CurrentAutoCertificate.RegistrationPlace' => ['ID' => $data['id_place']], //ID города регистрации ТС в КИС
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.CurrentAutoCertificate.StateNumber' => $contract_data['reg_no'], //Гос. номер ТС  //reg_no
             'Calculator.InsuranceParam.Contract.InsuranceParam0.FranchiseCurrency' => $contract_data['franchise'], //Франшиза //franchise
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.FirstInternalReinsuranceTariff' => Map::tvp($contract_data['franchise']), //ТВП,% FIXME: В пятницу 04.05.2018 Рома запустит
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.FirstInternalReinsuranceTariff' => Map::tvp($contract_data['franchise']), //ТВП,%
             'Calculator.InsuranceParam.Contract.InsuranceParam0.Loading' => 30, //Нагрузка
             'Calculator.InsuranceParam.Contract.InsuranceParam0.BaseTariff' => 180, //Константа
             'Calculator.InsuranceParam.Contract.InsuranceParam0.FirstTariff' => $contract_data['payment'], //Страховой платеж  //payment

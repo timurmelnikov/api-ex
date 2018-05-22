@@ -14,7 +14,6 @@ class Busfor extends Component
 
     /**
      * Получает договоры по API из Busfor.
-     * FIXME: Метод в разработке!!!
      *
      * @param string $dateFrom Дата с
      * @param string $dateTo Дата по
@@ -36,7 +35,7 @@ class Busfor extends Component
             ->setData([
                 'from' => $dateFrom . 'T00:00:00.000',
                 'to' => $dateTo . 'T00:00:00.000',
-                
+
             ])
             ->send();
 
@@ -44,7 +43,7 @@ class Busfor extends Component
             return $response->data;
 
         } else {
-            Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode(). ' Не удалось выполнить запрос.', 'app');
+            Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode() . ' Не удалось выполнить запрос.', 'app');
             return null;
         }
 

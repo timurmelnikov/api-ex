@@ -14,7 +14,7 @@ class SiteController extends Controller
 
     /**
      * {@inheritdoc}
-     * FIXME: Авторизацию и контроль доступа сделать на RBAC
+     * TODO: Авторизацию и контроль доступа сделать на RBAC
      */
     public function behaviors()
     {

@@ -83,7 +83,7 @@ class Contract extends SendCis
     {
         
         //$data = Self::find()->asArray()->where(['in', 'send_cis_status_id',  [SendCisStatus::STATUS_DAFAULT, SendCisStatus::STATUS_ERROR]])->andWhere("insurance_state = 'confirmed'")->all(); //Только новые и ошибки (0, 800)
-        $data = Self::find()->asArray()->where("send_cis_status_id in (0, 800) and id in (31, 28) and insurance_state = 'confirmed'")->all(); //FIXME: Для разработки!!!
+        $data = Self::find()->asArray()->where("send_cis_status_id in (0, 800) and id in (20, 21, 22, 23,25, 27, 31, 28) and insurance_state = 'confirmed'")->all(); //FIXME: Для разработки!!!
         if (!empty($data)) {
             $cis = new Cis();
             foreach ($data as $item) {

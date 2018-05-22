@@ -17,9 +17,8 @@ class LoginForm extends Model
      * Имя пользователя
      *
      * @var string
-     * FIXME: "= 'timur'" - Убрать!!!
      */
-    public $username = 'timur';
+    public $username;
 
     /**
      * Пароль
