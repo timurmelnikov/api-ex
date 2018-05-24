@@ -25,7 +25,6 @@ class F3Controller extends Controller
     {
 
         echo \Yii::$app->params['use_config'] . "\n";
-
         
         $contract = new Contract();
         $contract->contractGetter();
@@ -46,13 +45,9 @@ class F3Controller extends Controller
     {
         echo \Yii::$app->params['use_config'] . "\n";
 
-        //Обработка ПреСендером
-        //$contract = new Contract();
-        //$contract->contractPreSender();
-
         //Вставка договора в КИС
-        //$contract = new Contract();
-        //$data = $contract->contractSender();
+        $contract = new Contract();
+        $data = $contract->contractSender();
 
         echo 'Готово.';
     }

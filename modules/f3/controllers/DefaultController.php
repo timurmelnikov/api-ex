@@ -3,6 +3,7 @@
 namespace app\modules\f3\controllers;
 
 use app\modules\f3\components\Cis;
+use app\modules\f3\models\Contract;
 use yii\web\Controller;
 
 /**
@@ -25,8 +26,17 @@ class DefaultController extends Controller
         //$contract = new Contract();
         //$data = $contract->contractGetter();
 
-        $cis = new Cis();
-        $data = $cis->contractSearchByNumber('1АК 9064863');
+
+
+        //Отправка договоров в КИС
+        //$contract = new Contract();
+        //$data = $contract->contractSender();
+
+
+
+
+        //$cis = new Cis();
+        //$data = $cis->contractSearchByNumber('АК 9064863');
 
         //$data = Parse::fio('Мельников11111111111111119123456789   Тимур  Викторович')[1];
         //$data = Parse::inn('2741708592');
@@ -35,7 +45,7 @@ class DefaultController extends Controller
         //$contract = new Contract();
         //$data = $contract->contractSender();
 
-        //$data = null;
+        $data = null;
         return $this->render('index', ['data' => $data]);
 
         //return $this->render('index');

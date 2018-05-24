@@ -185,25 +185,37 @@ abstract class Cis extends Component
      * @param string $reg_num Регистрационный номе договора
      *
      * Возвращает:
-     * 1) id_doc - Договор в КИС найден
+     * 1) id_doc - Один из договоров в КИС - найден (Договоров, может быть несколько)
      * 2) false - Договор в КИС не найден
      * 3) Все, что вернул метод /cis/utils/docs_by_vin_num_fio. В этом случае - не понятно есть договор в КИС или нет.
-     * @return mixed
+     * @return array
      */
     public function contractSearchByNumber($reg_num)
     {
 
         $data = $this->cisRequest('/cis/utils/docs_by_vin_num_fio', ['reg_num' => $reg_num]);
         if (isset($data[0]['id_doc'])) {
-            return $data[0]['id_doc']; //Один из договоров найден (Договоров, может быть несколько)
+            return [
+                'success' => true,
+                'id_doc' => $data[0]['id_doc'],
+            ]; //Один из договоров в КИС - найден (Договоров, может быть несколько)
         } else if (isset($data[0]['message'])) {
             if ($data[0]['message'] == 'За вказаними вхідними параметрами не знайдено жодного договору страхування!') {
-                return 0;
+                return [
+                    'success' => true,
+                    'id_doc' => null,
+                ]; //Договор в КИС не найден
             } else {
-                return $data; //Не известно - найден договор или нет
+                return [
+                    'success' => false,
+                    'id_doc' => null,
+                ]; //Не известно - найден договор или нет
             }
         } else {
-            return $data; //Не известно - найден договор или нет
+            return [
+                'success' => false,
+                'id_doc' => null,
+            ]; //Не известно - найден договор или нет
         }
     }
 

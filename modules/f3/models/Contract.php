@@ -4,9 +4,8 @@ namespace app\modules\f3\models;
 
 use app\common\models\SendCis;
 use app\models\SendCisStatus;
-use app\modules\f3\components\Cis;
 use app\modules\f3\components\Busfor;
-use app\modules\f3\helpers\Map;
+use app\modules\f3\components\Cis;
 use Yii;
 
 /**
@@ -70,8 +69,6 @@ class Contract extends SendCis
 
     }
 
-
-
     /**
      * Отправляет документы в API приемника (CIS)
      * FIXME: Метод в разработке!!!
@@ -80,37 +77,45 @@ class Contract extends SendCis
      */
     public function contractSender()
     {
-        
-        //$data = Self::find()->asArray()->where(['in', 'send_cis_status_id',  [SendCisStatus::STATUS_DAFAULT, SendCisStatus::STATUS_ERROR]])->andWhere("insurance_state = 'confirmed'")->all(); //Только новые и ошибки (0, 800)
-        $data = Self::find()->asArray()->where("send_cis_status_id in (0, 800) and id in (20, 21, 22, 23,25, 27, 31, 28) and insurance_state = 'confirmed'")->all(); //FIXME: Для разработки!!!
+
+        $data = Self::find()
+            ->asArray()
+            ->where(['in', 'send_cis_status_id', [SendCisStatus::STATUS_DAFAULT, SendCisStatus::STATUS_ERROR]]) //Только новые и ошибки (0, 800)
+        //->andWhere(['in', 'contract_id', ['busforua-38529543-1', 'busforua-22028255-1', 'busforua-82347143-1']]) //FIXME: Для разработки!!!
+            ->all();
+
         if (!empty($data)) {
             $cis = new Cis();
             foreach ($data as $item) {
-                
-                $data = $cis->contractSender($item);
 
-
-                $this->updateStatus($item['id'], 0, json_encode($data, JSON_UNESCAPED_UNICODE));
-               
-                // if (isset($data['id_contract']) && isset($data['sign'])) { //Договор сохранился в КИС
-                //     if ($data['sign'] == true) { //Договор подписан
-                //         $this->updateStatus($item['id'], SendCisStatus::STATUS_SEND, 'OK', $data['id_contract']);
-                //     } else { //Договор не подписан
-                //         $this->updateStatus($item['id'], SendCisStatus::STATUS_SEND_NO_SIGN, $data['message'], /*json_encode($data, JSON_UNESCAPED_UNICODE)*/ $data['id_contract']);
-                //     }
-                // } else if (strpos($data['message'], 'Дублирование регистрационного номера') != false) { //Дубликат
-                //     $this->updateStatus($item['id'], SendCisStatus::STATUS_DUPLICATE, 'Дубликат');
-                // } else { //Все остальные ошибки и непонятки
-                //     $this->updateStatus($item['id'], SendCisStatus::STATUS_ERROR, json_encode($data, JSON_UNESCAPED_UNICODE));
-                // }
-
-
+                $data = $cis->contractSearchByNumber($item['contract_id']);
+                if ($data['success'] == true) {
+                    if ($data['id_doc'] == null) {
+                        //Дубликат договора не найден
+                        $data = $cis->contractSender($item);
+                        //Если КИС, вернул $data['id_contract', создаем договор
+                        if (isset($data['id_contract'])) {
+                            if ($data['sign'] == true) {
+                                $this->updateStatus($item['id'], SendCisStatus::STATUS_SEND, json_encode($data, JSON_UNESCAPED_UNICODE), $data['id_contract']); //Отправлен 100
+                            }
+                            if ($data['sign'] == false) {
+                                $this->updateStatus($item['id'], SendCisStatus::STATUS_SEND_NO_SIGN, json_encode($data, JSON_UNESCAPED_UNICODE), $data['id_contract']); //Не подписан 101
+                            }
+                        } else { //Пишем сообщение об ошибке
+                            $this->updateStatus($item['id'], SendCisStatus::STATUS_ERROR, json_encode($data, JSON_UNESCAPED_UNICODE)); //Ошибка 800
+                        }
+                    } else {
+                        //Дубликат
+                        $this->updateStatus($item['id'], SendCisStatus::STATUS_DUPLICATE, 'Дубликат', $data['id_doc']); //Дубликат 201
+                    }
+                } else {
+                    //В этом случае - не понятно есть договор в КИС или нет
+                    $this->updateStatus($item['id'], SendCisStatus::STATUS_DAFAULT, 'Не понятно, существует договор в КИС, или нет?'); //Не понятно, что произошло, оставляем статус 0
+                }
             }
-            return $data;
+            // return $data;
         }
     }
-
-
 
     /**
      * Добавление договора в таблицу.
