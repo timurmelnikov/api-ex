@@ -28,18 +28,4 @@ class m180419_120040_f2_contract_add_columns extends Migration
         return false;
     }
 
-    /*
-// Use up()/down() to run migration code without a transaction.
-public function up()
-{
-
-}
-
-public function down()
-{
-echo "m180419_120040_f2_contract_add_columns cannot be reverted.\n";
-
-return false;
-}
- */
 }

@@ -14,6 +14,7 @@ use Yii;
  *
  * @property int $id
  * @property string $insert_date Дата создания записи
+ * @property string $product Продукт
  * @property string $contract_id ID договора
  * @property string $insurance_state Состояние договора
  * @property string $data_json Данные JSON
@@ -38,10 +39,11 @@ class Contract extends SendCis
     public function rules()
     {
         return [
-            [['contract_id'], 'unique'],
-            [['contract_id', 'insurance_state'], 'trim'],
+            //[['contract_id', 'product', 'insurance_state'], 'unique'],
+            [['contract_id', 'product', 'insurance_state'], 'trim'],
             [['insert_date',
                 'contract_id',
+                'product',
                 'insurance_state',
                 'data_json',
                 'send_cis_date',
@@ -119,12 +121,13 @@ class Contract extends SendCis
     private function contractInsert($data)
     {
 
-        $model = Self::findOne(['contract_id' => $data['id']]);
+        $model = Self::findOne(['contract_id' => $data['id'], 'insurance_state' => $data['insurance_state'], 'product' => $data['product']]);
 
         if (!$model) {
 
             $contract = new Contract();
             $contract->contract_id = $data['id'];
+            $contract->product = $data['product'];
             $contract->insurance_state = $data['insurance_state'];
             $contract->data_json = json_encode($data, JSON_UNESCAPED_UNICODE);
             $contract->save();

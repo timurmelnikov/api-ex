@@ -103,7 +103,7 @@ AppAsset::register($this);
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <strong>Внимание!!!: </strong> Используются боевые настройки ($use_config = 'go!').
+                                        <strong>Внимание!!!: </strong> Используются <strong>боевые</strong> настройки ($use_config = 'go!').
                                     </div>
                                     <?php endIf; ?>
                                 </div>

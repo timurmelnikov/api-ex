@@ -27,18 +27,4 @@ class m180504_072711_rename_column_id_cis extends Migration
         return false;
     }
 
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m180504_072711_rename_column_id_cis cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }

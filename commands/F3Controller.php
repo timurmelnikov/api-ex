@@ -51,8 +51,8 @@ class F3Controller extends Controller
         //$contract->contractPreSender();
 
         //Вставка договора в КИС
-        $contract = new Contract();
-        $data = $contract->contractSender();
+        //$contract = new Contract();
+        //$data = $contract->contractSender();
 
         echo 'Готово.';
     }
