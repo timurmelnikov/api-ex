@@ -7,9 +7,9 @@ use yii\base\Component;
 use yii\httpclient\Client;
 
 /**
- * Работа с КИС
+ * Абстрактный класс работы с API КИС-WEB
  */
-class Cis extends Component
+abstract class Cis extends Component
 {
 
     /**
@@ -157,7 +157,6 @@ class Cis extends Component
         $client = new Client();
 
         try {
-
             $response = $client->createRequest()
                 ->setMethod('post')
                 ->setUrl($this->url . $path)
@@ -173,12 +172,39 @@ class Cis extends Component
                 Yii::error(__METHOD__ . ': Ошибка - ' . $response->getStatusCode() . ' Не удалось выполнить запрос к КИС-WEB.', 'app');
                 return 'Ошибка - ' . $response->getStatusCode() . ' Не удалось выполнить запрос к КИС-WEB.';
             }
-
         } catch (\Exception $e) {
             Yii::error(__METHOD__ . ': Ошибка - ' . $e->getMessage() . ' Не удалось выполнить запрос к КИС-WEB (Исключение HTTP клиента).', 'app');
             return ' Ошибка - ' . $e->getMessage() . ' Не удалось выполнить запрос к КИС-WEB (Исключение HTTP клиента).';
         }
 
+    }
+
+    /**
+     * Поиск договора в КИС-WEB по номеру
+     *
+     * @param string $reg_num Регистрационный номе договора
+     *
+     * Возвращает:
+     * 1) id_doc - Договор в КИС найден
+     * 2) false - Договор в КИС не найден
+     * 3) Все, что вернул метод /cis/utils/docs_by_vin_num_fio. В этом случае - не понятно есть договор в КИС или нет.
+     * @return mixed
+     */
+    public function contractSearchByNumber($reg_num)
+    {
+
+        $data = $this->cisRequest('/cis/utils/docs_by_vin_num_fio', ['reg_num' => $reg_num]);
+        if (isset($data[0]['id_doc'])) {
+            return $data[0]['id_doc']; //Один из договоров найден (Договоров, может быть несколько)
+        } else if (isset($data[0]['message'])) {
+            if ($data[0]['message'] == 'За вказаними вхідними параметрами не знайдено жодного договору страхування!') {
+                return 0;
+            } else {
+                return $data; //Не известно - найден договор или нет
+            }
+        } else {
+            return $data; //Не известно - найден договор или нет
+        }
     }
 
 }
