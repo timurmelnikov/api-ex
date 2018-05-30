@@ -6,7 +6,7 @@ use yii\base\Component;
 use yii\httpclient\Client;
 
 /**
- * Компонент работы с API ПриватБанка для
+ * Компонент работы с API ПриватБанка для FIXME: Класс в разработке
  * получения документов и отправки статусов
  */
 class PB extends Component
