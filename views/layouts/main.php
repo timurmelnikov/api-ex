@@ -54,6 +54,7 @@ AppAsset::register($this);
                 ['label' => 'Поток 1 (ПриватБанк)', 'url' => ['/f1']],
                 ['label' => 'Поток 2 (ПриватБанк ОСАГО)', 'url' => ['/f2']],
                 ['label' => 'Поток 3 (Busfor)', 'url' => ['/f3']],
+                ['label' => 'Поток 4 (Сиеста)', 'url' => ['/f4']],
 
             ],
             'visible' => !Yii::$app->user->isGuest,

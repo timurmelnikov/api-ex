@@ -50,6 +50,20 @@ $config = [
                 ]
             ],
         ],
+        'f4' => [
+            'class' => 'app\modules\f4\Flow4',
+            'as access' => [
+                'class' => 'yii\filters\AccessControl',
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@']
+                    ],
+                ]
+            ],
+        ],
+
+
     ],
     'components' => [
         'request' => [
