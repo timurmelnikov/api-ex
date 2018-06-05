@@ -13,7 +13,7 @@ class Siesta extends Component
 {
 
     /**
-     * Получает договоры по API из Busfor.
+     * Получает договоры по API из Busfor. FIXME: Метод в разработке!!!
      *
      * @param string $dateFrom Дата с
      * @param string $dateTo Дата по
@@ -29,17 +29,27 @@ class Siesta extends Component
         $client = new Client();
         $response = $client->createRequest()
             ->setMethod('get')
-            ->setUrl(Yii::$app->params['s']['busfor_1']['url'] . Yii::$app->params['s']['busfor_1']['path'])
-            ->setHeaders(['Auth-Token' => Yii::$app->params['s']['busfor_1']['token']])
-            ->setFormat(Client::FORMAT_RAW_URLENCODED)
-            ->setData([
-                'from' => $dateFrom . 'T00:00:00.000',
-                'to' => $dateTo . 'T00:00:00.000',
+           // ->setUrl(Yii::$app->params['s']['siesta_1']['url'] . Yii::$app->params['s']['siesta_1']['path'])
+            ->setUrl('http://resources.finance.ua/ru/public/currency-cash.xml')
 
-            ])
+        //     ->setHeaders(['Content-Type' => 'text/xml;charset=Windows-1251'])
+
+        // //->setFormat(Client::FORMAT_XML)
+        //     ->setData([
+        //         'PERIOD_BEG' => $dateFrom,
+        //         'PERIOD_END' => $dateTo,
+        //         'oauth_token' => Yii::$app->params['s']['siesta_1']['token'],
+
+        //     ])
             ->send();
 
+        //Content-Type: text/xml;charset=windows-1251
+
         if ($response->isOk) {
+
+            //$a = $response->data;
+
+            //return mb_convert_encoding($response->data, 'windows-1251');
             return $response->data;
 
         } else {
