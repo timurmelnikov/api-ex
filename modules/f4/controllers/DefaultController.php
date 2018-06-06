@@ -20,7 +20,7 @@ class DefaultController extends Controller
         $s = new Siesta();
         
         
-        $data = $s->contractGetter(20180501, 20180531);
+        $data = $s->contractGetter(20180601, 20180606);
         //$data = null;
         return $this->render('index', ['data' => $data]);
     }
