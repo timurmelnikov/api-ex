@@ -4,6 +4,7 @@ namespace app\modules\f4\controllers;
 
 use yii\web\Controller;
 use app\modules\f4\components\Siesta;
+use app\modules\f4\models\Contract;
 
 /**
  * Default controller for the `f4` module
@@ -17,11 +18,18 @@ class DefaultController extends Controller
     public function actionIndex()
     {
 
-        $s = new Siesta();
+        //$s = new Siesta();
         
         
-        $data = $s->contractGetter(20180601, 20180606);
-        //$data = null;
+        //$data = json_encode($s->contractGetter(20180601, 20180606));
+        //$data = $s->contractGetter(20180601, 20180606);
+
+
+
+        //$c = new Contract();
+        //$data = $c->contractGetter();
+
+        $data = null;
         return $this->render('index', ['data' => $data]);
     }
 }

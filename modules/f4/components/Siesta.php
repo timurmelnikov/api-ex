@@ -7,13 +7,13 @@ use yii\base\Component;
 use yii\httpclient\Client;
 
 /*
- * Класс работы с данными из Busfor.
+ * Класс работы с данными из Siesta.
  */
 class Siesta extends Component
 {
 
     /**
-     * Получает договоры по API из Busfor. FIXME: Метод в разработке!!!
+     * Получает договоры по API из Siesta.
      *
      * @param string $dateFrom Дата с
      * @param string $dateTo Дата по

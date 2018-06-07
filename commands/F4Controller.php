@@ -9,7 +9,7 @@ use app\modules\f4\models\Contract;
  * Консольные инициаторы Потока 4.
  * @author Timur Melnikov <melnikovt@gmail.com>
  */
-class f4Controller extends Controller
+class F4Controller extends Controller
 {
 
     /**
@@ -26,8 +26,8 @@ class f4Controller extends Controller
 
         echo \Yii::$app->params['use_config'] . "\n";
         
-        // $contract = new Contract();
-        // $contract->contractGetter();
+        $contract = new Contract();
+        $contract->contractGetter();
 
         echo 'Готово.';
     }

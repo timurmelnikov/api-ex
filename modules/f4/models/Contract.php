@@ -1,11 +1,11 @@
 <?php
 
-namespace app\modules\f3\models;
+namespace app\modules\f4\models;
 
 use app\common\models\SendCis;
 use app\models\SendCisStatus;
-use app\modules\f3\components\Busfor;
-use app\modules\f3\components\Cis;
+use app\modules\f4\components\Siesta;
+use app\modules\f4\components\Cis;
 use Yii;
 
 /**
@@ -13,9 +13,7 @@ use Yii;
  *
  * @property int $id
  * @property string $insert_date Дата создания записи
- * @property string $product Продукт
- * @property string $contract_id ID договора
- * @property string $insurance_state Состояние договора
+ * @property string $policy_no № договора
  * @property string $data_json Данные JSON
  * @property string $send_cis_date Дата успешной отправки в КИС
  * @property string $send_cis_message Сообщение об отправке в КИС
@@ -29,7 +27,7 @@ class Contract extends SendCis
      */
     public static function tableName()
     {
-        return '{{%f3_contract}}';
+        return '{{%f4_contract}}';
     }
 
     /**
@@ -38,12 +36,10 @@ class Contract extends SendCis
     public function rules()
     {
         return [
-            //[['contract_id', 'product', 'insurance_state'], 'unique'],
-            [['contract_id', 'product', 'insurance_state'], 'trim'],
+
+            [['policy_no'], 'trim'],
             [['insert_date',
-                'contract_id',
-                'product',
-                'insurance_state',
+                'policy_no',
                 'data_json',
                 'send_cis_date',
                 'send_cis_message',
@@ -61,9 +57,9 @@ class Contract extends SendCis
     public function contractGetter()
     {
 
-        $pb = new Busfor();
-        $data = $pb->contractGetter(date('Y-m-d', strtotime('-' . \Yii::$app->params['e']['f3']['report_days'] . ' day')), date('Y-m-d', strtotime('+1 day')));
-        foreach ($data as $item) {
+        $pb = new Siesta();
+        $data = $pb->contractGetter(date('Ymd', strtotime('-' . \Yii::$app->params['e']['f4']['report_days'] . ' day')), date('Ymd', strtotime('+1 day')));
+        foreach ($data['Policy'] as $item) {
             $this->contractInsert($item);
         }
 
@@ -71,6 +67,7 @@ class Contract extends SendCis
 
     /**
      * Отправляет документы в API приемника (CIS)
+     * FIXME: Метод в разработке!!!
      *
      * @return void
      */
@@ -125,14 +122,13 @@ class Contract extends SendCis
     private function contractInsert($data)
     {
 
-        $model = Self::findOne(['contract_id' => $data['id'], 'insurance_state' => $data['insurance_state'], 'product' => $data['product']]);
+        $model = Self::findOne(['policy_no' => $data['PolicyNo']]);
 
         if (!$model) {
 
             $contract = new Contract();
-            $contract->contract_id = $data['id'];
-            $contract->product = $data['product'];
-            $contract->insurance_state = $data['insurance_state'];
+            $contract->policy_no = $data['PolicyNo'];
+
             $contract->data_json = json_encode($data, JSON_UNESCAPED_UNICODE);
             $contract->save();
 
