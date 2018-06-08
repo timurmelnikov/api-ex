@@ -2,14 +2,8 @@
 
 namespace app\modules\f4\components;
 
-
-
-use app\modules\f3\helpers\Parse;
-use app\modules\f3\helpers\Map;
-
 /*
  * Класс работы с API КИС-WEB.
- * Busfor.
  */
 class Cis extends \app\common\components\Cis
 {
@@ -19,8 +13,8 @@ class Cis extends \app\common\components\Cis
      */
     public function __construct()
     {
-        $this->username = \Yii::$app->params['s']['cis_busfor']['username'];
-        $this->password = \Yii::$app->params['s']['cis_busfor']['password'];
+        $this->username = \Yii::$app->params['s']['cis_siesta_admin']['username'];
+        $this->password = \Yii::$app->params['s']['cis_siesta_admin']['password'];
         parent::__construct();
 
     }
@@ -36,62 +30,116 @@ class Cis extends \app\common\components\Cis
 
         $contract_data = json_decode($data['data_json'], true);
 
-        $requestData = [
-            'SalePoint' => ['ID' => '14923'], // Точка продаж
-            'InsurancePackage' => ['ID' => '349'], // Продукт
-            'InsuranceTariff' => ['ID' => '1778'], // Тарифная сетка
-
-            //'OnDate' => date('d.m.Y', strtotime($contract_data['insurance_paid_at'])), //'21.05.2018', // Дата заключения договора
-            'OnDate' => Parse::dateCis($contract_data['insurance_paid_at']), //'21.05.2018', // Дата заключения договора FIXME: Протестировать механизи работы через Парсер
-
-            'Department' => ['ID' => '6165'], // Подразделение
-            // -------------------------------------------------------------------------------------------------------------------------------------- Договор
-            'Calculator.InsuranceParam.Contract.ContractNumber' => $contract_data['id'],//'DNH0NBR-16BT09K', // Номер билета (id)
-            'Calculator.InsuranceParam.Contract.ContractNumberIsChanged' => '1', // Признак, что NUM_DOC отличается от REG_NUM (не трогать)
-
-            //'Calculator.InsuranceParam.Contract.InureDate' => date('d.m.Y', strtotime($contract_data['insurance_paid_at'])),// '21.05.2018', // Дата начала действия договора (insurance_paid_at)
-            'Calculator.InsuranceParam.Contract.InureDate' => Parse::dateCis($contract_data['insurance_paid_at']),// '21.05.2018', // Дата начала действия договора (insurance_paid_at) FIXME: Протестировать механизи работы через Парсер
-
-            //'Calculator.InsuranceParam.Contract.EndDate' => date('d.m.Y', strtotime($contract_data['trip_start_at']) + 86400), //'21.05.2018', // Дата окончания действия договора (trip_start_at + 24 часа)
-            'Calculator.InsuranceParam.Contract.EndDate' => Parse::dateCis($contract_data['trip_start_at'], 's', 24), //'21.05.2018', // Дата окончания действия договора (trip_start_at + 24 часа) FIXME: Протестировать механизи работы через Парсер
-      
-            'Calculator.InsuranceParam.Contract.InureType' => ['ID' => '4'], // Тип вступления. 4 - с полного (всегда).
-            'Calculator.InsuranceParam.Contract.ContractCustomerNative.Signer' => ['ID' => '106422'], // Подписант (Артюхов)
-            // --------------------------------------------------------------------------------------------------------------------------------------
-            // -------------------------------------------------------------------------------------------------------------------------------------- Страхователь
-            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.Code'=> '0000000000',
-            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.LastName' => Parse::fio($contract_data['passenger_name'])[0],//'Statham', // Фамилия страхователя (passenger_nameр)
-            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.FirstName' => Parse::fio($contract_data['passenger_name'])[1],//'Jason', // Имя страхователя (passenger_name)
-            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.MiddleName' => Parse::fio($contract_data['passenger_name'])[2],//'Yurievich', // Отчество страхователя (passenger_name)
-            //'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.ContactTelephone.PhoneCountry' => '+380', // Телефонный код страны
-            //'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.ContactTelephone.PhoneNumber' => '501111111', // Телефонный номер страхователя (passenger_phone)
-            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.ContactTelephone.PhoneNumber' => $contract_data['passenger_phone'], // Телефонный номер страхователя (passenger_phone)
-            // --------------------------------------------------------------------------------------------------------------------------------------
-            // -------------------------------------------------------------------------------------------------------------------------------------- Параметры объекта страхования
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.FirstAmount' => Parse::moneyConvert($contract_data['ticket_price']['cents']),//'150', // Страховая сумма (ticket_price)
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.FirstPayment' => Parse::moneyConvert($contract_data['insurance_price']['cents']), //'30', // Страховой платеж (insurance_price)
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.TicketNumber' => $contract_data['ticket_number'],//'1', // Номер билета (ticket_number)
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.TrainNumber' =>  $contract_data['trip_number'], //'12', // Номер рейса (trip_number)
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DispatchPlace' => $contract_data['trip_from_city'], //'Киев', // Место отправления (trip_from_city)
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.ArrivalPlace' => $contract_data['trip_to_city'], //'Харьков', // Место прибытия (trip_to_city)
-           
-            //'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateStartTravel' => date('d.m.Y H:i', strtotime($contract_data['trip_start_at'])), // '21.05.2018 09:15', // Время и дата отправки (trip_start_at)
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateStartTravel' => Parse::dateCis($contract_data['trip_start_at'], 'f'), // '21.05.2018 09:15', // Время и дата отправки (trip_start_at) FIXME: Протестировать механизи работы через Парсер
-           
-            //'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateInureDoc' => date('d.m.Y H:i', strtotime($contract_data['trip_start_at'])), //'21.05.2018 09:15', // Время и дата начала действия договора = trip_start_at
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateInureDoc' => Parse::dateCis($contract_data['trip_start_at'], 'f'), //'21.05.2018 09:15', // Время и дата начала действия договора = trip_start_at FIXME: Протестировать механизи работы через Парсер
-
-            //'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateEndDoc' => date('d.m.Y H:i', strtotime($contract_data['trip_start_at']) + 10800), //'21.05.2018 12:15', // Время и дата прекращения действия договора = trip_start_at + 3 часа.
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateEndDoc' => Parse::dateCis($contract_data['trip_start_at'], 'f', 3), //'21.05.2018 12:15', // Время и дата прекращения действия договора = trip_start_at + 3 часа. FIXME: Протестировать механизи работы через Парсер
-
-            // --------------------------------------------------------------------------------------------------------------------------------------
-
-        ];
+        $requestData = $this->requestDataFormatter($data);
 
         $data = $this->cisRequest('/cis/calc/form', $requestData, Cis::MODE_CONTRACT);
 
         return $data;
 
+    }
+
+    /**
+     * Форматирование данных для запроса
+     *
+     * @param array $data
+     * @return array
+     */
+    public function requestDataFormatter($data)
+    {
+
+        $requestData = [
+            'InsuranceKind.ID' => 72,
+            'InsurancePackage.ID' => 332,
+            'InsuranceTariff.ID' => 1723,
+            'OnDate' => '10.05.2018', //<IssueDate>//
+            'SalePoint' => ['ID' => '14939'],
+            'Department' => ['ID' => '5895'],
+            //-----------------------Договор страхования//
+
+            'Calculator.InsuranceParam.Contract.ContractNumberIsChanged' => 1, //Признак, чтоNUM_DOCотличаетсяотREG_NUM(не трогать)//
+            'Calculator.InsuranceParam.Contract.ContractNumber' => 10, //PolicyNo//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.Action' => ['ID' => '364'], //ID акции. Константа//
+            'Calculator.InsuranceParam.Contract.InureDate' => '14.06.2018', //<DateFrom>//
+            'Calculator.InsuranceParam.Contract.EndDate' => '21.06.2018', //<DateTill>//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.Programs.ID' => 2, //Константа//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.IsMultivisa' => 0, //Константа//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.DateAbroad' => '14.06.2018', //<DateFrom>//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.DateReturn' => '21.06.2018', //<DateTill>//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.PeriodAbroad' => 8, //Days//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.PeriodAbroadFact' => 8, //Days//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.PeriodDocument' => 8, //Days//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.TravelingSpecialCondition.ID' => 4, //Константа. Цель = Туризм//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.CoveringTerritory.ID' => 7, //Если ValidityZone = EU, передаём ид = 7. Если ValidityZone = WW-1 или Пусто, передаём ид = 8//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.CountryDestination' => 112, //Страна поездки, <Country>//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.MedicalCosts.Amount.OriginalValue' => '30000', //TravelInsuredSum//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.Accident.Amount.OriginalValue' => '1000', //<AccidentInsuredSum>1//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.InabilityTrip.Amount.OriginalValue' => '0', //Константа//
+            'Calculator.InsuranceParam.Contract.InsuranceParamsCount' => 2, //<PersonsNum>//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.Loading' => 15, //Константа//
+            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.IsResident' => 1, //Константа//
+            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.Country' => 1, //Константа//
+            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.LastName' => 'YARRMA', //<Insurant>//
+            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.FirstName' => 'ADEL', //<Insurant>//
+            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.DateBegin' => '24.04.1984', //<InsurantBirthDate>//
+            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.Code' => '0000000000', // Константа//
+            'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.Address.AddressStringEng' => 'Ukraine', // Адрес страхователя
+
+            // -------------------------------------------------------------------------------------------------------------------------------------- Документы страхователя
+            //    'Calculator.InsuranceParam.Contract.ContractCustomer.CustomerDocument.DocumentType'=>['ID'=>'11'],                     // Тип документа страхователя
+            //    'Calculator.InsuranceParam.Contract.ContractCustomer.CustomerDocument.Series'=>'ВА',                                 // Серия документа страхователя
+            //    'Calculator.InsuranceParam.Contract.ContractCustomer.CustomerDocument.Number'=>'387926',                             // Номер документа страхователя
+            //    'Calculator.InsuranceParam.Contract.ContractCustomer.CustomerDocument.Date'=>'30.07.1997',                             // Дата выдачи документа страхователя
+            //    'Calculator.InsuranceParam.Contract.ContractCustomer.CustomerDocument.IssuedByUkr'=>    'БЕРДИЧЕВСКИМ ГРО УМВД',         // Кем выдан документа страхователя
+            'Calculator.InsuranceParam.Contract.ContractCustomer.CustomerDocument.DocumentType.ID' => 24, //Константа//
+            'Calculator.InsuranceParam.Contract.ContractCustomer.CustomerDocument.DocumentLastName' => 'YARMAK', //InsuredPerson.<Name>//
+            'Calculator.InsuranceParam.Contract.ContractCustomer.CustomerDocument.DocumentFirstName' => 'ADEL', //InsuredPerson.<Name>//
+            'Calculator.InsuranceParam.Contract.ContractCustomer.CustomerDocument.Series' => 'FE', //InsuredPerson.<PassportSerie>//
+            'Calculator.InsuranceParam.Contract.ContractCustomer.CustomerDocument.Number' => '052918', //InsuredPerson.<PassportNumber>//
+            // --------------------------------------------------------------------------------------------------------------------------------------
+
+            'Calculator.InsuranceParam.Contract.RateOfExchangeEuro' => 31.74,
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.FirstInternalReinsuranceTariff' => 41.5, //Константа//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.MedicalCosts.Payment.Value' => 172.66, //<TravelPaymentSumBrutto>//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.Accident.Payment.Value' => 5.08, //<AccidentPaymentSumBrutto>//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.Baggage.Payment.Value' => 0, //Константа//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.InabilityTrip.Payment.Value' => 0, //Константа//
+            'Calculator.InsuranceParam.Contract.ForceInsurancePayment' => 177.74, //<TotalPaymentBrutto>//
+            'Calculator.InsuranceParam.Contract.ContractCustomerNative.Signer' => ['ID' => '106422'], //Константа//
+
+        ];
+
+        //Тут, в цикле будет собираться блок застрахованных
+
+        $requestData = array_merge($requestData,  [
+            //1-йЗастрахованныйобъект//
+
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.IsContractCustomer' => 0, //Константа//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.Person.LastName' => 'YARMAK', //InsuredPerson.<Name>//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.Person.FirstName' => 'ADEL', //InsuredPerson.<Name>//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.Person.DateBegin' => '08.04.1984', //InsuredPerson.<InsurantBirthDate>//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.Person.Address.AddressStringEng' => 'Ukraine', //Адрес застрахованного
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.PersonDocument.DocumentType.ID' => 24, //Константа//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.PersonDocument.DocumentLastName' => 'YARMAK', //InsuredPerson.<Name>//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.PersonDocument.DocumentFirstName' => 'ADEL', //InsuredPerson.<Name>//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.PersonDocument.Series' => 'FE', //InsuredPerson.<PassportSerie>//
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.PersonDocument.Number' => '052918', //InsuredPerson.<PassportNumber>//
+            'Calculator.InsuranceParam.Contract.InsuranceParam1.InsuranceObject.IsContractCustomer' => 0, //Константа//
+
+            //2-йЗастрахованныйобъект. При условии, если <PersonsNum> > 1, необходимо добавлять блоки для каждого дополнительного Застрахованного//
+
+            'Calculator.InsuranceParam.Contract.InsuranceParam1.InsuranceObject.Person.LastName' => 'KOLOTOV', //InsuredPerson.<Name>//
+            'Calculator.InsuranceParam.Contract.InsuranceParam1.InsuranceObject.Person.FirstName' => 'VLADYSLAV', //InsuredPerson.<Name>//
+            'Calculator.InsuranceParam.Contract.InsuranceParam1.InsuranceObject.Person.DateBegin' => '16.06.1963', //InsuredPerson.<InsurantBirthDate>//
+            'Calculator.InsuranceParam.Contract.InsuranceParam1.InsuranceObject.Person.Address.AddressStringEng' => 'Ukraine', // Адрес застрахованного
+            'Calculator.InsuranceParam.Contract.InsuranceParam1.PersonDocument.DocumentType.ID' => 24, //Константа//
+            'Calculator.InsuranceParam.Contract.InsuranceParam1.PersonDocument.DocumentLastName' => 'KOLOTOV', //InsuredPerson.<Name>//
+            'Calculator.InsuranceParam.Contract.InsuranceParam1.PersonDocument.DocumentFirstName' => 'VLADYSLAV', //InsuredPerson.<Name>//
+            'Calculator.InsuranceParam.Contract.InsuranceParam1.PersonDocument.Series' => 'FC', //InsuredPerson.<PassportSerie>//
+            'Calculator.InsuranceParam.Contract.InsuranceParam1.PersonDocument.Number' => '874934', //InsuredPerson.<PassportNumber>//
+
+        ]);
+
+        return $requestData;
     }
 
 }

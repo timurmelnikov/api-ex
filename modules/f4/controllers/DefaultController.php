@@ -4,6 +4,7 @@ namespace app\modules\f4\controllers;
 
 use yii\web\Controller;
 use app\modules\f4\components\Siesta;
+use app\modules\f4\components\Cis;
 use app\modules\f4\models\Contract;
 
 /**
@@ -29,7 +30,11 @@ class DefaultController extends Controller
         //$c = new Contract();
         //$data = $c->contractGetter();
 
-        $data = null;
+        $c = new Cis();
+        $data = $c->requestDataFormatter(1);
+
+
+        //$data = null;
         return $this->render('index', ['data' => $data]);
     }
 }
