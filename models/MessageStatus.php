@@ -20,7 +20,7 @@ class MessageStatus extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'g_e_message_status';
+        return '{{%g_e_message_status}}';
     }
 
     /**

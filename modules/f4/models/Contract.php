@@ -4,8 +4,8 @@ namespace app\modules\f4\models;
 
 use app\common\models\SendCis;
 use app\models\SendCisStatus;
-use app\modules\f4\components\Siesta;
 use app\modules\f4\components\Cis;
+use app\modules\f4\components\Siesta;
 use Yii;
 
 /**
@@ -76,15 +76,15 @@ class Contract extends SendCis
 
         $data = Self::find()
             ->asArray()
-            ->where(['in', 'send_cis_status_id', [SendCisStatus::STATUS_DAFAULT, SendCisStatus::STATUS_ERROR]]) //Только новые и ошибки (0, 800)
-        //->andWhere(['in', 'contract_id', ['busforua-38529543-1', 'busforua-22028255-1', 'busforua-82347143-1']]) //FIXME: Для разработки!!!
+        // ->where(['in', 'send_cis_status_id', [SendCisStatus::STATUS_DAFAULT, SendCisStatus::STATUS_ERROR]]) //Только новые и ошибки (0, 800)
+            ->andWhere(['in', 'policy_no', ['21864']]) //FIXME: Для разработки!!!
             ->all();
 
         if (!empty($data)) {
             $cis = new Cis();
             foreach ($data as $item) {
 
-                $data = $cis->contractSearchByNumber($item['contract_id']);
+                $data = $cis->contractSearchByNumber($item['policy_no']);
                 if ($data['success'] == true) {
                     if ($data['id_doc'] == null) {
                         //Дубликат договора не найден

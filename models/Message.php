@@ -28,7 +28,7 @@ class Message extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'g_message';
+        return '{{%g_message}}';
     }
 
     /**
