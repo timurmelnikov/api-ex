@@ -34,6 +34,7 @@ class Siesta extends Component
                 'PERIOD_BEG' => $dateFrom,
                 'PERIOD_END' => $dateTo,
                 'oauth_token' => Yii::$app->params['s']['siesta_1']['token'],
+                'DETAIL' => Yii::$app->params['s']['siesta_1']['detail'],
 
             ])
             ->send();

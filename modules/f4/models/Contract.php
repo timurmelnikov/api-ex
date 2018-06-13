@@ -77,7 +77,7 @@ class Contract extends SendCis
         $data = Self::find()
             ->asArray()
         // ->where(['in', 'send_cis_status_id', [SendCisStatus::STATUS_DAFAULT, SendCisStatus::STATUS_ERROR]]) //Только новые и ошибки (0, 800)
-            ->andWhere(['in', 'policy_no', ['21864', '21392', '21391']]) //FIXME: Для разработки!!!
+            ->andWhere(['in', 'policy_no', ['21856', '21850']]) //FIXME: Для разработки!!!
             ->all();
 
         if (!empty($data)) {

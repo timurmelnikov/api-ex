@@ -47,12 +47,12 @@ class Cis extends \app\common\components\Cis
     }
 
     /**
-     * Форматирование данных для запроса FIXME: метод будет приватным
+     * Форматирование данных для запроса
      *
      * @param array $data
      * @return array
      */
-    public function requestDataFormatter($contract_data)
+    private function requestDataFormatter($contract_data)
     {
         $data = [
             'InsuranceKind.ID' => 72, //  Константа   //
@@ -67,8 +67,6 @@ class Cis extends \app\common\components\Cis
             'Calculator.InsuranceParam.Contract.ContractNumber' => self::NUM_PREFIX . $contract_data['PolicyNo'], //  <PolicyNo>  //
             'Calculator.InsuranceParam.Contract.InureDate' => Parse::dateCis($contract_data['DateFrom']), //  <DateFrom>  //
             'Calculator.InsuranceParam.Contract.EndDate' => Parse::dateCis($contract_data['DateTill']), //  <DateTill>  //
-            //    'Calculator.InsuranceParam.Contract.RateOfExchange'=>25.000,
-            'Calculator.InsuranceParam.Contract.RateOfExchangeEuro' => 10.000,
             'Calculator.InsuranceParam.Contract.ContractCustomerNative.Signer' => ['ID' => '106422'], //  <PolicyNo>  //
             'Calculator.InsuranceParam.Contract.InsuranceParam0.Programs.ID' => 2, //   Константа  //
             'Calculator.InsuranceParam.Contract.InsuranceParam0.IsMultivisa' => 0, //   Константа  //
@@ -126,12 +124,21 @@ class Cis extends \app\common\components\Cis
                 'Calculator.InsuranceParam.Contract.InsuranceParam' . $index . '.PersonDocument.Number' => $item['PassportNumber'], // InsuredPerson.<PassportNumber> //
                 'Calculator.InsuranceParam.Contract.InsuranceParam' . $index . '.MedicalCosts.IsInsured' => true, // Признак страхования МедЗатрат. Константа //
                 'Calculator.InsuranceParam.Contract.InsuranceParam' . $index . '.Accident.IsInsured' => true, // Признак страхования НС. Константа //
-                'Calculator.InsuranceParam.Contract.InsuranceParam' . $index . '.MedicalCosts.Payment.Value' => (double) $contract_data['TravelPaymentSumBrutto'], //84.73, // InsuredPerson.<TravelPaymentSumBrutto> //
-                'Calculator.InsuranceParam.Contract.InsuranceParam' . $index . '.Accident.Payment.Value' => (double) $contract_data['AccidentPaymentSumBrutto'], //2.49, // InsuredPerson.<AccidentPaymentSumBrutto> //
+                'Calculator.InsuranceParam.Contract.InsuranceParam' . $index . '.MedicalCosts.Payment.Value' => (double) $item['TravelPaymentSumBrutto'], //84.73, // InsuredPerson.<TravelPaymentSumBrutto> //
+                'Calculator.InsuranceParam.Contract.InsuranceParam' . $index . '.Accident.Payment.Value' => (double) $item['AccidentPaymentSumBrutto'], //2.49, // InsuredPerson.<AccidentPaymentSumBrutto> //
             ]);
 
             $index++;
         }
+
+        if ($contract_data['AccidentCurrency'] == 'EUR') {
+            $data = array_merge($data, ['Calculator.InsuranceParam.Contract.RateOfExchangeEuro' => (double) $contract_data['CurRate']]);
+        }
+
+        if ($contract_data['AccidentCurrency'] == 'USD') {
+            $data = array_merge($data, ['Calculator.InsuranceParam.Contract.RateOfExchange' => (double) $contract_data['CurRate']]);
+        }
+
         return $data;
     }
 
