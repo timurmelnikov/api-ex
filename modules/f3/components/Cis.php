@@ -27,7 +27,6 @@ class Cis extends \app\common\components\Cis
 
     /**
      * Отправляет договор в КИС
-     * FIXME: Метод в разработке!
      *
      * @return mixed
      */

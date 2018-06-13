@@ -77,18 +77,21 @@ class Contract extends SendCis
         $data = Self::find()
             ->asArray()
         // ->where(['in', 'send_cis_status_id', [SendCisStatus::STATUS_DAFAULT, SendCisStatus::STATUS_ERROR]]) //Только новые и ошибки (0, 800)
-            ->andWhere(['in', 'policy_no', ['21864']]) //FIXME: Для разработки!!!
+            ->andWhere(['in', 'policy_no', ['21864', '21392', '21391']]) //FIXME: Для разработки!!!
             ->all();
 
         if (!empty($data)) {
             $cis = new Cis();
             foreach ($data as $item) {
 
-                $data = $cis->contractSearchByNumber($item['policy_no']);
+                $data = $cis->contractSearchByNumber(Cis::NUM_PREFIX.$item['policy_no']);
                 if ($data['success'] == true) {
                     if ($data['id_doc'] == null) {
                         //Дубликат договора не найден
+                        
+                        
                         $data = $cis->contractSender($item);
+                       
                         //Если КИС, вернул $data['id_contract', создаем договор
                         if (isset($data['id_contract'])) {
                             if ($data['sign'] == true) {

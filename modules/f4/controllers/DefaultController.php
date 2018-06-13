@@ -3,6 +3,7 @@
 namespace app\modules\f4\controllers;
 
 use app\modules\f4\components\Cis;
+use app\modules\f4\models\Contract;
 use yii\web\Controller;
 
 /**
@@ -22,76 +23,17 @@ class DefaultController extends Controller
         //$data = json_encode($s->contractGetter(20180601, 20180606));
         //$data = $s->contractGetter(20180601, 20180606);
 
-        //$c = new Contract();
-        //$data = $c->contractSender();
+        $c = new Contract();
+        $data = $c->contractSender();
 
-        /**
-         * FIXME: Єтот массив нужен только для разработки
-         */
-        $a = [
-            'Series' => [],
-            'PolicyNo' => '21362',
-            'IssueDate' => '06.06.2018',
-            'PolicyType' => 'Simple',
-            'TravelProgramm' => 'B',
-            'DateFrom' => '24.06.2018',
-            'Days' => '8',
-            'DateTill' => '01.07.2018',
-            'ValidityZone' => 'EU',
-            'CountryISO' => 'GR',
-            'TravelInsuredSum' => '30000',
-            'TravelCurrency' => 'EUR',
-            'AccidentInsuredSum' => '1000',
-            'AccidentCurrency' => 'EUR',
-            'RiskGroup' => 'T',
-            'PaymentDate' => '07.05.2018',
-            'Insurant' => 'LYTVYNENKO MAKSYM',
-            'InsurantType' => 'ph.',
-            'InsurantBirthDate' => '12.10.2015',
-            'InsurantAddress' => [],
-            'Beneficiary' => 'BY LOW',
-            'BeneficiaryType' => [],
-            'BeneficiaryBirthDate' => [],
-            'BeneficiaryAddress' => [],
-            'CurRate' => '31.15',
-            'InsuredPersons' => [
-                'InsuredPerson' => [[
-                    'Name' => 'LYTVYNENKO MAKSYM',
-                    'BirthDate' => '12.10.2015',
-                    'PassportSerie' => 'FE',
-                    'PassportNumber' => '140312',
-                    'Address' => [],
-                ], [
-                    'Name' => 'LYTVYNENKO OLEKSANDRA',
-                    'BirthDate' => '09.09.2009',
-                    'PassportSerie' => 'ET',
-                    'PassportNumber' => '401373',
-                    'Address' => [],
-                ], [
-                    'Name' => 'LYTVYNENKO HANNA',
-                    'BirthDate' => '18.07.1975',
-                    'PassportSerie' => 'FK',
-                    'PassportNumber' => '121682',
-                    'Address' => [],
-                ], [
-                    'Name' => 'LYTVYNENKO LEONID',
-                    'BirthDate' => '25.02.1975',
-                    'PassportSerie' => 'ET',
-                    'PassportNumber' => '401373',
-                    'Address' => [],
-                ],
-                ],
-            ],
-            'PersonsNum' => '4',
-            'TravelTariff' => '0.34',
-            'AccidentTariff' => '0.01',
-            'TravelPaymentSumBrutto' => '593.1',
-            'AccidentPaymentSumBrutto' => '17.44',
-            'TotalPaymentBrutto' => '610.54',
-        ];
 
-        $c = new Cis();
-        $data = $c->requestDataFormatter($a);
+
+        //$a=json_decode('{"Series":[],"PolicyNo":"21864","IssueDate":"08.06.2018","PolicyType":"Simple","TravelProgramm":"B","DateFrom":"24.07.2018","Days":"10","DateTill":"02.08.2018","ValidityZone":"WW-1","CountryISO":"MV","TravelInsuredSum":"30000","TravelCurrency":"USD","AccidentInsuredSum":"10000","AccidentCurrency":"USD","RiskGroup":"T","PaymentDate":"08.06.2018","Insurant":"KUZMYNCHUK LILIIA","InsurantType":"ph.","InsurantBirthDate":"08.03.1990","InsurantAddress":[],"Beneficiary":"BY LOW","BeneficiaryType":[],"BeneficiaryBirthDate":[],"BeneficiaryAddress":[],"CurRate":"26.7","InsuredPersons":{"InsuredPerson":[{"Name":"KUZMYNCHUK LILIIA","BirthDate":"08.03.1990","PassportSerie":"FL","PassportNumber":"187081","Address":[]},{"Name":"KRAVCHUK TARAS","BirthDate":"15.11.1981","PassportSerie":"FL","PassportNumber":"186988","Address":[]}]},"PersonsNum":"2","TravelTariff":"0.55","AccidentTariff":"0.06","TravelPaymentSumBrutto":"293.7","AccidentPaymentSumBrutto":"32.04","TotalPaymentBrutto":"325.74"}', true);
+
+
+        //$c = new Cis();
+        //$data = json_encode($c->requestDataFormatter($a), true);
+        //$data = $c->contractSender($a);
 
         //$data = \app\modules\f4\helpers\Map::countryDestination('KZ');
 
