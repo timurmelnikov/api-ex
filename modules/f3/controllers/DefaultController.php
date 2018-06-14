@@ -45,7 +45,11 @@ class DefaultController extends Controller
         //$contract = new Contract();
         //$data = $contract->contractSender();
 
-        $data = null;
+        $cis = new Cis();
+        $data = $cis->contractRemove('busforua-76750641-1');
+
+
+        //$data = null;
         return $this->render('index', ['data' => $data]);
 
         //return $this->render('index');

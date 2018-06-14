@@ -80,7 +80,7 @@ class Contract extends SendCis
         $data = Self::find()
             ->asArray()
             ->where(['in', 'send_cis_status_id', [SendCisStatus::STATUS_DAFAULT, SendCisStatus::STATUS_ERROR]]) //Только новые и ошибки (0, 800)
-        //->andWhere(['in', 'contract_id', ['busforua-38529543-1', 'busforua-22028255-1', 'busforua-82347143-1']]) //FIXME: Для разработки!!!
+        //->andWhere(['in', 'contract_id', ['busforua-38529543-1', 'busforua-22028255-1', 'busforua-82347143-1']])
             ->all();
 
         if (!empty($data)) {
@@ -114,6 +114,23 @@ class Contract extends SendCis
             }
             // return $data;
         }
+    }
+
+    /**
+     * Удалаяет документы в API приемника (CIS)
+     * Удаляет договоры со статусом "returned" FIXME: Метод в зарработке!!!
+     *
+     * @return void
+     */
+    public function contractRemover()
+    {
+
+        $data = Self::find()
+            ->asArray()
+            ->where(['in', 'send_cis_status_id', [SendCisStatus::STATUS_DAFAULT, SendCisStatus::STATUS_ERROR]]) //Только новые и ошибки (0, 800)
+            ->andWhere(['insurance_state' => 'returned'])
+            ->all();
+
     }
 
     /**

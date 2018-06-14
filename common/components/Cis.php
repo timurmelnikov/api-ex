@@ -219,4 +219,15 @@ abstract class Cis extends Component
         }
     }
 
+    /**
+     * Удаляет договоры в КИС
+     *
+     * @return void
+     */
+    public function contractRemove($num_doc)
+    {
+        $data = $this->cisRequest('/cis/utils/delete_contract', ['num_doc' => $num_doc]);
+        return $data;
+    }
+
 }
