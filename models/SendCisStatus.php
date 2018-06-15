@@ -13,7 +13,7 @@ use Yii;
  * 300 - ПреСендер
  * 800 - невозможность попадания в КИС (ошибка)
  * 900 - мои статусы (игнорировать)
- * 
+ *
  * Для удобства, каждый статус из таблицы - записан через константу вида: STATUS_ИМЯ_СТАТУСА
  *
  * @property int $id
@@ -41,6 +41,11 @@ class SendCisStatus extends \yii\db\ActiveRecord
     const STATUS_SEND_NO_SIGN = 101;
 
     /**
+     * Удален
+     */
+    const STATUS_DELETED = 102;
+
+    /**
      * Не нужен
      */
     const STATUS_NOT_NEEDED = 200;
@@ -49,6 +54,11 @@ class SendCisStatus extends \yii\db\ActiveRecord
      * Дубликат
      */
     const STATUS_DUPLICATE = 201;
+
+    /**
+     * Отсутствует
+     */
+    const STATUS_ABSENT = 202;
 
     /**
      * Обработан ПреСендером

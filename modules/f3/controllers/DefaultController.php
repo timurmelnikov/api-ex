@@ -18,38 +18,17 @@ class DefaultController extends Controller
     public function actionIndex()
     {
 
-        //Просто вызов Busfor
-        //$busfor = new Busfor();
-        //$data = $busfor->contractGetter('2018-04-28', '2018-04-29');
+ 
 
-        //Получение договоров в таблицу CONTRACTS
+        //Удаление договоров в КИС
         //$contract = new Contract();
-        //$data = $contract->contractGetter();
-
-
-
-        //Отправка договоров в КИС
-        //$contract = new Contract();
-        //$data = $contract->contractSender();
-
-
-
+        //$data = $contract->contractRemover();
 
         //$cis = new Cis();
-        //$data = $cis->contractSearchByNumber('АК 9064863');
-
-        //$data = Parse::fio('Мельников11111111111111119123456789   Тимур  Викторович')[1];
-        //$data = Parse::inn('2741708592');
-
-        //Вставка договора в КИС
-        //$contract = new Contract();
-        //$data = $contract->contractSender();
-
-        $cis = new Cis();
-        $data = $cis->contractRemove('busforua-76750641-1');
+        //$data = $cis->contractRemove('busforua-49268841-1');
 
 
-        //$data = null;
+        $data = null;
         return $this->render('index', ['data' => $data]);
 
         //return $this->render('index');

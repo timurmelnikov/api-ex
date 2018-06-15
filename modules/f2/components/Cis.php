@@ -82,7 +82,7 @@ class Cis extends \app\common\components\Cis
             'InsurancePackage' => ['ID' => '45'], //Константа
             'InsuranceTariff' => ['ID' => '1746'], //Константа
             //'OnDate' => date('d.m.Y', strtotime($contract_data['d_distr'])), //Дата оформления договора //d_distr
-            'OnDate' => Parse::dateCis($contract_data['d_distr']), //Дата оформления договора //d_distr FIXME: Протестировать механизи работы через Парсер
+            'OnDate' => Parse::dateCis($contract_data['d_distr']), //Дата оформления договора //d_distr
             
             'Calculator.InsuranceParam.Contract.BonusMalus' => Map::bonusMalus($contract_data['b_m']), //Бонус\Малус //b_m
             'Calculator.InsuranceParam.Contract.ContractNumberIsChanged' => 1, //Константа
@@ -93,10 +93,10 @@ class Cis extends \app\common\components\Cis
             'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.FirstName' => $contract_data['s_name'], //Имя //s_name
             'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.MiddleName' => $contract_data['p_name'], //Отчество //p_name
             //'Calculator.InsuranceParam.Contract.InureDate' => date('d.m.Y', strtotime($contract_data['d_beg'])), //Дата начала действия //d_beg
-            'Calculator.InsuranceParam.Contract.InureDate' => Parse::dateCis($contract_data['d_beg']), //Дата начала действия //d_beg FIXME: Протестировать механизи работы через Парсер
+            'Calculator.InsuranceParam.Contract.InureDate' => Parse::dateCis($contract_data['d_beg']), //Дата начала действия //d_beg
                     
             //'Calculator.InsuranceParam.Contract.EndDate' => date('d.m.Y', strtotime($contract_data['d_end'])), //Дата окончания действия //d_end
-            'Calculator.InsuranceParam.Contract.EndDate' => Parse::dateCis($contract_data['d_end']), //Дата окончания действия //d_end FIXME: Протестировать механизи работы через Парсер
+            'Calculator.InsuranceParam.Contract.EndDate' => Parse::dateCis($contract_data['d_end']), //Дата окончания действия //d_end
           
             'Calculator.InsuranceParam.Contract.ContractCustomer.Customer.Address.AddressString' => $contract_data['address_e'], //Адрес проживания //address_e
             'Calculator.InsuranceParam.Contract.PrivilegeDocument.DocumentType' => ['ID' => Map::idDocType($contract_data['doc_name'])], //ИД берется из справочника типов документов

@@ -118,7 +118,7 @@ class Contract extends SendCis
 
     /**
      * Удалаяет документы в API приемника (CIS)
-     * Удаляет договоры со статусом "returned" FIXME: Метод в зарработке!!!
+     * Удаляет договоры со статусом "returned"
      *
      * @return void
      */
@@ -131,6 +131,28 @@ class Contract extends SendCis
             ->andWhere(['insurance_state' => 'returned'])
             ->all();
 
+        if (!empty($data)) {
+            $cis = new Cis();
+            foreach ($data as $item) {
+
+                $data = $cis->contractRemove($item['contract_id']);
+                //Если КИС, вернул $data['id_contract', создаем договор
+                if (isset($data[0]['success'])) {
+                    if ($data[0]['success'] == true) {
+                        $this->updateStatus($item['id'], SendCisStatus::STATUS_DELETED, json_encode($data, JSON_UNESCAPED_UNICODE)); //Отправлен 102
+                    }
+                    if ($data[0]['success'] == false) {
+                        $this->updateStatus($item['id'], SendCisStatus::STATUS_ABSENT, json_encode($data, JSON_UNESCAPED_UNICODE)); //Не подписан 202
+                    }
+                } else { //Пишем сообщение об ошибке
+                    $this->updateStatus($item['id'], SendCisStatus::STATUS_ERROR, json_encode($data, JSON_UNESCAPED_UNICODE)); //Ошибка 800
+                }
+
+                // return $data;
+            }
+
+        }
+        // return $data;
     }
 
     /**

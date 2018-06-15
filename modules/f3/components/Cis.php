@@ -38,7 +38,7 @@ class Cis extends \app\common\components\Cis
             'InsuranceTariff' => ['ID' => '1778'], // Тарифная сетка
 
             //'OnDate' => date('d.m.Y', strtotime($contract_data['insurance_paid_at'])), //'21.05.2018', // Дата заключения договора
-            'OnDate' => Parse::dateCis($contract_data['insurance_paid_at']), //'21.05.2018', // Дата заключения договора FIXME: Протестировать механизи работы через Парсер
+            'OnDate' => Parse::dateCis($contract_data['insurance_paid_at']), //'21.05.2018', // Дата заключения договора
 
             'Department' => ['ID' => '6165'], // Подразделение
             // -------------------------------------------------------------------------------------------------------------------------------------- Договор
@@ -46,10 +46,10 @@ class Cis extends \app\common\components\Cis
             'Calculator.InsuranceParam.Contract.ContractNumberIsChanged' => '1', // Признак, что NUM_DOC отличается от REG_NUM (не трогать)
 
             //'Calculator.InsuranceParam.Contract.InureDate' => date('d.m.Y', strtotime($contract_data['insurance_paid_at'])),// '21.05.2018', // Дата начала действия договора (insurance_paid_at)
-            'Calculator.InsuranceParam.Contract.InureDate' => Parse::dateCis($contract_data['insurance_paid_at']), // '21.05.2018', // Дата начала действия договора (insurance_paid_at) FIXME: Протестировать механизи работы через Парсер
+            'Calculator.InsuranceParam.Contract.InureDate' => Parse::dateCis($contract_data['insurance_paid_at']), // '21.05.2018', // Дата начала действия договора (insurance_paid_at)
 
             //'Calculator.InsuranceParam.Contract.EndDate' => date('d.m.Y', strtotime($contract_data['trip_start_at']) + 86400), //'21.05.2018', // Дата окончания действия договора (trip_start_at + 24 часа)
-            'Calculator.InsuranceParam.Contract.EndDate' => Parse::dateCis($contract_data['trip_start_at'], 's', 24), //'21.05.2018', // Дата окончания действия договора (trip_start_at + 24 часа) FIXME: Протестировать механизи работы через Парсер
+            'Calculator.InsuranceParam.Contract.EndDate' => Parse::dateCis($contract_data['trip_start_at'], 's', 24), //'21.05.2018', // Дата окончания действия договора (trip_start_at + 24 часа)
 
             'Calculator.InsuranceParam.Contract.InureType' => ['ID' => '4'], // Тип вступления. 4 - с полного (всегда).
             'Calculator.InsuranceParam.Contract.ContractCustomerNative.Signer' => ['ID' => '106422'], // Подписант (Артюхов)
@@ -72,13 +72,13 @@ class Cis extends \app\common\components\Cis
             'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.ArrivalPlace' => $contract_data['trip_to_city'], //'Харьков', // Место прибытия (trip_to_city)
 
             //'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateStartTravel' => date('d.m.Y H:i', strtotime($contract_data['trip_start_at'])), // '21.05.2018 09:15', // Время и дата отправки (trip_start_at)
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateStartTravel' => Parse::dateCis($contract_data['trip_start_at'], 'f'), // '21.05.2018 09:15', // Время и дата отправки (trip_start_at) FIXME: Протестировать механизи работы через Парсер
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateStartTravel' => Parse::dateCis($contract_data['trip_start_at'], 'f'), // '21.05.2018 09:15', // Время и дата отправки (trip_start_at)
 
             //'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateInureDoc' => date('d.m.Y H:i', strtotime($contract_data['trip_start_at'])), //'21.05.2018 09:15', // Время и дата начала действия договора = trip_start_at
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateInureDoc' => Parse::dateCis($contract_data['trip_start_at'], 'f'), //'21.05.2018 09:15', // Время и дата начала действия договора = trip_start_at FIXME: Протестировать механизи работы через Парсер
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateInureDoc' => Parse::dateCis($contract_data['trip_start_at'], 'f'), //'21.05.2018 09:15', // Время и дата начала действия договора = trip_start_at
 
             //'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateEndDoc' => date('d.m.Y H:i', strtotime($contract_data['trip_start_at']) + 10800), //'21.05.2018 12:15', // Время и дата прекращения действия договора = trip_start_at + 3 часа.
-            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateEndDoc' => Parse::dateCis($contract_data['trip_start_at'], 'f', 3), //'21.05.2018 12:15', // Время и дата прекращения действия договора = trip_start_at + 3 часа. FIXME: Протестировать механизи работы через Парсер
+            'Calculator.InsuranceParam.Contract.InsuranceParam0.InsuranceObject.DateEndDoc' => Parse::dateCis($contract_data['trip_start_at'], 'f', 3), //'21.05.2018 12:15', // Время и дата прекращения действия договора = trip_start_at + 3 часа.
 
             // --------------------------------------------------------------------------------------------------------------------------------------
 

@@ -2,8 +2,8 @@
 
 namespace app\commands;
 
-use yii\console\Controller;
 use app\modules\f3\models\Contract;
+use yii\console\Controller;
 
 /**
  * Консольные инициаторы Потока 3.
@@ -25,7 +25,7 @@ class F3Controller extends Controller
     {
 
         echo \Yii::$app->params['use_config'] . "\n";
-        
+
         $contract = new Contract();
         $contract->contractGetter();
 
@@ -49,7 +49,13 @@ class F3Controller extends Controller
         $contract = new Contract();
         $data = $contract->contractSender();
 
-        echo 'Готово.';
+        echo 'Готово "Sender".';
+
+        //Удаление договоров в КИС  FIXME: Проверить работу Ремувера
+        $contract = new Contract();
+        $data = $contract->contractRemover();
+
+        echo 'Готово "Remover".';
     }
 
 }
