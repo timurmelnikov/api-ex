@@ -127,7 +127,7 @@ class Contract extends SendCis
 
         $data = Self::find()
             ->asArray()
-            ->where(['in', 'send_cis_status_id', [SendCisStatus::STATUS_DAFAULT, SendCisStatus::STATUS_ERROR]]) //Только новые и ошибки (0, 800)
+            ->where(['in', 'send_cis_status_id', [SendCisStatus::STATUS_DUPLICATE, SendCisStatus::STATUS_SEND, SendCisStatus::STATUS_SEND_NO_SIGN, SendCisStatus::STATUS_ERROR_REMOVER]]) //Только залитые и ошибки удаления (100, 101, 201, 802)
             ->andWhere(['insurance_state' => 'returned'])
             ->all();
 
@@ -145,7 +145,7 @@ class Contract extends SendCis
                         $this->updateStatus($item['id'], SendCisStatus::STATUS_ABSENT, json_encode($data, JSON_UNESCAPED_UNICODE)); //Не подписан 202
                     }
                 } else { //Пишем сообщение об ошибке
-                    $this->updateStatus($item['id'], SendCisStatus::STATUS_ERROR, json_encode($data, JSON_UNESCAPED_UNICODE)); //Ошибка 800
+                    $this->updateStatus($item['id'], SendCisStatus::STATUS_ERROR_REMOVER, json_encode($data, JSON_UNESCAPED_UNICODE)); //Ошибка 800
                 }
 
                 // return $data;

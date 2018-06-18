@@ -76,6 +76,11 @@ class SendCisStatus extends \yii\db\ActiveRecord
     const STATUS_ERROR_PRESENDER = 801;
 
     /**
+     * Ошибка Удаления
+     */
+    const STATUS_ERROR_REMOVER = 802;
+
+    /**
      * Игнорировать
      */
     const STATUS_IGNORE = 900;
