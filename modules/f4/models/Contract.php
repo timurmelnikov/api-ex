@@ -67,7 +67,6 @@ class Contract extends SendCis
 
     /**
      * Отправляет документы в API приемника (CIS)
-     * FIXME: Метод в разработке!!!
      *
      * @return void
      */
@@ -76,22 +75,21 @@ class Contract extends SendCis
 
         $data = Self::find()
             ->asArray()
-        // ->where(['in', 'send_cis_status_id', [SendCisStatus::STATUS_DAFAULT, SendCisStatus::STATUS_ERROR]]) //Только новые и ошибки (0, 800)
-            ->andWhere(['in', 'policy_no', ['21856', '21850']]) //FIXME: Для разработки!!!
+            ->where(['in', 'send_cis_status_id', [SendCisStatus::STATUS_DAFAULT, SendCisStatus::STATUS_ERROR]]) //Только новые и ошибки (0, 800)
+        //  ->andWhere(['in', 'policy_no', ['21856', '21850']]) 
             ->all();
 
         if (!empty($data)) {
             $cis = new Cis();
             foreach ($data as $item) {
 
-                $data = $cis->contractSearchByNumber(Cis::NUM_PREFIX.$item['policy_no']);
+                $data = $cis->contractSearchByNumber(Cis::NUM_PREFIX . $item['policy_no']);
                 if ($data['success'] == true) {
                     if ($data['id_doc'] == null) {
                         //Дубликат договора не найден
-                        
-                        
+
                         $data = $cis->contractSender($item);
-                       
+
                         //Если КИС, вернул $data['id_contract', создаем договор
                         if (isset($data['id_contract'])) {
                             if ($data['sign'] == true) {

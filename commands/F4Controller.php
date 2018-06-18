@@ -2,8 +2,8 @@
 
 namespace app\commands;
 
-use yii\console\Controller;
 use app\modules\f4\models\Contract;
+use yii\console\Controller;
 
 /**
  * Консольные инициаторы Потока 4.
@@ -25,7 +25,7 @@ class F4Controller extends Controller
     {
 
         echo \Yii::$app->params['use_config'] . "\n";
-        
+
         $contract = new Contract();
         $contract->contractGetter();
 
@@ -45,10 +45,9 @@ class F4Controller extends Controller
     {
         echo \Yii::$app->params['use_config'] . "\n";
 
-        //Вставка договора в КИС
-        // $contract = new Contract();
-        // $data = $contract->contractSender();
-
+        $contract = new Contract();
+        $data = $contract->contractSender();
+   
         echo 'Готово.';
     }
 
