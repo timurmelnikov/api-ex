@@ -106,8 +106,8 @@ class Cis extends \app\common\components\Cis
         if ($contract_data['PersonsNum'] == 1) {
 
             $data = array_merge($data, [
-                'Calculator.InsuranceParam.Contract.ContractCustomer.CustomerDocument.Series' => $contract_data['InsuredPersons']['InsuredPerson']['PassportSerie'], // InsuredPerson.<PassportSerie> //
-                'Calculator.InsuranceParam.Contract.ContractCustomer.CustomerDocument.Number' => $contract_data['InsuredPersons']['InsuredPerson']['PassportNumber'],
+                'Calculator.InsuranceParam.Contract.ContractCustomer.CustomerDocument.Series' => Parse::passportSerie($contract_data['InsuredPersons']['InsuredPerson']['PassportSerie']), // InsuredPerson.<PassportSerie> //
+                'Calculator.InsuranceParam.Contract.ContractCustomer.CustomerDocument.Number' => Parse::passportNumber($contract_data['InsuredPersons']['InsuredPerson']['PassportNumber']),
             ]); // InsuredPerson.<PassportNumber> //
 
             $data = array_merge($data, [
@@ -124,8 +124,8 @@ class Cis extends \app\common\components\Cis
                 'Calculator.InsuranceParam.Contract.InsuranceParam' . '0' . '.PersonDocument.DocumentLastName' => Parse::fio($contract_data['InsuredPersons']['InsuredPerson']['Name'])[0], // InsuredPerson.<Name> //
                 'Calculator.InsuranceParam.Contract.InsuranceParam' . '0' . '.PersonDocument.DocumentFirstName' => Parse::fio($contract_data['InsuredPersons']['InsuredPerson']['Name'])[1], // InsuredPerson.<Name> //
                 'Calculator.InsuranceParam.Contract.InsuranceParam' . '0' . '.PersonDocument.Date' => '01.01.2000', // Константа //
-                'Calculator.InsuranceParam.Contract.InsuranceParam' . '0' . '.PersonDocument.Series' => $contract_data['InsuredPersons']['InsuredPerson']['PassportSerie'], // InsuredPerson.<PassportSerie> //
-                'Calculator.InsuranceParam.Contract.InsuranceParam' . '0' . '.PersonDocument.Number' => $contract_data['InsuredPersons']['InsuredPerson']['PassportNumber'], // InsuredPerson.<PassportNumber> //
+                'Calculator.InsuranceParam.Contract.InsuranceParam' . '0' . '.PersonDocument.Series' => Parse::passportSerie($contract_data['InsuredPersons']['InsuredPerson']['PassportSerie']), // InsuredPerson.<PassportSerie> //
+                'Calculator.InsuranceParam.Contract.InsuranceParam' . '0' . '.PersonDocument.Number' => Parse::passportNumber($contract_data['InsuredPersons']['InsuredPerson']['PassportNumber']), // InsuredPerson.<PassportNumber> //
                 'Calculator.InsuranceParam.Contract.InsuranceParam' . '0' . '.MedicalCosts.IsInsured' => true, // Признак страхования МедЗатрат. Константа //
                 'Calculator.InsuranceParam.Contract.InsuranceParam' . '0' . '.Accident.IsInsured' => true, // Признак страхования НС. Константа //
                 'Calculator.InsuranceParam.Contract.InsuranceParam' . '0' . '.MedicalCosts.Payment.Value' => (double) $contract_data['InsuredPersons']['InsuredPerson']['TravelPaymentSumBrutto'], //84.73, // InsuredPerson.<TravelPaymentSumBrutto> //
@@ -135,8 +135,8 @@ class Cis extends \app\common\components\Cis
         } else {
 
             $data = array_merge($data, [
-                'Calculator.InsuranceParam.Contract.ContractCustomer.CustomerDocument.Series' => $contract_data['InsuredPersons']['InsuredPerson'][0]['PassportSerie'], // InsuredPerson.<PassportSerie> //
-                'Calculator.InsuranceParam.Contract.ContractCustomer.CustomerDocument.Number' => $contract_data['InsuredPersons']['InsuredPerson'][0]['PassportNumber'],
+                'Calculator.InsuranceParam.Contract.ContractCustomer.CustomerDocument.Series' => Parse::passportSerie($contract_data['InsuredPersons']['InsuredPerson'][0]['PassportSerie']), // InsuredPerson.<PassportSerie> //
+                'Calculator.InsuranceParam.Contract.ContractCustomer.CustomerDocument.Number' => Parse::passportNumber($contract_data['InsuredPersons']['InsuredPerson'][0]['PassportNumber']),
             ]); // InsuredPerson.<PassportNumber> //
 
             $index = 0;
@@ -155,8 +155,8 @@ class Cis extends \app\common\components\Cis
                     'Calculator.InsuranceParam.Contract.InsuranceParam' . $index . '.PersonDocument.DocumentLastName' => Parse::fio($item['Name'])[0], // InsuredPerson.<Name> //
                     'Calculator.InsuranceParam.Contract.InsuranceParam' . $index . '.PersonDocument.DocumentFirstName' => Parse::fio($item['Name'])[1], // InsuredPerson.<Name> //
                     'Calculator.InsuranceParam.Contract.InsuranceParam' . $index . '.PersonDocument.Date' => '01.01.2000', // Константа //
-                    'Calculator.InsuranceParam.Contract.InsuranceParam' . $index . '.PersonDocument.Series' => $item['PassportSerie'], // InsuredPerson.<PassportSerie> //
-                    'Calculator.InsuranceParam.Contract.InsuranceParam' . $index . '.PersonDocument.Number' => $item['PassportNumber'], // InsuredPerson.<PassportNumber> //
+                    'Calculator.InsuranceParam.Contract.InsuranceParam' . $index . '.PersonDocument.Series' => Parse::passportSerie($item['PassportSerie']), // InsuredPerson.<PassportSerie> //
+                    'Calculator.InsuranceParam.Contract.InsuranceParam' . $index . '.PersonDocument.Number' => Parse::passportNumber(['PassportNumber']), // InsuredPerson.<PassportNumber> //
                     'Calculator.InsuranceParam.Contract.InsuranceParam' . $index . '.MedicalCosts.IsInsured' => true, // Признак страхования МедЗатрат. Константа //
                     'Calculator.InsuranceParam.Contract.InsuranceParam' . $index . '.Accident.IsInsured' => true, // Признак страхования НС. Константа //
                     'Calculator.InsuranceParam.Contract.InsuranceParam' . $index . '.MedicalCosts.Payment.Value' => (double) $item['TravelPaymentSumBrutto'], //84.73, // InsuredPerson.<TravelPaymentSumBrutto> //

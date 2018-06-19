@@ -43,5 +43,6 @@ class Map extends \app\common\helpers\Map
             return 1; //Если, вдруг страны не найдет - вернет Украину
         }
     }
+   
 
 }
